@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Raid.Screen_Code;
 
 namespace Raid
 {
@@ -8,7 +9,7 @@ namespace Raid
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        public Screen Curent_Screen;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -26,6 +27,15 @@ namespace Raid
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            /////////////////////////////////////// Set Global /////////////////////////////////////////
+            Global.Content = Content;
+            Global.spriteBatch = _spriteBatch;
+            Global.GraphicsDevice = _graphics;
+            /////////////////////////////////////// Set Resolution /////////////////////////////////////
+            Global.GraphicsDevice.PreferredBackBufferHeight = 1080;
+            Global.GraphicsDevice.PreferredBackBufferWidth = 1920;
+            Global.GraphicsDevice.ApplyChanges();
+            ////////////////////////////////////////////////////////////////////////////////////////////
 
             // TODO: use this.Content to load your game content here
         }
