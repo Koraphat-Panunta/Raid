@@ -10,6 +10,8 @@ namespace Raid
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public Screen Curent_Screen;
+        public Screen_Menu Menu_Screen;
+        public Screen_Gameplay Gameplay_Screen;        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -30,32 +32,32 @@ namespace Raid
             /////////////////////////////////////// Set Global /////////////////////////////////////////
             Global.Content = Content;
             Global.spriteBatch = _spriteBatch;
-            Global.GraphicsDevice = _graphics;
+            Global.GraphicsDevice = _graphics;           
             /////////////////////////////////////// Set Resolution /////////////////////////////////////
             Global.GraphicsDevice.PreferredBackBufferHeight = 1080;
             Global.GraphicsDevice.PreferredBackBufferWidth = 1920;
             Global.GraphicsDevice.ApplyChanges();
-            ////////////////////////////////////////////////////////////////////////////////////////////
-
-            // TODO: use this.Content to load your game content here
+            /////////////////////////////////////// Set Screen /////////////////////////////////////////            
+            Gameplay_Screen = new Screen_Gameplay();
+            Menu_Screen = new Screen_Menu();
+            Curent_Screen = Menu_Screen;
+            /////////////////////////////////////// Set Variable ///////////////////////////////////////           
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
+                Exit();            
+            
+          
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+        {                    
+            Global.spriteBatch.Begin();
+            Curent_Screen.Draw();
+            Global.spriteBatch.End();           
             base.Draw(gameTime);
         }
     }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Raid.Screen_Code
 {
-    public class Screen_Title:Screen
+    public class Screen_Inventory_and_Mission:Screen
     {
-        public Screen_Title() { }
+        public Screen_Inventory_and_Mission() { }
         public override void load()
         {
             base.load();
@@ -18,7 +18,7 @@ namespace Raid.Screen_Code
             base.Update();
         }
         public override void Draw()
-        {           
+        {
             base.Draw();
         }
         public override void Unload()

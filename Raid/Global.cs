@@ -8,6 +8,6 @@ namespace Raid
     {
         public static SpriteBatch spriteBatch {  get; set; }
         public static GraphicsDeviceManager GraphicsDevice { get; set; }
-        public static ContentManager Content {  get; set; } 
+        public static ContentManager Content {  get; set; }       
     }
 }
