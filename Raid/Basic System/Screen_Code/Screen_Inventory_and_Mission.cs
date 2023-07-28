@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 
 namespace Raid.Screen_Code
 {
-    public class Screen_Inventory_and_Mission:Screen
+    public class Screen_Inventory_and_Mission : Screen
+
     {
         public Screen_Inventory_and_Mission() { }
         public override void load()
         {
             base.load();
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
-            base.Update();
+            base.Update(gameTime);
         }
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
-            base.Draw();
+            base.Draw(gameTime);
         }
         public override void Unload()
         {

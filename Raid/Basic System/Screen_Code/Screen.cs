@@ -13,14 +13,15 @@ namespace Raid.Screen_Code
         public virtual void load()
         {
         }
-        public virtual void Update()
+        public virtual void Update(GameTime gameTime)
         {
         }
-        public virtual void Draw()
+        public virtual void Draw(GameTime gameTime)
         {
         }
         public virtual void Unload()
         {
         }
+        
     }
 }

@@ -16,13 +16,13 @@ namespace Raid.Screen_Code
             
             base.load();
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {           
-            base.Update();
+            base.Update(gameTime);
         }
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {           
-            base.Draw();
+            base.Draw(gameTime);
         }
         public override void Unload()
         {            

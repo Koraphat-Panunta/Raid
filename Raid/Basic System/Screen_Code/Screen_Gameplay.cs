@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Raid.MainCharacter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +10,24 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
+        Main_Character Player;
         public Screen_Gameplay() 
         { 
         }
         public override void load()
         {
+            Player = new Main_Character();
             base.load();
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
-            base.Update();
+            Camera.CameraPos_Update(Player.Get_MainCharacterPos());
+            base.Update(gameTime);
         }
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
             
-            base.Draw();
+            base.Draw(gameTime);
         }
         public override void Unload()
         {
