@@ -17,17 +17,23 @@ namespace Raid.Screen_Code
             base.load();
         }
         public override void Update(GameTime gameTime)
-        {           
+        {
+            
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
-        {           
+        {
+            Global.Graphics.Clear(Color.Black);
             base.Draw(gameTime);
         }
         public override void Unload()
         {            
             base.Unload();
-        }       
-       
+        }
+        public override void Debuging()
+        {
+            base.Debuging();
+        }
+
     }
 }

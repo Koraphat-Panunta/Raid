@@ -16,11 +16,16 @@ namespace Raid.Screen_Code
         }
         public override void Draw(GameTime gameTime)
         {
+            Global.Graphics.Clear(Color.RoyalBlue);
             base.Draw(gameTime);
         }
         public override void Unload()
         {
             base.Unload();
+        }
+        public override void Debuging()
+        {
+            base.Debuging();
         }
     }
 }

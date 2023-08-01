@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Raid.MainCharacter
 {
-    internal class Inventory
-    {
+    public abstract class Item_management
+    {               
+        public Item_management() { }
+        
     }
 }

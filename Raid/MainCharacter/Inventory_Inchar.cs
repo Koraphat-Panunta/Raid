@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Raid.MainCharacter
 {
-    internal class Inventory_Inchar
+    public class Inventory_Inchar:Item_management
     {
+        private float Weight;
+        public Inventory_Inchar()
+        {
+
+        }
     }
 }

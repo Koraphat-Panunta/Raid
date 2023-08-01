@@ -18,17 +18,24 @@ namespace Raid.Screen_Code
             base.load();
         }
         public override void Update(GameTime gameTime)
-        {            
+        {
+            Main_Character.Main_Character_Updatestate();
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {
-            
+            Global.Graphics.Clear(Color.BurlyWood);
             base.Draw(gameTime);
         }
+     
         public override void Unload()
         {
             base.Unload();
+        }
+        public override void Debuging()
+        {
+            Console.WriteLine("Main_Char_State ={0}",Main_Character.Main_Char_curt_State);
+            base.Debuging();
         }
     }
 }
