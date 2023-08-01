@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Raid.MainCharacter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Raid.Screen_Code
 {
     public class Screen
     {
+        Main_Character Main_Character;
         public Screen() { }
         public virtual void load()
         {

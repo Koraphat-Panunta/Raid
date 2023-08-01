@@ -5,8 +5,8 @@ namespace Raid.MainCharacter
     public class Main_Character_Mechanic
     {
         public Vector2 CharPos;
-        private int HP;
-        private int Hitstreak;
+        public int HP;
+        public int Hitstreak;
         private int Moving_Speed;
 
         public Main_Character_Mechanic(int HP,int Hitsteak,int Speed) 
@@ -21,6 +21,10 @@ namespace Raid.MainCharacter
             {
                 CharPos.Y -= Moving_Speed;
             }
+        }
+        public void Upgrade_HP(int HP) 
+        {
+            this.HP += HP;
         }
     }
 }
