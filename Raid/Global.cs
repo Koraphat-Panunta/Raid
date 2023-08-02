@@ -10,5 +10,6 @@ namespace Raid
         public static GraphicsDeviceManager GraphicsDevice { get; set; }
         public static ContentManager Content {  get; set; }
         public static GraphicsDevice Graphics { get; set; }
+        public static GameTime gameTime { get; set; }
     }
 }

@@ -1,13 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Raid.Screen_Code
 {
     public class Screen_Inventory_and_Mission : Screen
 
     {
+        public Texture2D BG;
         public Screen_Inventory_and_Mission() { }
         public override void load()
         {
+            BG = Global.Content.Load<Texture2D>("InventoryPage_Test");
             base.load();
         }
         public override void Update(GameTime gameTime)
@@ -16,7 +19,7 @@ namespace Raid.Screen_Code
         }
         public override void Draw(GameTime gameTime)
         {
-            Global.Graphics.Clear(Color.RoyalBlue);
+            Global.spriteBatch.Draw(BG, new Vector2(0, 0), Color.White);
             base.Draw(gameTime);
         }
         public override void Unload()

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Raid.Content;
 using Raid.MainCharacter;
 using Raid.Screen_Code;
 using System;
@@ -50,8 +51,8 @@ namespace Raid
             Gameplay_Screen = new Screen_Gameplay();
             Menu_Screen = new Screen_Menu();
             Management_Screen = new Screen_Inventory_and_Mission();
-            Curent_Screen = Gameplay_Screen;
-            Scene_State = Gameplay;
+            Curent_Screen = Menu_Screen;
+            Scene_State = Menu;
             Curent_Screen.load();
             /////////////////////////////////////// Set Variable ///////////////////////////////////////
             Debug_Update = 0;
@@ -63,12 +64,13 @@ namespace Raid
 
         protected override void Update(GameTime gameTime)
         {
+            Global.gameTime = gameTime;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             Set_Scene_State();            
             Curent_Screen.Update(gameTime);
             Debuging(gameTime);
-            base.Update(gameTime);
+            base.Update(gameTime);           
         }
 
         protected override void Draw(GameTime gameTime)
@@ -82,24 +84,33 @@ namespace Raid
         public void Set_Scene_State()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.D0))
-            {                
+            {
+                Curent_Screen.Unload();
                 Scene_State = Menu;
+                Update_Scence();
+                Curent_Screen.load();
             }
             if(Keyboard.GetState().IsKeyDown(Keys.D1)) 
             {
+                Curent_Screen.Unload();
                 Scene_State = MagScence;
+                Update_Scence();
+                Curent_Screen.load();
+
             }
             if(Keyboard.GetState().IsKeyDown(Keys.D2))
             {
+                Curent_Screen.Unload();
                 Scene_State = Gameplay;
-            }
-            Update_Scence();
+                Update_Scence();
+                Curent_Screen.load();
+            }            
         }
         public void Update_Scence()
         {
             if(Scene_State == Menu) 
             {
-                Curent_Screen = Menu_Screen;
+                Curent_Screen = Menu_Screen;                
             }
             if(Scene_State == MagScence)
             {

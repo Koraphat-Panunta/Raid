@@ -35,6 +35,9 @@ namespace Raid.MainCharacter
         {
             Main_Char_curt_State = Main_Char_idle_right;
         }
+        public void load()
+        {           
+        }
         public void Main_Character_Updatestate()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.W))
@@ -69,15 +72,25 @@ namespace Raid.MainCharacter
             {
                 Main_Char_curt_State = Main_Char_idle_right;
             }
+            Character_Mechanic.Main_Character_Action(Main_Char_curt_State);
 
         }
         public void Deploy_Pos(Vector2 Deploy_Pos)
         {
             Character_Mechanic.CharPos = Deploy_Pos;
         }
+        
+        public void Set_MainCharacterPos(Vector2 CharPos)
+        {
+            Character_Mechanic.CharPos = CharPos;
+        }
         public Vector2 Get_MainCharacterPos()
         {
             return Character_Mechanic.CharPos;
+        }
+        public void Animate()
+        {
+            Character_Animate.Animate(Get_MainCharacterPos(),Main_Char_curt_State);
         }
 
     }
