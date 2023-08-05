@@ -13,6 +13,7 @@ namespace Raid.MainCharacter
     {
         private Main_Character_Mechanic Character_Mechanic = new Main_Character_Mechanic(100, 6, 2);
         private Main_Character_Animate Character_Animate = new Main_Character_Animate(Vector2.Zero, 0, 1f, 0.5f);
+        public Inventory inventory = new Inventory(50f);
         public string Main_Char_curt_State;//Char_currentstate
         //Char_idle_State
         private string Main_Char_idle_Up = "Main_Char_idle_Up" ;
@@ -34,10 +35,7 @@ namespace Raid.MainCharacter
         public Main_Character()
         {
             Main_Char_curt_State = Main_Char_idle_right;
-        }
-        public void load()
-        {           
-        }
+        }       
         public void Main_Character_Updatestate()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.W))
@@ -82,15 +80,23 @@ namespace Raid.MainCharacter
         
         public void Set_MainCharacterPos(Vector2 CharPos)
         {
-            Character_Mechanic.CharPos = CharPos;
+            Character_Mechanic.CharPos = CharPos;           
+        }
+        public void Set_MainCharacterHitbox(Rectangle Char_Box)
+        {
+            Character_Mechanic.Set_Char_Box(Char_Box);  
         }
         public Vector2 Get_MainCharacterPos()
         {
             return Character_Mechanic.CharPos;
         }
-        public void Animate()
+        public Rectangle Get_MainCharacterBox()
         {
-            Character_Animate.Animate(Get_MainCharacterPos(),Main_Char_curt_State);
+            return Character_Mechanic.Get_CharBox();
+        }
+        public void Animate(Vector2 CharPos)
+        {
+            Character_Animate.Animate(CharPos,Main_Char_curt_State);
         }
 
     }

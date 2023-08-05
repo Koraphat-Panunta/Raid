@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Raid.Screen_Code
 {
@@ -15,11 +16,12 @@ namespace Raid.Screen_Code
         }
         public override void Update(GameTime gameTime)
         {
+            Main_Character.inventory.Cal_Weight();
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {
-            Global.spriteBatch.Draw(BG, new Vector2(0, 0), Color.White);
+            Global.spriteBatch.Draw(BG, new Vector2(0, 0), Color.White);           
             base.Draw(gameTime);
         }
         public override void Unload()
@@ -28,6 +30,7 @@ namespace Raid.Screen_Code
         }
         public override void Debuging()
         {
+            Console.WriteLine("Inventory weigth ={0}/{1}",Main_Character.inventory.carry_weight,Main_Character.inventory.Max_weight);
             base.Debuging();
         }
     }
