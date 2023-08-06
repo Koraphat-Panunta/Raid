@@ -42,6 +42,10 @@ namespace Raid.Item
         {
             return this.Grace_Hitbox[0];
         }
+        public void Set_Grace_Hitbox(Rectangle Box,int i)
+        {
+            Grace_Hitbox[i] = Box;
+        }
         public override void disapear(int i)
         {
             Grace_Position[i] = new Vector2(100000,100000);

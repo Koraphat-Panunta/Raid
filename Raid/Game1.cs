@@ -104,7 +104,22 @@ namespace Raid
                 Scene_State = Gameplay;
                 Update_Scence();
                 Curent_Screen.load();
-            }            
+            } 
+            if(Gameplay_Screen.Extract == true)
+            {
+                Curent_Screen.Unload();
+                Scene_State = MagScence;
+                Update_Scence();
+                Curent_Screen.load();
+               
+            }
+            if(Management_Screen.Deployed == true) 
+            {
+                Curent_Screen.Unload();
+                Scene_State = Gameplay;
+                Update_Scence();
+                Curent_Screen.load();
+            }
         }
         public void Update_Scence()
         {
@@ -113,13 +128,14 @@ namespace Raid
                 Curent_Screen = Menu_Screen;                
             }
             if(Scene_State == MagScence)
-            {
-                Curent_Screen = Management_Screen;
+            {                
+                Curent_Screen = Management_Screen;            
             }
             if(Scene_State == Gameplay)
-            {
+            {                               
                 Curent_Screen = Gameplay_Screen;
             }
+            
         }
         protected void Debuging(GameTime gameTime)
         {         
@@ -139,6 +155,7 @@ namespace Raid
                 {
                     Console.WriteLine("Curent_Screen = Management_Screen");
                 }
+                Console.WriteLine("Extract Complete = {0}", Gameplay_Screen.Extract);
                 Curent_Screen.Debuging();
                 DebugCheck = false;
             }           

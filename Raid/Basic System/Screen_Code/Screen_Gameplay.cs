@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Raid.Enviroment;
 using Raid.Item;
 using Raid.MainCharacter;
 using System;
@@ -15,7 +16,9 @@ namespace Raid.Screen_Code
     {      
         public Texture2D BG;
         Camera Camera;
-        bool Hit =false;
+        bool Hit =false;       
+        public Extract_gate extract_Gate = new Extract_gate();
+        
         public Screen_Gameplay() 
         { 
         }
@@ -23,35 +26,29 @@ namespace Raid.Screen_Code
         {           
             base.load();
             BG = Global.Content.Load<Texture2D>("Gameplay_Test");
-            Main_Character.Set_MainCharacterPos(new Vector2(960,540));
+            Deploy();
             Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,32,64));
             Camera = new Camera();
             Camera.track_Object(Main_Character.Get_MainCharacterPos());
+            Main_Character.inventory.Grace.Grace_Position[0] = new Vector2(0, 0);
+            Main_Character.inventory.Grace.Set_Grace_Hitbox(new Rectangle((int)Main_Character.inventory.Grace.Grace_Position[0].X, (int)Main_Character.inventory.Grace.Grace_Position[0].Y, 96, 96), 0);
+           
         }
         public override void Update(GameTime gameTime)
         {
             Camera.CameraPos_Update(Main_Character.Get_MainCharacterPos());
             Main_Character.Main_Character_Updatestate();
-            if(Main_Character.Get_MainCharacterBox().Intersects(Main_Character.inventory.Grace.Get_Grace_Hitbox())) 
-            {
-                Hit = true;
-                if(Hit == true && Keyboard.GetState().IsKeyDown(Keys.E)) 
-                {                   
-                    Main_Character.inventory.Grace.Num += 1;
-                    Main_Character.inventory.Grace.disapear(0);
-                }
-            }
-            else
-            {
-                Hit=false;
-            }
+            lootingsystem();
+            Extractionsystem();
+            Main_Character.inventory.Cal_Weight();
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {            
             Global.spriteBatch.Draw(BG,Camera.Object_Vector(new Vector2(0,0)),Color.White);            
             Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
-            Global.spriteBatch.Draw(Main_Character.inventory.Grace.Get_Grace_Texture(), Camera.Object_Vector(Main_Character.inventory.Grace.Grace_Position[0]),Color.White);           
+            Global.spriteBatch.Draw(Main_Character.inventory.Grace.Get_Grace_Texture(), Camera.Object_Vector(Main_Character.inventory.Grace.Grace_Position[0]),Color.White); 
+            Global.spriteBatch.Draw(extract_Gate.Get_Texture(),Camera.Object_Vector(extract_Gate.Get_Position()),Color.White);
             base.Draw(gameTime);
         }
      
@@ -61,6 +58,44 @@ namespace Raid.Screen_Code
             Main_Character.Set_MainCharacterPos(new Vector2(0,0));
             base.Unload();
         }
+        public void lootingsystem()
+        {
+            if (Main_Character.Get_MainCharacterBox().Intersects(Main_Character.inventory.Grace.Get_Grace_Hitbox()))
+            {
+                Hit = true;
+                if (Hit == true && Keyboard.GetState().IsKeyDown(Keys.E))
+                {
+                    base.add_item();
+                }
+            }
+            else
+            {
+                Hit = false;
+            }
+        }
+        private void Extractionsystem()
+        {
+            if (Main_Character.Get_MainCharacterBox().Intersects(extract_Gate.Get_Box())&&Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                Extract = true;
+            }
+            else
+            {
+                Extract = false;
+            }           
+        }
+        public void transter_Inventory(Inventory invt)
+        {            
+                Main_Character.inventory = invt;                     
+        }
+        public void Deploy(Vector2 Deploy_Pos)
+        {
+            Main_Character.Set_MainCharacterPos(Deploy_Pos);
+        }
+        public void Deploy()
+        {
+            Main_Character.Set_MainCharacterPos(new Vector2(700,700));
+        }
         public override void Debuging()
         {
             Console.WriteLine("Main_Char_State ={0}",Main_Character.Main_Char_curt_State);
@@ -68,7 +103,7 @@ namespace Raid.Screen_Code
             Console.WriteLine("Grace_Pos = {0}", Main_Character.inventory.Grace.Grace_Position[0]);
             Console.WriteLine("Hit = {0}", Hit);
             Console.WriteLine("Grace num = {0}",Main_Character.inventory.Grace.Num);
-            
+            Console.WriteLine("Weight ={0}/{1}",Main_Character.inventory.carry_weight,Main_Character.inventory.Max_weight);                      
             base.Debuging();
         }
     }
