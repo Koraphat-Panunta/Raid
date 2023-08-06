@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
-    {      
+    {
+        public Main_Character Main_Character = new Main_Character();
         public Texture2D BG;
         Camera Camera;
         bool Hit =false;       
@@ -22,15 +23,16 @@ namespace Raid.Screen_Code
         public Screen_Gameplay() 
         { 
         }
-        public override void load()
+        public override void load(Main_Character main_Character)
         {           
-            base.load();
+            base.load(main_Character);
+            this.Main_Character = main_Character;
             BG = Global.Content.Load<Texture2D>("Gameplay_Test");
-            Deploy();
+            Deploy(new Vector2(960,540));
             Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,32,64));
             Camera = new Camera();
             Camera.track_Object(Main_Character.Get_MainCharacterPos());
-            Main_Character.inventory.Grace.Grace_Position[0] = new Vector2(0, 0);
+            Main_Character.inventory.Grace.Grace_Position[0] = new Vector2(700,700);
             Main_Character.inventory.Grace.Set_Grace_Hitbox(new Rectangle((int)Main_Character.inventory.Grace.Grace_Position[0].X, (int)Main_Character.inventory.Grace.Grace_Position[0].Y, 96, 96), 0);
            
         }
@@ -45,10 +47,10 @@ namespace Raid.Screen_Code
         }
         public override void Draw(GameTime gameTime)
         {            
-            Global.spriteBatch.Draw(BG,Camera.Object_Vector(new Vector2(0,0)),Color.White);            
-            Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
+            Global.spriteBatch.Draw(BG,Camera.Object_Vector(new Vector2(0,0)),Color.White);                    
             Global.spriteBatch.Draw(Main_Character.inventory.Grace.Get_Grace_Texture(), Camera.Object_Vector(Main_Character.inventory.Grace.Grace_Position[0]),Color.White); 
             Global.spriteBatch.Draw(extract_Gate.Get_Texture(),Camera.Object_Vector(extract_Gate.Get_Position()),Color.White);
+            Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
             base.Draw(gameTime);
         }
      
@@ -65,7 +67,12 @@ namespace Raid.Screen_Code
                 Hit = true;
                 if (Hit == true && Keyboard.GetState().IsKeyDown(Keys.E))
                 {
-                    base.add_item();
+                    float x = Main_Character.inventory.carry_weight;
+                    if (x + Main_Character.inventory.Grace.Get_Weight() * 10 <= Main_Character.inventory.Max_weight)
+                    {
+                    Main_Character.inventory.Grace.Num += 10;
+                    Main_Character.inventory.Grace.disapear(0); 
+                    }                                 
                 }
             }
             else
@@ -92,17 +99,15 @@ namespace Raid.Screen_Code
         {
             Main_Character.Set_MainCharacterPos(Deploy_Pos);
         }
-        public void Deploy()
-        {
-            Main_Character.Set_MainCharacterPos(new Vector2(700,700));
-        }
+       
         public override void Debuging()
         {
             Console.WriteLine("Main_Char_State ={0}",Main_Character.Main_Char_curt_State);
             Console.WriteLine("Main_Char_Pos = {0}",Main_Character.Get_MainCharacterPos());
-            Console.WriteLine("Grace_Pos = {0}", Main_Character.inventory.Grace.Grace_Position[0]);
-            Console.WriteLine("Hit = {0}", Hit);
+            Console.WriteLine("Grace_Pos = {0}", Main_Character.inventory.Grace.Grace_Position[0]);           
             Console.WriteLine("Grace num = {0}",Main_Character.inventory.Grace.Num);
+            Console.WriteLine(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
+            Console.WriteLine(Camera.Object_Vector(Main_Character.inventory.Grace.Grace_Position[0]));
             Console.WriteLine("Weight ={0}/{1}",Main_Character.inventory.carry_weight,Main_Character.inventory.Max_weight);                      
             base.Debuging();
         }

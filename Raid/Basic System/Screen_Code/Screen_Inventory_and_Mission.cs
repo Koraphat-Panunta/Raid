@@ -10,17 +10,19 @@ namespace Raid.Screen_Code
     public class Screen_Inventory_and_Mission : Screen
 
     {
-        public Texture2D BG;       
+        public Texture2D BG;
+        public Main_Character main_Character;
         public bool Deployed;
         public Screen_Inventory_and_Mission() 
         {
         }
-        public override void load()
+        public override void load(Main_Character main_Character)
         {
+            this.main_Character = main_Character;
             BG = Global.Content.Load<Texture2D>("InventoryPage_Test");
             this.Deployed = false;
             
-            base.load();
+            base.load(main_Character);
         }
         public override void Update(GameTime gameTime)
         {
@@ -46,8 +48,8 @@ namespace Raid.Screen_Code
         }
         public override void Debuging()
         {
-            Console.WriteLine("Grace Num = {0}", Main_Character.inventory.Grace.Num);
-            Console.WriteLine("Inventory weigth ={0}/{1}", Main_Character.inventory.carry_weight, Main_Character.inventory.Max_weight);            
+            Console.WriteLine("Grace Num = {0}", main_Character.inventory.Grace.Num);
+            Console.WriteLine("Inventory weigth ={0}/{1}", main_Character.inventory.carry_weight, main_Character.inventory.Max_weight);
             base.Debuging();
         }      
         public Vector2 Deploy_Pos(Vector2 Deploy_mainchar_pos)

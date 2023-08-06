@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Raid.MainCharacter;
 using Raid.Screen_Code;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,10 @@ namespace Raid.Content
     {
         public Texture2D BG;
         public Screen_Menu() { }
-        public override void load()
+        public override void load(Main_Character main_Character)
         {
             BG = Global.Content.Load<Texture2D>("Title_Test");
-            base.load();
+            base.load(main_Character);
         }
         public override void Update(GameTime gameTime)
         {

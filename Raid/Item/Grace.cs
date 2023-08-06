@@ -19,7 +19,7 @@ namespace Raid.Item
             Grace_Texture = Global.Content.Load<Texture2D>(name);
             base.Weight = weight;
             base.Value = value;
-            Grace_Position[0] = new Vector2(0,0);
+            Grace_Position[0] = new Vector2(700,700);
             Grace_Hitbox[0] = new Rectangle((int)Grace_Position[0].X,(int)Grace_Position[0].Y,96,96);
         }
         protected override void SetWeight_Value(float weight, float value)

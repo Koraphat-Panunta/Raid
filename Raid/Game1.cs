@@ -22,6 +22,7 @@ namespace Raid
         public string MagScence = "Management";
         public string Menu = "Menu";
         float Debug_Update;
+        bool keyinput = false;
         bool DebugCheck;
         public Game1()
         {
@@ -53,7 +54,7 @@ namespace Raid
             Management_Screen = new Screen_Inventory_and_Mission();
             Curent_Screen = Menu_Screen;
             Scene_State = Menu;
-            Curent_Screen.load();
+            Curent_Screen.load(new Main_Character());
             /////////////////////////////////////// Set Variable ///////////////////////////////////////
             Debug_Update = 0;
             DebugCheck = true;
@@ -83,43 +84,67 @@ namespace Raid
         }
         public void Set_Scene_State()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.D0))
-            {
-                Curent_Screen.Unload();
-                Scene_State = Menu;
-                Update_Scence();
-                Curent_Screen.load();
-            }
-            if(Keyboard.GetState().IsKeyDown(Keys.D1)) 
+            //if (Keyboard.GetState().IsKeyDown(Keys.D0))
+            //{
+            //    Curent_Screen.Unload();
+            //    Scene_State = Menu;
+            //    Update_Scence();
+            //    Curent_Screen.load();
+            //}
+            //if(Keyboard.GetState().IsKeyDown(Keys.D1)) 
+            //{
+            //    Curent_Screen.Unload();
+            //    Scene_State = MagScence;
+            //    Update_Scence();
+            //    Curent_Screen.load();
+
+            //}
+            //if(Keyboard.GetState().IsKeyDown(Keys.D2))
+            //{
+            //    Curent_Screen.Unload();
+            //    Scene_State = Gameplay;
+            //    Update_Scence();
+            //    Curent_Screen.load();
+            //}
+            if (Scene_State == Menu && Keyboard.GetState().IsKeyDown(Keys.Enter) && keyinput ==false) 
             {
                 Curent_Screen.Unload();
                 Scene_State = MagScence;
                 Update_Scence();
-                Curent_Screen.load();
-
+                Curent_Screen.load(new Main_Character());
+                keyinput = true;
+                
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.D2))
+            if(Scene_State == MagScence && Keyboard.GetState().IsKeyDown(Keys.Enter)&&keyinput == false)
             {
                 Curent_Screen.Unload();
                 Scene_State = Gameplay;
                 Update_Scence();
-                Curent_Screen.load();
-            } 
+                Curent_Screen.load(Management_Screen.main_Character);
+                if (Keyboard.GetState().IsKeyUp(Keys.Enter))
+                {
+                    keyinput = false;
+                }
+            }
             if(Gameplay_Screen.Extract == true)
             {
                 Curent_Screen.Unload();
                 Scene_State = MagScence;
                 Update_Scence();
-                Curent_Screen.load();
+                Curent_Screen.load(Gameplay_Screen.Main_Character);
                
             }
-            if(Management_Screen.Deployed == true) 
+            if (Keyboard.GetState().IsKeyUp(Keys.Enter))
             {
-                Curent_Screen.Unload();
-                Scene_State = Gameplay;
-                Update_Scence();
-                Curent_Screen.load();
+                keyinput = false;
             }
+            //if(Management_Screen.Deployed == true) 
+            //{
+            //    Curent_Screen.Unload();
+            //    Scene_State = Gameplay;
+            //    Update_Scence();
+            //    Curent_Screen.load();
+            //}
         }
         public void Update_Scence()
         {
@@ -155,7 +180,8 @@ namespace Raid
                 {
                     Console.WriteLine("Curent_Screen = Management_Screen");
                 }
-                Console.WriteLine("Extract Complete = {0}", Gameplay_Screen.Extract);
+                Console.WriteLine("Keyinput ={0}",keyinput);
+                //Console.WriteLine("Extract Complete = {0}", Gameplay_Screen.Extract);
                 Curent_Screen.Debuging();
                 DebugCheck = false;
             }           

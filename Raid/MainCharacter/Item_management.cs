@@ -12,6 +12,7 @@ namespace Raid.MainCharacter
         public float Max_weight;
         public float carry_weight;
         public float carry_value;
+        public int Grace_num;
         public Grace Grace;
         public Inventory(float weight) 
         {
@@ -20,7 +21,7 @@ namespace Raid.MainCharacter
         }
         public void Cal_Weight() 
         {          
-            carry_weight = Grace.Get_Weight() * Grace.Num;
+            carry_weight = Grace.Get_Weight() * Grace_num;
         }
         
     }
