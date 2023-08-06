@@ -70,7 +70,7 @@ namespace Raid.Screen_Code
                     float x = Main_Character.inventory.carry_weight;
                     if (x + Main_Character.inventory.Grace.Get_Weight() * 10 <= Main_Character.inventory.Max_weight)
                     {
-                    Main_Character.inventory.Grace.Num += 10;
+                    Main_Character.inventory.Grace_num += 10;
                     Main_Character.inventory.Grace.disapear(0); 
                     }                                 
                 }
@@ -105,7 +105,7 @@ namespace Raid.Screen_Code
             Console.WriteLine("Main_Char_State ={0}",Main_Character.Main_Char_curt_State);
             Console.WriteLine("Main_Char_Pos = {0}",Main_Character.Get_MainCharacterPos());
             Console.WriteLine("Grace_Pos = {0}", Main_Character.inventory.Grace.Grace_Position[0]);           
-            Console.WriteLine("Grace num = {0}",Main_Character.inventory.Grace.Num);
+            Console.WriteLine("Grace num = {0}",Main_Character.inventory.Grace_num);
             Console.WriteLine(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
             Console.WriteLine(Camera.Object_Vector(Main_Character.inventory.Grace.Grace_Position[0]));
             Console.WriteLine("Weight ={0}/{1}",Main_Character.inventory.carry_weight,Main_Character.inventory.Max_weight);                      

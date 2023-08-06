@@ -12,8 +12,7 @@ namespace Raid.Item
     {
         private Texture2D Grace_Texture;
         private Rectangle[] Grace_Hitbox = new Rectangle[5];
-        public Vector2[] Grace_Position = new Vector2[5];
-        public int Num = 0;
+        public Vector2[] Grace_Position = new Vector2[5];        
         public Grace(string name,float weight,float value):base(name,weight,value) 
         {
             Grace_Texture = Global.Content.Load<Texture2D>(name);

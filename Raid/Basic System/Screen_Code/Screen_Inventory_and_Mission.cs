@@ -48,7 +48,7 @@ namespace Raid.Screen_Code
         }
         public override void Debuging()
         {
-            Console.WriteLine("Grace Num = {0}", main_Character.inventory.Grace.Num);
+            Console.WriteLine("Grace Num = {0}", main_Character.inventory.Grace_num);
             Console.WriteLine("Inventory weigth ={0}/{1}", main_Character.inventory.carry_weight, main_Character.inventory.Max_weight);
             base.Debuging();
         }      
