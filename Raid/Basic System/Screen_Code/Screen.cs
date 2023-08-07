@@ -16,7 +16,7 @@ namespace Raid.Screen_Code
         public bool Extract;
         
         public Screen() { }
-        public virtual void load(Main_Character main_Character)
+        public virtual void load(Main_Character main_Character,Vector2 Pos)
         {            
             Curt_Scene = Menu;
             Extract = false;

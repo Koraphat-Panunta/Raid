@@ -7,6 +7,7 @@ namespace Raid
         
     {
         public Vector2 CameraPos;
+        public Vector2 MainCharPos;
         private Vector2 CameraPos_before;
         public Camera()
         { 

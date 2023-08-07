@@ -54,7 +54,7 @@ namespace Raid
             Management_Screen = new Screen_Inventory_and_Mission();
             Curent_Screen = Menu_Screen;
             Scene_State = Menu;
-            Curent_Screen.load(new Main_Character());
+            Curent_Screen.load(new Main_Character(), Vector2.Zero);
             /////////////////////////////////////// Set Variable ///////////////////////////////////////
             Debug_Update = 0;
             DebugCheck = true;
@@ -111,7 +111,7 @@ namespace Raid
                 Curent_Screen.Unload();
                 Scene_State = MagScence;
                 Update_Scence();
-                Curent_Screen.load(new Main_Character());
+                Curent_Screen.load(new Main_Character(),Vector2.Zero);
                 keyinput = true;
                 
             }
@@ -120,18 +120,28 @@ namespace Raid
                 Curent_Screen.Unload();
                 Scene_State = Gameplay;
                 Update_Scence();
-                Curent_Screen.load(Management_Screen.main_Character);
+                Curent_Screen.load(Management_Screen.main_Character,Vector2.Zero);
                 if (Keyboard.GetState().IsKeyUp(Keys.Enter))
                 {
                     keyinput = false;
                 }
             }
+            if(Scene_State == MagScence && Management_Screen.Deploy_Confirm == true)
+            {
+                Management_Screen.Deploy_Confirm = false;
+                Curent_Screen.Unload();
+                Scene_State = Gameplay;
+                Update_Scence();
+                Curent_Screen.load(Management_Screen.main_Character,Management_Screen.Deploy_Pos);
+            }
             if(Gameplay_Screen.Extract == true)
             {
+                Gameplay_Screen.Extract = false;
                 Curent_Screen.Unload();
                 Scene_State = MagScence;
                 Update_Scence();
-                Curent_Screen.load(Gameplay_Screen.Main_Character);
+                Curent_Screen.load(Gameplay_Screen.Main_Character, Vector2.Zero);
+
                
             }
             if (Keyboard.GetState().IsKeyUp(Keys.Enter))

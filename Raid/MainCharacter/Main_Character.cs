@@ -12,7 +12,7 @@ namespace Raid.MainCharacter
     public class Main_Character
     {
         private Main_Character_Mechanic Character_Mechanic = new Main_Character_Mechanic(100, 6, 2);
-        private Main_Character_Animate Character_Animate = new Main_Character_Animate(Vector2.Zero, 0, 1f, 0.5f);
+        private Main_Character_Animate Character_Animate = new Main_Character_Animate(Vector2.Zero, 0, 1f,1f);
         public Inventory inventory = new Inventory(50f);
         public string Main_Char_curt_State;//Char_currentstate
         //Char_idle_State
@@ -97,6 +97,14 @@ namespace Raid.MainCharacter
         public void Animate(Vector2 CharPos)
         {
             Character_Animate.Animate(CharPos,Main_Char_curt_State);
+        }
+        public void Set_state(string state)
+        {
+            Main_Char_curt_State = state;
+        }
+        public string Get_state() 
+        {
+            return Main_Char_curt_State;
         }
 
     }

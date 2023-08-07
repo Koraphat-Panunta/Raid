@@ -14,10 +14,10 @@ namespace Raid.Content
     {
         public Texture2D BG;
         public Screen_Menu() { }
-        public override void load(Main_Character main_Character)
+        public override void load(Main_Character main_Character, Vector2 Pos)
         {
             BG = Global.Content.Load<Texture2D>("Title_Test");
-            base.load(main_Character);
+            base.load(main_Character,Pos);
         }
         public override void Update(GameTime gameTime)
         {
@@ -31,6 +31,7 @@ namespace Raid.Content
         }
         public override void Unload()
         {
+            BG = null;
             base.Unload();
         }
         public override void Debuging()
