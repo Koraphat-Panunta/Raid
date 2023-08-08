@@ -43,15 +43,15 @@ namespace Raid.Core
         {
             switch (i)
             {
-                case 0: return new Vector2(135, 142);
+                case 0: return new Vector2(0,0);
                     break;
-                case 1: return new Vector2(1600, 130);
+                case 1: return new Vector2(1920,0);
                     break;
-                case 2: return new Vector2(200, 800);
+                case 2: return new Vector2(0,1080);
                     break;
-                case 3: return new Vector2(1630,830);
+                case 3: return new Vector2(1920,1080);
                     break;
-                    default: return new Vector2(953,524);
+                    default: return new Vector2(0,0);
             }
         }
         public Rectangle Get_Deploy_select_Box(int i) 

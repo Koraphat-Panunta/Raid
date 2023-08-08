@@ -58,7 +58,8 @@ namespace Raid.Screen_Code
         }
         public override void Unload()
         {
-            main_Character.Set_MainCharacterPos(Deploy_Pos);  
+            main_Character.Set_MainCharacterPos(Deploy_Pos);
+            Invt = null;
             base.Unload();
         }
         public override void Debuging()

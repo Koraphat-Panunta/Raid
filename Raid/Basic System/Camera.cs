@@ -7,15 +7,15 @@ namespace Raid
         
     {
         public Vector2 CameraPos;
-        public Vector2 MainCharPos;
         private Vector2 CameraPos_before;
+        private Vector2 Deployed;
         public Camera()
         { 
         }
-        public void track_Object(Vector2 Tracking_Object)
-        {
-            
+        public void track_Object(Vector2 Tracking_Object,Vector2 Deployed)
+        {            
             CameraPos_before = Tracking_Object;
+            this.Deployed = Deployed;
         }
         public  void CameraPos_Update(Vector2 Tracking_Object)
         {           
@@ -23,7 +23,7 @@ namespace Raid
         }
         public  Vector2 Object_Vector(Vector2 Object)
         {
-            return new Vector2(Object.X-CameraPos.X+CameraPos_before.X, Object.Y-CameraPos.Y+CameraPos_before.Y);
+            return new Vector2(Object.X + (960 - Deployed.X)-(CameraPos.X-CameraPos_before.X), Object.Y + (540 - Deployed.Y)-(CameraPos.Y-CameraPos_before.Y)); 
         }
     }
 }

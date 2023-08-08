@@ -19,6 +19,7 @@ namespace Raid.Screen_Code
         Camera Camera;
         bool Hit =false;       
         public Extract_gate extract_Gate = new Extract_gate();
+        public Vector2 Deploy_pos;
         
         public Screen_Gameplay() 
         { 
@@ -28,12 +29,11 @@ namespace Raid.Screen_Code
             base.load(main_Character,Deploy_Pos);           
             this.Main_Character = main_Character;
             BG = Global.Content.Load<Texture2D>("Gameplay");
-            Deploy(new Vector2(960,540));
+            Deploy(Deploy_Pos);
             Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,62,1));
-            Camera = new Camera();
-            Camera.MainCharPos = Deploy_Pos;
-            Camera.track_Object(Main_Character.Get_MainCharacterPos());
-            Main_Character.inventory.Grace.Grace_Position[0] = new Vector2(700,700);
+            Camera = new Camera();           
+            Camera.track_Object(Main_Character.Get_MainCharacterPos(),Deploy_Pos);
+            Main_Character.inventory.Grace.Grace_Position[0] = new Vector2(960,540);
             Main_Character.inventory.Grace.Set_Grace_Hitbox(new Rectangle((int)Main_Character.inventory.Grace.Grace_Position[0].X, (int)Main_Character.inventory.Grace.Grace_Position[0].Y, 96, 96), 0);
             Main_Character.Set_state("Main_Char_idle_right");
            
@@ -59,7 +59,8 @@ namespace Raid.Screen_Code
         public override void Unload()
         {
             Main_Character.Main_Char_curt_State = null;
-            Main_Character.Set_MainCharacterPos(new Vector2(0,0));           
+            Main_Character.Set_MainCharacterPos(new Vector2(0,0));
+            Deploy_pos = new Vector2(0,0);
             base.Unload();
         }
         public void lootingsystem()
@@ -98,8 +99,9 @@ namespace Raid.Screen_Code
                 Main_Character.inventory = invt;                     
         }
         public void Deploy(Vector2 Deploy_Pos)
-        {
+        {           
             Main_Character.Set_MainCharacterPos(Deploy_Pos);
+            Deploy_pos = Deploy_Pos ;
         }
        
         public override void Debuging()

@@ -16,7 +16,7 @@ namespace Raid.Enviroment
         public Extract_gate()
         {
             Gate_Texture = Global.Content.Load<Texture2D>("Extraction");
-            Gate_Position[0] = new Vector2 (50,50);
+            Gate_Position[0] = new Vector2 (460,540);
             Gate_Box[0] = new Rectangle((int)Gate_Position[0].X, (int)Gate_Position[0].Y, 672, 624);
         }
         public Rectangle Get_Box()
