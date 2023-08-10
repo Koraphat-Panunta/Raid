@@ -31,10 +31,10 @@ namespace Raid.Screen_Code
             BG = Global.Content.Load<Texture2D>("Gameplay");
             Deploy(Deploy_Pos);
             Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,62,1));
-            Camera = new Camera();           
-            Camera.track_Object(Main_Character.Get_MainCharacterPos(),Deploy_Pos);
-            Main_Character.inventory.Grace.Grace_Position[0] = new Vector2(960,540);
-            Main_Character.inventory.Grace.Set_Grace_Hitbox(new Rectangle((int)Main_Character.inventory.Grace.Grace_Position[0].X, (int)Main_Character.inventory.Grace.Grace_Position[0].Y, 96, 96), 0);
+            Camera = new Camera();
+            main_Character.inventory.Grace.Set_Grace_Position(new Vector2(300, 700), 0);
+            Camera.track_Object(Main_Character.Get_MainCharacterPos(),Deploy_Pos);           
+            Main_Character.inventory.Grace.Set_Grace_Hitbox(new Rectangle((int)Main_Character.inventory.Grace.Get_GracePosition(0).X, (int)Main_Character.inventory.Grace.Get_GracePosition(0).Y, 96, 96), 0);
             Main_Character.Set_state("Main_Char_idle_right");
            
         }
@@ -50,7 +50,7 @@ namespace Raid.Screen_Code
         public override void Draw(GameTime gameTime)
         {            
             Global.spriteBatch.Draw(BG,Camera.Object_Vector(new Vector2(0,0)),Color.White);                    
-            Global.spriteBatch.Draw(Main_Character.inventory.Grace.Get_Grace_Texture(), Camera.Object_Vector(Main_Character.inventory.Grace.Grace_Position[0]),Color.White); 
+            Global.spriteBatch.Draw(Main_Character.inventory.Grace.Get_Grace_Texture(), Camera.Object_Vector(Main_Character.inventory.Grace.Get_GracePosition(0)),Color.White); 
             Global.spriteBatch.Draw(extract_Gate.Get_Texture(),Camera.Object_Vector(extract_Gate.Get_Position()),Color.White);
             Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
             base.Draw(gameTime);
@@ -108,10 +108,10 @@ namespace Raid.Screen_Code
         {
             Console.WriteLine("Main_Char_State ={0}",Main_Character.Main_Char_curt_State);
             Console.WriteLine("Main_Char_Pos = {0}",Main_Character.Get_MainCharacterPos());
-            Console.WriteLine("Grace_Pos = {0}", Main_Character.inventory.Grace.Grace_Position[0]);           
+            Console.WriteLine("Grace_Pos = {0}", Main_Character.inventory.Grace.Get_GracePosition(0));           
             Console.WriteLine("Grace num = {0}",Main_Character.inventory.Grace_num);
             Console.WriteLine(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
-            Console.WriteLine(Camera.Object_Vector(Main_Character.inventory.Grace.Grace_Position[0]));
+            Console.WriteLine(Camera.Object_Vector(Main_Character.inventory.Grace.Get_GracePosition(0)));
             Console.WriteLine("Weight ={0}/{1}",Main_Character.inventory.carry_weight,Main_Character.inventory.Max_weight);                      
             base.Debuging();
         }
