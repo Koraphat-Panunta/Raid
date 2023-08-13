@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,15 @@ namespace Raid.Item
     {
         protected float Weight;
         protected float Value;
-        public item(string name,float weight,float value) 
+        protected Vector2 item_Pos;
+        protected Rectangle item_Box;
+        public item(Vector2 Pos) 
         {
-            Global.Content.Load<Texture2D>(name);
-            this.Weight = weight;
-            this.Value = value;
+            item_Pos = Pos;                     
         }
-        protected virtual void SetWeight_Value(float weight,float value)
+        protected virtual void SetWeight_Value()
         {
-            this.Weight = weight;
-            this.Value = value; 
+            
         }
         public virtual float Get_Weight()
         {
@@ -30,7 +30,7 @@ namespace Raid.Item
         { 
             return this.Value;
         }
-        public virtual void disapear(int i)
+        public virtual void disapear()
         {
             
         }

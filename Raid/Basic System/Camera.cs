@@ -21,6 +21,10 @@ namespace Raid
         {           
             CameraPos = Tracking_Object;            
         }
+        public void Camera_Show()
+        {
+            
+        }
         public  Vector2 Object_Vector(Vector2 Object)
         {
             return new Vector2(Object.X + (960 - Deployed.X)-(CameraPos.X-CameraPos_before.X), Object.Y + (540 - Deployed.Y)-(CameraPos.Y-CameraPos_before.Y)); 

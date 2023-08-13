@@ -24,7 +24,7 @@ namespace Raid.Screen_Code
         public override void load(Main_Character main_Character, Vector2 Pos)
         {
             this.main_Character = main_Character;
-            Invt = new Prepare_Page(4,"Deploy_pos_icon", "Invt_menu", "Deploy_button");
+            Invt = new Prepare_Page();
             Deploy_Pos = Vector2.Zero;
             this.Deploy_selected = false;
             this.Deploy_Confirm = false;

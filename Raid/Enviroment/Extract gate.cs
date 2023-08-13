@@ -10,18 +10,18 @@ namespace Raid.Enviroment
 {
     public class Extract_gate
     {
-        private Rectangle[] Gate_Box = new Rectangle[5];
+        private Rectangle Gate_Box;
         Texture2D Gate_Texture;
-        private Vector2[] Gate_Position = new Vector2[5];
-        public Extract_gate()
+        private Vector2 Gate_Position = Vector2.Zero;
+        public Extract_gate(Vector2 Deploy_Pos)
         {
             Gate_Texture = Global.Content.Load<Texture2D>("Extraction");
-            Gate_Position[0] = new Vector2 (460,540);
-            Gate_Box[0] = new Rectangle((int)Gate_Position[0].X, (int)Gate_Position[0].Y, 672, 624);
+            Gate_Position = Deploy_Pos;
+            Gate_Box = new Rectangle((int)Gate_Position.X+137, (int)Gate_Position.Y+137,335,335);
         }
         public Rectangle Get_Box()
         {
-            return Gate_Box[0];
+            return Gate_Box;
         }
         public Texture2D Get_Texture()
         {
@@ -29,7 +29,7 @@ namespace Raid.Enviroment
         }
         public Vector2 Get_Position()
         {
-            return Gate_Position[0];
+            return Gate_Position;
         }
     }
 }

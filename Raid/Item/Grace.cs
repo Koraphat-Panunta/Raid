@@ -11,31 +11,31 @@ namespace Raid.Item
     public class Grace : item
     {
         private Texture2D Grace_Texture;
-        private Rectangle[] Grace_Hitbox = new Rectangle[5];
-        private Vector2[] Grace_Position = new Vector2[5];        
-        public Grace(string name,float weight,float value):base(name,weight,value) 
+        private Rectangle Grace_Hitbox;       
+        public Grace(Vector2 Pos):base(Pos) 
         {
-            Grace_Texture = Global.Content.Load<Texture2D>(name);
-            base.Weight = weight;
-            base.Value = value;
-            Grace_Position[0] = new Vector2(300,700);
-            Grace_Hitbox[0] = new Rectangle((int)Grace_Position[0].X,(int)Grace_Position[0].Y,96,96);
+            Grace_Texture = Global.Content.Load<Texture2D>("Grace");
+            base.item_Pos = Pos;
+            base.item_Box = new Rectangle((int)item_Pos.X, (int)item_Pos.Y, 96, 96);
+            SetWeight_Value();
         }
-        protected override void SetWeight_Value(float weight, float value)
+        protected override void SetWeight_Value()
         {
-            base.SetWeight_Value(weight, value);
+            base.Weight = 4;
+            base.Value = 10;
+            base.SetWeight_Value();
         }
         public override float Get_Weight()
         {
-            return base.Get_Weight();
+            return base.Weight;
         }
         public override float Get_Value()
         {
             return base.Get_Value();
         }
-        public Vector2 Get_GracePosition(int i)
+        public Vector2 Get_GracePosition()
         {
-            return Grace_Position[(int)i];
+            return base.item_Pos;
         }
         public Texture2D Get_Grace_Texture()
         {
@@ -43,20 +43,20 @@ namespace Raid.Item
         }
         public Rectangle Get_Grace_Hitbox()
         {
-            return this.Grace_Hitbox[0];
+            return base.item_Box;
         }
-        public void Set_Grace_Hitbox(Rectangle Box,int i)
+        public void Set_Grace_Hitbox(Rectangle Box)
         {
-            Grace_Hitbox[i] = Box;
+            item_Box = Box;
         }
-        public void Set_Grace_Position(Vector2 Pos,int i)
+        public void Set_Grace_Position(Vector2 Pos)
         {
-            Grace_Position[((int)i)] = Pos;
+            base.item_Pos = Pos;
         }
-        public override void disapear(int i)
+        public override void disapear()
         {
-            Grace_Position[i] = new Vector2(100000,100000);
-            Grace_Hitbox[i] = new Rectangle((int)Grace_Position[i].X,(int)Grace_Position[i].X, 2, 2);
+            base.item_Pos = new Vector2(100000,100000);
+            base.item_Box = new Rectangle((int)base.item_Pos.X,(int)base.item_Pos.X,96,96);
         }
     }
 }
