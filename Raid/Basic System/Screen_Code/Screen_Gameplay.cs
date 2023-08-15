@@ -18,9 +18,11 @@ namespace Raid.Screen_Code
         public Main_Character Main_Character = new Main_Character();
         public Texture2D BG;
         Camera Camera;
-        public Grace[] Grace = new Grace[4];
-        bool Hit =false;       
-        public Extract_gate[] extract_Gate = new Extract_gate[4];
+        private int Max_Grace = 4;
+        private int Max_Gate = 4;
+        public Grace[] Grace;
+        bool Hit =false;
+        public Extract_gate[] extract_Gate;
         public Vector2 Deploy_pos;
         
         public Screen_Gameplay() 
@@ -30,6 +32,8 @@ namespace Raid.Screen_Code
         {           
             base.load(main_Character,Deploy_Pos);           
             this.Main_Character = main_Character;
+            Grace = new Grace[Max_Grace];
+            extract_Gate = new Extract_gate[Max_Gate];
             BG = Global.Content.Load<Texture2D>("Gameplay_test2");
             extract_Gate[0] = new Extract_gate(new Vector2(30,30));
             extract_Gate[1] = new Extract_gate(new Vector2(1450*2,30));
@@ -40,10 +44,10 @@ namespace Raid.Screen_Code
             this.Grace[2] = new Grace(new Vector2(673 ,678 * 2));
             this.Grace[3] = new Grace(new Vector2(1110 * 2,673 * 2));
             Deploy(Deploy_Pos);
-            Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,62,1));
+            Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,102,184));
             Camera = new Camera();
             //main_Character.inventory.Grace[0].Set_Grace_Position(new Vector2(300, 700), 0);
-            Camera.track_Object(Main_Character.Get_MainCharacterPos(),Deploy_Pos);           
+                       
             //Main_Character.inventory.Grace[0].Set_Grace_Hitbox(new Rectangle((int)Main_Character.inventory.Grace[0].Get_GracePosition(0).X, (int)Main_Character.inventory.Grace[0].Get_GracePosition(0).Y, 96, 96), 0);
             Main_Character.Set_state("Main_Char_idle_right");
            
@@ -58,18 +62,8 @@ namespace Raid.Screen_Code
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
-        {            
-            Global.spriteBatch.Draw(BG,Camera.Object_Vector(new Vector2(0,0)),Color.White);                    
-            //Global.spriteBatch.Draw(Main_Character.inventory.Grace[0].Get_Grace_Texture(), Camera.Object_Vector(Main_Character.inventory.Grace[0].Get_GracePosition(0)),Color.White);
-            Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(),Camera.Object_Vector(extract_Gate[0].Get_Position()),Color.White);
-            Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
-            Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
-            Global.spriteBatch.Draw(extract_Gate[3].Get_Texture(), Camera.Object_Vector(extract_Gate[3].Get_Position()), Color.White);
-            Global.spriteBatch.Draw(Grace[0].Get_Grace_Texture(), Camera.Object_Vector(Grace[0].Get_GracePosition()), Color.White);
-            Global.spriteBatch.Draw(Grace[1].Get_Grace_Texture(), Camera.Object_Vector(Grace[1].Get_GracePosition()), Color.White);
-            Global.spriteBatch.Draw(Grace[2].Get_Grace_Texture(), Camera.Object_Vector(Grace[2].Get_GracePosition()), Color.White);
-            Global.spriteBatch.Draw(Grace[3].Get_Grace_Texture(), Camera.Object_Vector(Grace[3].Get_GracePosition()), Color.White);
-            Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
+        {
+            Draw_Form_Pos_inWorld();
             base.Draw(gameTime);
         }
      
@@ -145,6 +139,19 @@ namespace Raid.Screen_Code
             Console.WriteLine(Camera.Object_Vector(Grace[0].Get_GracePosition()));
             Console.WriteLine("Weight ={0}/{1}",Main_Character.inventory.carry_weight,Main_Character.inventory.Max_weight);                      
             base.Debuging();
+        }
+        private void Draw_Form_Pos_inWorld()
+        {
+            Global.spriteBatch.Draw(BG, Camera.Object_Vector(new Vector2(0, 0)), Color.White);
+            Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
+            Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
+            Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
+            Global.spriteBatch.Draw(extract_Gate[3].Get_Texture(), Camera.Object_Vector(extract_Gate[3].Get_Position()), Color.White);
+            Global.spriteBatch.Draw(Grace[0].Get_Grace_Texture(), Camera.Object_Vector(Grace[0].Get_GracePosition()), Color.White);
+            Global.spriteBatch.Draw(Grace[1].Get_Grace_Texture(), Camera.Object_Vector(Grace[1].Get_GracePosition()), Color.White);
+            Global.spriteBatch.Draw(Grace[2].Get_Grace_Texture(), Camera.Object_Vector(Grace[2].Get_GracePosition()), Color.White);
+            Global.spriteBatch.Draw(Grace[3].Get_Grace_Texture(), Camera.Object_Vector(Grace[3].Get_GracePosition()), Color.White);
+            Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
         }
     }
 }

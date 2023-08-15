@@ -46,11 +46,11 @@ namespace Raid.Core
             {
                 case 0: return new Vector2(135,135);
                     break;
-                case 1: return new Vector2(1600,135);
+                case 1: return new Vector2(1600*2,135);
                     break;
-                case 2: return new Vector2(135,800);
+                case 2: return new Vector2(135,800*2);
                     break;
-                case 3: return new Vector2(1600,800);
+                case 3: return new Vector2(1600 * 2,800*2);
                     break;
                     default: return new Vector2(0,0);
             }

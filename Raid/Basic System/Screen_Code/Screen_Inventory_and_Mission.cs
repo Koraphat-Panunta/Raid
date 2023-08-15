@@ -33,21 +33,14 @@ namespace Raid.Screen_Code
         }
         public override void Update(GameTime gameTime)
         {
-            //Main_Character.inventory.Cal_Weight();
-            //if (Keyboard.GetState().IsKeyDown(Keys.I))
-            //{
-            //    this.Deploy_selected = true;
-            //}
-            //else
-            //{
-            //    this.Deploy_selected = false;
-            //}
+            
             mouse = new Rectangle((int)Mouse.GetState().Position.X, (int)Mouse.GetState().Position.Y,3,3);
             Deploy_check();
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {
+            
             Global.spriteBatch.Draw(Invt.BG, new Vector2(0, 0), Color.White);
             Global.spriteBatch.Draw(Invt.Deploy_select,Invt.Get_Deploy_Pos(0),Color.White);
             Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(1), Color.White);

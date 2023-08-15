@@ -77,6 +77,7 @@ namespace Raid
         protected override void Draw(GameTime gameTime)
         {                    
             Global.spriteBatch.Begin();            
+            GraphicsDevice.Clear(Color.Black);
             Curent_Screen.Draw(gameTime);           
             Global.spriteBatch.End();
             
@@ -84,29 +85,8 @@ namespace Raid
         }
         public void Set_Scene_State()
         {
-            //if (Keyboard.GetState().IsKeyDown(Keys.D0))
-            //{
-            //    Curent_Screen.Unload();
-            //    Scene_State = Menu;
-            //    Update_Scence();
-            //    Curent_Screen.load();
-            //}
-            //if(Keyboard.GetState().IsKeyDown(Keys.D1)) 
-            //{
-            //    Curent_Screen.Unload();
-            //    Scene_State = MagScence;
-            //    Update_Scence();
-            //    Curent_Screen.load();
-
-            //}
-            //if(Keyboard.GetState().IsKeyDown(Keys.D2))
-            //{
-            //    Curent_Screen.Unload();
-            //    Scene_State = Gameplay;
-            //    Update_Scence();
-            //    Curent_Screen.load();
-            //}
-            if (Scene_State == Menu && Keyboard.GetState().IsKeyDown(Keys.Enter) && keyinput ==false) 
+            
+            if (Curent_Screen == Menu_Screen && Keyboard.GetState().IsKeyDown(Keys.Enter) && keyinput ==false) 
             {
                 Curent_Screen.Unload();
                 Scene_State = MagScence;
@@ -115,28 +95,28 @@ namespace Raid
                 keyinput = true;
                 
             }
-            if(Scene_State == MagScence && Keyboard.GetState().IsKeyDown(Keys.Enter)&&keyinput == false)
+            //if(Scene_State == MagScence && Keyboard.GetState().IsKeyDown(Keys.Enter)&&keyinput == false)
+            //{
+            //    Curent_Screen.Unload();
+            //    Scene_State = Gameplay;
+            //    Update_Scence();
+            //    Curent_Screen.load(Management_Screen.main_Character,Vector2.Zero);
+            //    if (Keyboard.GetState().IsKeyUp(Keys.Enter))
+            //    {
+            //        keyinput = false;
+            //    }
+            //}
+            if(Curent_Screen == Management_Screen && Management_Screen.Deploy_Confirm == true)
             {
-                Curent_Screen.Unload();
-                Scene_State = Gameplay;
-                Update_Scence();
-                Curent_Screen.load(Management_Screen.main_Character,Vector2.Zero);
-                if (Keyboard.GetState().IsKeyUp(Keys.Enter))
-                {
-                    keyinput = false;
-                }
-            }
-            if(Scene_State == MagScence && Management_Screen.Deploy_Confirm == true)
-            {
-                Management_Screen.Deploy_Confirm = false;
+                Management_Screen.Deploy_Confirm = false;                
                 Curent_Screen.Unload();
                 Scene_State = Gameplay;
                 Update_Scence();
                 Curent_Screen.load(Management_Screen.main_Character,Management_Screen.Deploy_Pos);
             }
-            if(Gameplay_Screen.Extract == true)
+            if(Curent_Screen == Gameplay_Screen && Gameplay_Screen.Extract == true)
             {
-                Gameplay_Screen.Extract = false;
+                Gameplay_Screen.Extract = false;               
                 Curent_Screen.Unload();
                 Scene_State = MagScence;
                 Update_Scence();
