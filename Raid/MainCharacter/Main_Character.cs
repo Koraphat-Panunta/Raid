@@ -31,7 +31,7 @@ namespace Raid.MainCharacter
         private string Main_Char_Common_Attack_Left = "Main_Char_Common_Attack_Left";
         private string Main_Char_Common_Attack_Right = "Main_Char_Common_Attack_Right";
         //Char_status
-        private string Main_Char_Alive;
+        private bool Main_Char_Alive;
         public Main_Character()
         {
             Main_Char_curt_State = Main_Char_idle_right;
@@ -101,6 +101,14 @@ namespace Raid.MainCharacter
         public void Set_state(string state)
         {
             Main_Char_curt_State = state;
+        }
+        public void Set_Char_Alive(bool status)
+        {
+            Main_Char_Alive = status;
+        }
+        public bool Get_Char_Alive()
+        {
+            return Main_Char_Alive;
         }
         public string Get_state() 
         {

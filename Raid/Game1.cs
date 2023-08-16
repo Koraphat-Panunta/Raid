@@ -10,17 +10,17 @@ namespace Raid
 {
     public class Game1 : Game
     {
+       
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        public Screen Curent_Screen;
+        public string Curent_Screen;
         public Screen_Menu Menu_Screen;
         public Screen_Inventory_and_Mission Management_Screen;
         public Screen_Gameplay Gameplay_Screen;
-        public SpriteFont Font;
-        public string Scene_State;
+        public SpriteFont Font;       
         public string Gameplay = "Gameplay";
-        public string MagScence = "Management";
-        public string Menu = "Menu";
+        public string Management = "Management";
+        public string Title = "Title";
         float Debug_Update;
         bool keyinput = false;
         bool DebugCheck;
@@ -48,17 +48,16 @@ namespace Raid
             Global.GraphicsDevice.PreferredBackBufferHeight = 1080;
             Global.GraphicsDevice.PreferredBackBufferWidth = 1920;
             Global.GraphicsDevice.ApplyChanges();
-            /////////////////////////////////////// Set Screen /////////////////////////////////////////            
+            /////////////////////////////////////// Set Screen /////////////////////////////////////////  
+            Curent_Screen = Title;
             Gameplay_Screen = new Screen_Gameplay();
             Menu_Screen = new Screen_Menu();
-            Management_Screen = new Screen_Inventory_and_Mission();
-            Curent_Screen = Menu_Screen;
-            Scene_State = Menu;
-            Curent_Screen.load(new Main_Character(), Vector2.Zero);
+            Management_Screen = new Screen_Inventory_and_Mission();                       
+            Menu_Screen.load(new Main_Character(), Vector2.Zero);
             /////////////////////////////////////// Set Variable ///////////////////////////////////////
             Debug_Update = 0;
             DebugCheck = true;
-            
+           
             /////////////////////////////////////// Set Object /////////////////////////////////////////
            
         }
@@ -68,8 +67,7 @@ namespace Raid
             Global.gameTime = gameTime;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            Set_Scene_State();            
-            Curent_Screen.Update(gameTime);
+            SceneUpdate(gameTime);            
             Debuging(gameTime);
             base.Update(gameTime);           
         }
@@ -78,101 +76,93 @@ namespace Raid
         {                    
             Global.spriteBatch.Begin();            
             GraphicsDevice.Clear(Color.Black);
-            Curent_Screen.Draw(gameTime);           
+            SceneDraw(gameTime);
             Global.spriteBatch.End();
             
             base.Draw(gameTime);
         }
-        public void Set_Scene_State()
+        public void SceneUpdate(GameTime gameTime)
         {
-            
-            if (Curent_Screen == Menu_Screen && Keyboard.GetState().IsKeyDown(Keys.Enter) && keyinput ==false) 
-            {
-                Curent_Screen.Unload();
-                Scene_State = MagScence;
-                Update_Scence();
-                Curent_Screen.load(new Main_Character(),Vector2.Zero);
-                keyinput = true;
-                
+            if(Curent_Screen == Title)
+            {               
+                Menu_Screen.Update(gameTime);
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
+                {
+                    Curent_Screen = Management;
+                    Management_Screen.load(new Main_Character(),Vector2.Zero);
+                }
             }
-            //if(Scene_State == MagScence && Keyboard.GetState().IsKeyDown(Keys.Enter)&&keyinput == false)
-            //{
-            //    Curent_Screen.Unload();
-            //    Scene_State = Gameplay;
-            //    Update_Scence();
-            //    Curent_Screen.load(Management_Screen.main_Character,Vector2.Zero);
-            //    if (Keyboard.GetState().IsKeyUp(Keys.Enter))
-            //    {
-            //        keyinput = false;
-            //    }
-            //}
-            if(Curent_Screen == Management_Screen && Management_Screen.Deploy_Confirm == true)
+            if(Curent_Screen == Management)
             {
-                Management_Screen.Deploy_Confirm = false;                
-                Curent_Screen.Unload();
-                Scene_State = Gameplay;
-                Update_Scence();
-                Curent_Screen.load(Management_Screen.main_Character,Management_Screen.Deploy_Pos);
+                Management_Screen.Update(gameTime);                
+                if (Management_Screen.Deploy_Confirm == true)
+                {
+                    Curent_Screen = Gameplay;
+                    Gameplay_Screen.load(new Main_Character(),Management_Screen.Deploy_Pos);
+                    Gameplay_Screen.Main_Character.inventory.Grace_num = Management_Screen.main_Character.inventory.Grace_num;
+                    Management_Screen.Deploy_Confirm = false;
+                }
             }
-            if(Curent_Screen == Gameplay_Screen && Gameplay_Screen.Extract == true)
+            if(Curent_Screen == Gameplay)
             {
-                Gameplay_Screen.Extract = false;               
-                Curent_Screen.Unload();
-                Scene_State = MagScence;
-                Update_Scence();
-                Curent_Screen.load(Gameplay_Screen.Main_Character, Vector2.Zero);
-
-               
+                Gameplay_Screen.Update(gameTime);
+                if(Gameplay_Screen.Extract == true)
+                {
+                    Gameplay_Screen.Extract = false;
+                    Curent_Screen = Management;
+                    Management_Screen.load(new Main_Character(),Vector2.Zero);
+                    Management_Screen.main_Character.inventory.Grace_num = Gameplay_Screen.Main_Character.inventory.Grace_num;
+                }
+                if (Gameplay_Screen.Main_Character.Get_Char_Alive() == false)
+                {
+                    Curent_Screen = Management;
+                    Management_Screen.main_Character.inventory.Grace_num = Gameplay_Screen.Main_Character.inventory.Grace_num;
+                    Gameplay_Screen.Main_Character.Set_Char_Alive(true);
+                }
             }
-            if (Keyboard.GetState().IsKeyUp(Keys.Enter))
-            {
-                keyinput = false;
-            }
-            //if(Management_Screen.Deployed == true) 
-            //{
-            //    Curent_Screen.Unload();
-            //    Scene_State = Gameplay;
-            //    Update_Scence();
-            //    Curent_Screen.load();
-            //}
         }
-        public void Update_Scence()
+        public void SceneDraw(GameTime gameTime)
         {
-            if(Scene_State == Menu) 
+            if (Curent_Screen == Title)
             {
-                Curent_Screen = Menu_Screen;                
+                Menu_Screen.Draw(gameTime);
             }
-            if(Scene_State == MagScence)
-            {                
-                Curent_Screen = Management_Screen;            
+            if (Curent_Screen == Management)
+            {
+                Management_Screen.Draw(gameTime);
             }
-            if(Scene_State == Gameplay)
-            {                               
-                Curent_Screen = Gameplay_Screen;
+            if (Curent_Screen == Gameplay)
+            {
+                Gameplay_Screen.Draw(gameTime);
             }
-            
         }
+        
         protected void Debuging(GameTime gameTime)
         {         
             Debug_Update += (float)gameTime.ElapsedGameTime.TotalSeconds;
             ///////////////////////////////////// Add your debuging variable //////////////////////////
             if( DebugCheck == true)
-            {
-                if(Curent_Screen == Gameplay_Screen)
-                {
-                    Console.WriteLine("Curent_Screen = Gameplay_screen");
-                }
-                if(Curent_Screen == Menu_Screen)
-                {
-                    Console.WriteLine("Curent_Screen = Menu_Screen");
-                }
-                if(Curent_Screen == Management_Screen)
-                {
-                    Console.WriteLine("Curent_Screen = Management_Screen");
-                }
+            {                
+                Console.WriteLine("Curent_Screen = {0}",Curent_Screen);               
                 Console.WriteLine("Keyinput ={0}",keyinput);
                 //Console.WriteLine("Extract Complete = {0}", Gameplay_Screen.Extract);
-                Curent_Screen.Debuging();
+                Console.WriteLine("Management Grace num ="+Management_Screen.main_Character.inventory.Grace_num);
+                Console.WriteLine("Management Char_Pos="+Management_Screen.main_Character.Get_MainCharacterPos());
+                Console.WriteLine("Gameplay Grace num ="+Gameplay_Screen.Main_Character.inventory.Grace_num);
+                
+                if (Curent_Screen == Title)
+                {
+                    Menu_Screen.Debuging();
+                }
+                if (Curent_Screen == Management)
+                {
+                    Management_Screen.Debuging();
+                }
+                if (Curent_Screen == Gameplay)
+                {
+                    Gameplay_Screen.Debuging();
+                }
+
                 DebugCheck = false;
             }           
             /////////////////////////////////// Char_state/////////////////////////////////////////////           

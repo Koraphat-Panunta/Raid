@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Raid.Core;
 using Raid.Enviroment;
 using Raid.Item;
 using Raid.MainCharacter;
-using SharpDX.DirectWrite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Raid.Screen_Code
 {
@@ -18,23 +15,29 @@ namespace Raid.Screen_Code
         public Main_Character Main_Character = new Main_Character();
         public Texture2D BG;
         Camera Camera;
-        private int Max_Grace = 4;
-        private int Max_Gate = 4;
+        private int Max_Grace;
+        private int Max_Gate;
         public Grace[] Grace;
         bool Hit =false;
         public Extract_gate[] extract_Gate;
-        public Vector2 Deploy_pos;
+        public bool Extract;
+        private SpriteFont Time_font;
+        private Time Time;
         
         public Screen_Gameplay() 
         { 
         }
         public override void load(Main_Character main_Character,Vector2 Deploy_Pos)
         {           
-            base.load(main_Character,Deploy_Pos);           
+            base.load(main_Character,Deploy_Pos);
             this.Main_Character = main_Character;
+            Max_Gate = 4;
+            Max_Grace = 4;
+            this.Time = new Time(15);
             Grace = new Grace[Max_Grace];
             extract_Gate = new Extract_gate[Max_Gate];
             BG = Global.Content.Load<Texture2D>("Gameplay_test2");
+            Time_font = Global.Content.Load<SpriteFont>("Time");
             extract_Gate[0] = new Extract_gate(new Vector2(30,30));
             extract_Gate[1] = new Extract_gate(new Vector2(1450*2,30));
             extract_Gate[2] = new Extract_gate(new Vector2(30,750*2));
@@ -46,10 +49,9 @@ namespace Raid.Screen_Code
             Deploy(Deploy_Pos);
             Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,102,184));
             Camera = new Camera();
-            //main_Character.inventory.Grace[0].Set_Grace_Position(new Vector2(300, 700), 0);
-                       
-            //Main_Character.inventory.Grace[0].Set_Grace_Hitbox(new Rectangle((int)Main_Character.inventory.Grace[0].Get_GracePosition(0).X, (int)Main_Character.inventory.Grace[0].Get_GracePosition(0).Y, 96, 96), 0);
+            
             Main_Character.Set_state("Main_Char_idle_right");
+            Main_Character.Set_Char_Alive(true);
            
         }
         public override void Update(GameTime gameTime)
@@ -58,20 +60,27 @@ namespace Raid.Screen_Code
             Main_Character.Main_Character_Updatestate();
             lootingsystem();
             Extractionsystem();
-            //Main_Character.inventory.Cal_Weight();
+            if (Main_Character.Get_Char_Alive() == true)
+            {
+                this.Time.Time_Count();
+            }
+            if (Main_Character.Get_Char_Alive() == false)
+            {
+                Main_Character.inventory.Grace_num = 0;
+            }
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {
             Draw_Form_Pos_inWorld();
+            Draw_UI();
             base.Draw(gameTime);
         }
      
         public override void Unload()
         {
             Main_Character.Main_Char_curt_State = null;
-            Main_Character.Set_MainCharacterPos(new Vector2(0,0));
-            Deploy_pos = new Vector2(0,0);
+            Main_Character.Set_MainCharacterPos(new Vector2(0,0));            
             base.Unload();
         }
         public void lootingsystem()
@@ -107,7 +116,7 @@ namespace Raid.Screen_Code
         {
             for(int i=0;i<4;i++)
             {
-                if (Main_Character.Get_MainCharacterBox().Intersects(extract_Gate[i].Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E))
+                if (Main_Character.Get_MainCharacterBox().Intersects(extract_Gate[i].Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E)&&Main_Character.Get_Char_Alive()==true)
                 {
                     Extract = true;
                     break;
@@ -117,16 +126,16 @@ namespace Raid.Screen_Code
                     Extract = false;
                 }
             }
+            if (this.Time.Get_Time_Count() <= 0)
+            {
+                Main_Character.Set_Char_Alive(false);
+            }
               
         }
-        public void transter_Inventory(Inventory invt)
-        {            
-                Main_Character.inventory = invt;                     
-        }
+        
         public void Deploy(Vector2 Deploy_Pos)
         {           
-            Main_Character.Set_MainCharacterPos(Deploy_Pos);
-            Deploy_pos = Deploy_Pos ;
+            Main_Character.Set_MainCharacterPos(Deploy_Pos);            
         }
        
         public override void Debuging()
@@ -135,8 +144,8 @@ namespace Raid.Screen_Code
             Console.WriteLine("Main_Char_Pos = {0}",Main_Character.Get_MainCharacterPos());
             Console.WriteLine("Grace_Pos = {0}", Grace[0].Get_GracePosition());           
             Console.WriteLine("Grace num = {0}",Main_Character.inventory.Grace_num);
-            Console.WriteLine(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
-            Console.WriteLine(Camera.Object_Vector(Grace[0].Get_GracePosition()));
+            //Console.WriteLine(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
+            //Console.WriteLine(Camera.Object_Vector(Grace[0].Get_GracePosition()));
             Console.WriteLine("Weight ={0}/{1}",Main_Character.inventory.carry_weight,Main_Character.inventory.Max_weight);                      
             base.Debuging();
         }
@@ -152,6 +161,10 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(Grace[2].Get_Grace_Texture(), Camera.Object_Vector(Grace[2].Get_GracePosition()), Color.White);
             Global.spriteBatch.Draw(Grace[3].Get_Grace_Texture(), Camera.Object_Vector(Grace[3].Get_GracePosition()), Color.White);
             Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
+        }
+        private void Draw_UI()
+        {
+            Global.spriteBatch.DrawString(Time_font,"Time = "+this.Time.Get_Time_Count(), new Vector2(960, 0), Color.White);
         }
     }
 }

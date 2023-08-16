@@ -10,17 +10,14 @@ namespace Raid.Screen_Code
 {
     public class Screen
     {       
-        public string Curt_Scene;
+        //public string Curt_Scene;
         protected string Gameplay = "Gameplay";
-        protected string Menu = "Menu";
-        public bool Extract;
+        protected string Menu = "Menu";        
         
         public Screen() { }
         public virtual void load(Main_Character main_Character,Vector2 Pos)
         {            
-            Curt_Scene = Menu;
-            Extract = false;
-            
+            //Curt_Scene = Menu;                       
         }
         public virtual void Update(GameTime gameTime)
         {

@@ -121,6 +121,13 @@
 /processorParam:TextureFormat=Color
 /build:RaiderSpriteSheetWIP.png
 
+#begin Time.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Time.spritefont
+
 #begin Title_Test.png
 /importer:TextureImporter
 /processor:TextureProcessor
