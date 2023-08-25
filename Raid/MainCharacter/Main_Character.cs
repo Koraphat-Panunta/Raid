@@ -14,6 +14,7 @@ namespace Raid.MainCharacter
         private Main_Character_Mechanic Character_Mechanic = new Main_Character_Mechanic(100, 6, 5);
         private Main_Character_Animate Character_Animate = new Main_Character_Animate(Vector2.Zero, 0, 1f,1f);
         public Inventory inventory = new Inventory(50f);
+        bool KeyIspressed = false;
         public string Main_Char_curt_State;//Char_currentstate
         //Char_idle_State
         private string Main_Char_idle_Up = "Main_Char_idle_Up" ;
@@ -38,37 +39,45 @@ namespace Raid.MainCharacter
         }       
         public void Main_Character_Updatestate()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && KeyIspressed == false)
             {
                 Main_Char_curt_State = Main_Char_Moving_Up;
+                KeyIspressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            else if (Keyboard.GetState().IsKeyDown(Keys.A) && KeyIspressed == false)
             {
                 Main_Char_curt_State = Main_Char_Moving_Left;
+                KeyIspressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) && KeyIspressed == false)
             {
                 Main_Char_curt_State = Main_Char_Moving_Down;
+                KeyIspressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D) && KeyIspressed == false)
             {
                 Main_Char_curt_State = Main_Char_Moving_Right;
-            }
+                KeyIspressed = true;
+            }            
             if (Keyboard.GetState().IsKeyUp(Keys.W)&&Main_Char_curt_State == Main_Char_Moving_Up)
             {
                 Main_Char_curt_State = Main_Char_idle_Up;
+                KeyIspressed = false;
             }
             if (Keyboard.GetState().IsKeyUp(Keys.A)&&Main_Char_curt_State == Main_Char_Moving_Left)
             {
                 Main_Char_curt_State = Main_Char_idle_left;
+                KeyIspressed = false;
             }
             if (Keyboard.GetState().IsKeyUp(Keys.S) && Main_Char_curt_State == Main_Char_Moving_Down)
             {
                 Main_Char_curt_State = Main_Char_idle_Down;
+                KeyIspressed = false;
             }
             if (Keyboard.GetState().IsKeyUp(Keys.D) && Main_Char_curt_State == Main_Char_Moving_Right)
             {
                 Main_Char_curt_State = Main_Char_idle_right;
+                KeyIspressed = false;
             }
             Character_Mechanic.Main_Character_Action(Main_Char_curt_State);
 

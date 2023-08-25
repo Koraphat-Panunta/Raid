@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Raid.MainCharacter
 {
@@ -20,19 +22,51 @@ namespace Raid.MainCharacter
         {
             if(Character_State == "Main_Char_Moving_Up")
             {
-                CharPos.Y -= Moving_Speed;                
+                CharPos.Y -= Moving_Speed;
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    CharPos.X -= Moving_Speed;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    CharPos.X += Moving_Speed;
+                }
             }
             if(Character_State == "Main_Char_Moving_Down")
             {
                 CharPos.Y += Moving_Speed;
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    CharPos.X -= Moving_Speed;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    CharPos.X += Moving_Speed;
+                }
             }
             if(Character_State == "Main_Char_Moving_Left")
             {
                 CharPos.X -= Moving_Speed;
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                {
+                    CharPos.Y -= Moving_Speed;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    CharPos.Y += Moving_Speed;
+                }
             }
             if(Character_State == "Main_Char_Moving_Right")
             {
                 CharPos.X += Moving_Speed;
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                {
+                    CharPos.Y -= Moving_Speed;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    CharPos.Y += Moving_Speed;
+                }
             }
             Update_Regtangle();
         }

@@ -63,9 +63,8 @@ namespace Raid.Screen_Code
             base.Unload();
         }
         public override void Debuging()
-        {
-            Console.WriteLine("Grace Num = {0}", main_Character.inventory.Grace_num);
-            Console.WriteLine("Inventory weigth ={0}/{1}", main_Character.inventory.carry_weight, main_Character.inventory.Max_weight);
+        {           
+            
             Console.WriteLine("Deploy_Selected = {0}", Deploy_selected);
             Console.WriteLine("Deploy_Confirm = {0}",Deploy_Confirm);
             Console.WriteLine("Mouse = ({0},{1})",mouse.X,mouse.Y);
@@ -73,6 +72,7 @@ namespace Raid.Screen_Code
             Console.WriteLine("Deploy_Pos = {0}", Deploy_Pos);
             Console.WriteLine("Stash Grace num = " + Stash.Grace_num);
             Console.WriteLine("Char_Inventory Grace num = " + main_Character.inventory.Grace_num);
+            Console.WriteLine("Inventory weigth ={0}/{1}", main_Character.inventory.carry_weight, main_Character.inventory.Max_weight);
 
 
             base.Debuging();

@@ -145,11 +145,7 @@ namespace Raid
             {                
                 Console.WriteLine("Curent_Screen = {0}",Curent_Screen);               
                 Console.WriteLine("Keyinput ={0}",keyinput);
-                //Console.WriteLine("Extract Complete = {0}", Gameplay_Screen.Extract);
-                Console.WriteLine("Management Grace num ="+Management_Screen.main_Character.inventory.Grace_num);
-                Console.WriteLine("Management Char_Pos="+Management_Screen.main_Character.Get_MainCharacterPos());
-                Console.WriteLine("Gameplay Grace num ="+Gameplay_Screen.Main_Character.inventory.Grace_num);
-                
+                //Console.WriteLine("Extract Complete = {0}", Gameplay_Screen.Extract);                                
                 if (Curent_Screen == Title)
                 {
                     Menu_Screen.Debuging();

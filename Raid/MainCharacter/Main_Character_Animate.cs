@@ -24,35 +24,35 @@ namespace Raid.MainCharacter
             Char_animate.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
             if (Char_state == "Main_Char_Moving_Up")
             {
-                Char_animate.DrawFrame(Global.spriteBatch,new Vector2(960,540),6);
+                Char_animate.DrawFrame(Global.spriteBatch,Char_Pos, 6);
             }
             if (Char_state == "Main_Char_Moving_Down")
             {
-                Char_animate.DrawFrame(Global.spriteBatch, new Vector2(960, 540), 5);
+                Char_animate.DrawFrame(Global.spriteBatch,Char_Pos, 5);
             }
             if (Char_state == "Main_Char_Moving_Left")
             {
-                Char_animate.DrawFrame(Global.spriteBatch, new Vector2(960, 540),7);
+                Char_animate.DrawFrame(Global.spriteBatch, Char_Pos,7);
             }
             if (Char_state == "Main_Char_Moving_Right")
             {
-                Char_animate.DrawFrame(Global.spriteBatch, new Vector2(960, 540),8);
+                Char_animate.DrawFrame(Global.spriteBatch, Char_Pos,8);
             }
             if (Char_state == "Main_Char_idle_Up")
             {
-                Char_animate.DrawFrame(Global.spriteBatch,new Vector2(960, 540),2);
+                Char_animate.DrawFrame(Global.spriteBatch,Char_Pos,2);
             }
             if (Char_state == "Main_Char_idle_Down")
             {
-                Char_animate.DrawFrame(Global.spriteBatch, new Vector2(960, 540),1);
+                Char_animate.DrawFrame(Global.spriteBatch, Char_Pos,1);
             }
             if (Char_state == "Main_Char_idle_left")
             {
-                Char_animate.DrawFrame(Global.spriteBatch, new Vector2(960, 540),3);
+                Char_animate.DrawFrame(Global.spriteBatch, Char_Pos,3);
             }
             if (Char_state == "Main_Char_idle_right")
             {
-                Char_animate.DrawFrame(Global.spriteBatch, new Vector2(960, 540),4);
+                Char_animate.DrawFrame(Global.spriteBatch, Char_Pos,4);
             }
             
         }
