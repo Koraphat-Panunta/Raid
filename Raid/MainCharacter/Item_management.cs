@@ -23,10 +23,10 @@ namespace Raid.MainCharacter
             this.Max_weight = weight;
             this.Grace_num = num;
         }
-        public void Cal_Weight(float weight,int num) 
+        public void Cal_Weight(float weight) 
         {
-            carry_weight += weight * num;
-            Grace_num += num;
+            carry_weight = weight * Grace_num;
+            
         }
         
     }

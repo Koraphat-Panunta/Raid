@@ -100,6 +100,7 @@ namespace Raid
                     Curent_Screen = Gameplay;
                     Gameplay_Screen.load(new Main_Character(),Management_Screen.Deploy_Pos);
                     Gameplay_Screen.Main_Character.inventory.Grace_num = Management_Screen.main_Character.inventory.Grace_num;
+                    Gameplay_Screen.Main_Character.inventory.carry_weight = Management_Screen.main_Character.inventory.carry_weight;
                     Management_Screen.Deploy_Confirm = false;
                 }
             }
@@ -112,11 +113,12 @@ namespace Raid
                     Curent_Screen = Management;
                     Management_Screen.load(new Main_Character(),Vector2.Zero);
                     Management_Screen.main_Character.inventory.Grace_num = Gameplay_Screen.Main_Character.inventory.Grace_num;
+                    
                 }
                 if (Gameplay_Screen.Main_Character.Get_Char_Alive() == false)
                 {
                     Curent_Screen = Management;
-                    Management_Screen.main_Character.inventory.Grace_num = Gameplay_Screen.Main_Character.inventory.Grace_num;
+                    Management_Screen.main_Character.inventory.Grace_num = Gameplay_Screen.Main_Character.inventory.Grace_num;                    
                     Gameplay_Screen.Main_Character.Set_Char_Alive(true);
                 }
             }

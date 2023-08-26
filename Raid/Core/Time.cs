@@ -1,11 +1,14 @@
 ﻿
 
+using Microsoft.Xna.Framework.Graphics;
+
 namespace Raid.Core
 {
     public class Time
     {
         private int TimeCount;
         private float update;
+        private SpriteFont Time_font = Global.Content.Load<SpriteFont>("Time");
         public Time(int time) 
         {
             update = 0;
@@ -20,6 +23,8 @@ namespace Raid.Core
                 update = 0;
             }
         }
+        public void Set_Time() { }
         public int Get_Time_Count() { return TimeCount; }
+        public SpriteFont GetSpriteFont() { return Time_font; }
     }
 }

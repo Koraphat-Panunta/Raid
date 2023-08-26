@@ -20,8 +20,7 @@ namespace Raid.Screen_Code
         public Grace[] Grace;
         bool Hit =false;
         public Extract_gate[] extract_Gate;
-        public bool Extract;
-        private SpriteFont Time_font;
+        public bool Extract;       
         private Time Time;
         private Vector2 Camera_Pos;
         public Screen_Gameplay() 
@@ -36,8 +35,7 @@ namespace Raid.Screen_Code
             this.Time = new Time(15);
             Grace = new Grace[Max_Grace];
             extract_Gate = new Extract_gate[Max_Gate];
-            BG = Global.Content.Load<Texture2D>("Gameplay_test2");
-            Time_font = Global.Content.Load<SpriteFont>("Time");
+            BG = Global.Content.Load<Texture2D>("Gameplay_test2");            
             Object_Load();
             Deploy(Deploy_Pos);
             Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,102,184));
@@ -88,7 +86,8 @@ namespace Raid.Screen_Code
         /// ////////////////////////////////////Main-method/////////////////////////////////////////////////////       
         public void lootingsystem()
         {
-            
+            Main_Character.inventory.Cal_Weight(Grace[1].Get_Weight());
+
             int i = 0;
             for (int num = 0; num < 4; num++)
             {
@@ -111,7 +110,8 @@ namespace Raid.Screen_Code
                 if (x + Grace[i].Get_Weight() <= Main_Character.inventory.Max_weight)
                 {
                     Grace[i].disapear();
-                    Main_Character.inventory.Cal_Weight(this.Grace[i].Get_Weight(),1);
+                    Main_Character.inventory.Grace_num += 1;
+                    Main_Character.inventory.Cal_Weight(this.Grace[i].Get_Weight());
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace Raid.Screen_Code
         }
         private void Draw_UI()
         {
-            Global.spriteBatch.DrawString(Time_font,"Time = "+this.Time.Get_Time_Count(), new Vector2(960, 0), Color.White);
+            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(960, 0), Color.White);
         }
         private void Object_Load()
         {
@@ -169,7 +169,7 @@ namespace Raid.Screen_Code
         }
         private void Camera_Movement()
         {
-            int camera_speed_X = 28;
+            int camera_speed_X = 20;
             float camera_speed_Y = (camera_speed_X*270)/480;
             if (Main_Character.Main_Char_curt_State =="Main_Char_idle_Up"||Main_Character.Main_Char_curt_State == "Main_Char_Moving_Up")
             {

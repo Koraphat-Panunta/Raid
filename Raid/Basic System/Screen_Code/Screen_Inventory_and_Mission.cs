@@ -12,7 +12,7 @@ namespace Raid.Screen_Code
 
     {
         public Prepare_Page Invt;
-        private Inventory Stash = new Inventory(1000f,20);
+        private Inventory Stash = new Inventory(1000f,60);
         public Main_Character main_Character = new Main_Character();
         public Texture2D Deploy_select;
         public Rectangle mouse;      
@@ -65,11 +65,11 @@ namespace Raid.Screen_Code
         public override void Debuging()
         {           
             
-            Console.WriteLine("Deploy_Selected = {0}", Deploy_selected);
-            Console.WriteLine("Deploy_Confirm = {0}",Deploy_Confirm);
-            Console.WriteLine("Mouse = ({0},{1})",mouse.X,mouse.Y);
+            //Console.WriteLine("Deploy_Selected = {0}", Deploy_selected);
+            //Console.WriteLine("Deploy_Confirm = {0}",Deploy_Confirm);
+            //Console.WriteLine("Mouse = ({0},{1})",mouse.X,mouse.Y);
             Console.WriteLine("Deploye select[0] = ({0},{1})", Invt.Get_Deploy_select_Box(0).X,Invt.Get_Deploy_select_Box(0).Y);
-            Console.WriteLine("Deploy_Pos = {0}", Deploy_Pos);
+           /* Console.WriteLine("Deploy_Pos = {0}", Deploy_Pos)*/;
             Console.WriteLine("Stash Grace num = " + Stash.Grace_num);
             Console.WriteLine("Char_Inventory Grace num = " + main_Character.inventory.Grace_num);
             Console.WriteLine("Inventory weigth ={0}/{1}", main_Character.inventory.carry_weight, main_Character.inventory.Max_weight);
@@ -96,16 +96,19 @@ namespace Raid.Screen_Code
         }
         private void Item_management()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.F) && Stash.Grace_num > 0) 
+            if (Keyboard.GetState().IsKeyDown(Keys.F) && Stash.Grace_num > 0&&main_Character.inventory.carry_weight+4<main_Character.inventory.Max_weight) 
             {                
                     main_Character.inventory.Grace_num++;
-                    Stash.Grace_num--;                        
+                    Stash.Grace_num--;
+                main_Character.inventory.Cal_Weight(4f);
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.G)&&main_Character.inventory.Grace_num>0)
             {              
                     main_Character.inventory.Grace_num--;
-                    Stash.Grace_num++;                
+                    Stash.Grace_num++;
+                main_Character.inventory.Cal_Weight(4f);
             }
+            main_Character.inventory.Cal_Weight(4f);
         }
     }
 }
