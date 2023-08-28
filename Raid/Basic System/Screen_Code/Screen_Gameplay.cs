@@ -83,7 +83,7 @@ namespace Raid.Screen_Code
             Console.WriteLine("Camera_Pos = {0}",Camera_Pos);
             base.Debuging();
         }       
-        /// ////////////////////////////////////Main-method/////////////////////////////////////////////////////       
+        ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
         public void lootingsystem()
         {
             Main_Character.inventory.Cal_Weight(Grace[1].Get_Weight());
@@ -169,7 +169,7 @@ namespace Raid.Screen_Code
         }
         private void Camera_Movement()
         {
-            int camera_speed_X = 20;
+            int camera_speed_X = 30;
             float camera_speed_Y = (camera_speed_X*270)/480;
             if (Main_Character.Main_Char_curt_State =="Main_Char_idle_Up"||Main_Character.Main_Char_curt_State == "Main_Char_Moving_Up")
             {
