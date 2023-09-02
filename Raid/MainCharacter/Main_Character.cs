@@ -123,6 +123,10 @@ namespace Raid.MainCharacter
         {
             return Main_Char_curt_State;
         }
+        public float Get_speed()
+        {
+            return Character_Mechanic.Get_MovingSpeed();
+        }
         public Main_Character_Animate Get_Char_Animate()
         {
             return Character_Animate;

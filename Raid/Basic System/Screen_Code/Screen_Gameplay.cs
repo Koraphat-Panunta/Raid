@@ -52,7 +52,7 @@ namespace Raid.Screen_Code
             Extractionsystem();
             if (Main_Character.Get_Char_Alive() == true)
             {
-                this.Time.Time_Count();
+                //this.Time.Time_Count();
             }
             if (Main_Character.Get_Char_Alive() == false)
             {
@@ -167,120 +167,134 @@ namespace Raid.Screen_Code
             this.Grace[2] = new Grace(new Vector2(673, 678 * 2));
             this.Grace[3] = new Grace(new Vector2(1110 * 2, 673 * 2));
         }
+        float Camera_Time = 0;
+        float camera_speed_X = 9;
+        float camera_speed_Y = 7;
         private void Camera_Movement()
         {
-            int camera_speed_X = 30;
-            float camera_speed_Y = (camera_speed_X*270)/480;
-            if (Main_Character.Main_Char_curt_State =="Main_Char_idle_Up"||Main_Character.Main_Char_curt_State == "Main_Char_Moving_Up")
+            float Camera_acceleration_X = 6.0f;
+            float Camera_acceleration_Y = 3.75f;
+            float Lenght_x = 480/2.5f;
+            float Lenght_y = 270/2.5f;
+            
+            if (Main_Character.Main_Char_curt_State == "Main_Char_Moving_Up")
             {
-                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X+51)
+                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X+48)
                 {
-                    Camera_Pos.X += camera_speed_X; 
-                    if(Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 51)
+                    Camera_Pos.X += Camera_acceleration_X * Camera_Time;  
+                    if(Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 48)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 51;
+                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 48;
                     }
                 }
-                else if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X+51)
+                else if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X+ 48)
                 {
-                    Camera_Pos.X -= camera_speed_X;
-                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 51)
+                    Camera_Pos.X -= Camera_acceleration_X * Camera_Time; 
+                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 48)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 51;
+                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 48;
                     }
                 }               
-                if(Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 92 -270)
+                if(Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 96 -Lenght_y)
                 {
-                    Camera_Pos.Y -= camera_speed_Y;
-                    if(Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y+92 - 270)
+                    Camera_Pos.Y -= Main_Character.Get_speed() + Camera_acceleration_Y * Camera_Time; 
+                    if(Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y+ 96 - Lenght_y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y+92 - 270;
+                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y+ 96 - Lenght_y;
                     }
                 }               
             }
-            if (Main_Character.Main_Char_curt_State == "Main_Char_idle_Down"||Main_Character.Main_Char_curt_State == "Main_Char_Moving_Down")
+            if (Main_Character.Main_Char_curt_State == "Main_Char_Moving_Down")
             {
-                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 51)
+                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 48)
                 {
-                    Camera_Pos.X += camera_speed_X;
-                    if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 51)
+                    Camera_Pos.X += Camera_acceleration_X * Camera_Time;
+                    if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 48)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 51;
+                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 48;
                     }
                 }
-                else if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 51)
+                else if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 48)
                 {
-                    Camera_Pos.X -= camera_speed_X;
-                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 51)
+                    Camera_Pos.X -= Camera_acceleration_X * Camera_Time;
+                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 48)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 51;
+                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 48;
                     }
                 }
-                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y+92 + 270)
+                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y+ 96 + Lenght_y)
                 {
-                    Camera_Pos.Y += camera_speed_Y;
-                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y+92 + 270)
+                    Camera_Pos.Y += Main_Character.Get_speed() + Camera_acceleration_Y * Camera_Time;
+                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y+ 96 + Lenght_y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y+92 + 270;
+                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y+ 96 + Lenght_y;
                     }
                 }
 
             }
-            if (Main_Character.Main_Char_curt_State == "Main_Char_idle_left" || Main_Character.Main_Char_curt_State == "Main_Char_Moving_Left")
+            if ( Main_Character.Main_Char_curt_State == "Main_Char_Moving_Left")
             {
-                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 92)
+                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 96)
                 {
-                    Camera_Pos.Y += camera_speed_Y;
-                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 92)
+                    Camera_Pos.Y += Camera_acceleration_Y * Camera_Time;
+                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 96)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 92;
+                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 96;
                     }
                 }
-                else if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 92)
+                else if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 96)
                 {
-                    Camera_Pos.Y -= camera_speed_Y;
-                    if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 92)
+                    Camera_Pos.Y -= Camera_acceleration_Y * Camera_Time;
+                    if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 96)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 92;
+                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 96;
                     }
                 }
-                if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 51 -480)
+                if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 48 - Lenght_x)
                 {
-                    Camera_Pos.X -= camera_speed_X;
-                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 51 - 480)
+                    Camera_Pos.X -= Main_Character.Get_speed() + Camera_acceleration_X * Camera_Time;
+                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 48 - Lenght_x)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 51 - 480;
+                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 48 - Lenght_x;
                     }
                 }
 
             }
-            if (Main_Character.Main_Char_curt_State == "Main_Char_idle_right" || Main_Character.Main_Char_curt_State == "Main_Char_Moving_Right")
+            if ( Main_Character.Main_Char_curt_State == "Main_Char_Moving_Right")
             {
-                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 92)
+                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 96)
                 {
-                    Camera_Pos.Y += camera_speed_Y;
-                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 92)
+                    Camera_Pos.Y += Camera_acceleration_Y * Camera_Time;
+                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 96)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 92;
+                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 96;
                     }
                 }
-                else if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 92)
+                else if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 96)
                 {
-                    Camera_Pos.Y -= camera_speed_Y;
-                    if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 92)
+                    Camera_Pos.Y -= Camera_acceleration_Y * Camera_Time;
+                    if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 96)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 92;
+                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 96;
                     }
                 }
-                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 51 + 480)
+                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 48 + Lenght_x)
                 {
-                    Camera_Pos.X += camera_speed_X;
-                    if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 51 + 480)
+                    Camera_Pos.X += Main_Character.Get_speed() + Camera_acceleration_X * Camera_Time;
+                    if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 48 + Lenght_x)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 51 + 480;
+                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 48 + Lenght_x;
                     }
                 }
 
+            }
+            if(Main_Character.Main_Char_curt_State == "Main_Char_idle_Up"|| Main_Character.Main_Char_curt_State =="Main_Char_idle_Down"|| Main_Character.Main_Char_curt_State =="Main_Char_idle_left"|| Main_Character.Main_Char_curt_State == "Main_Char_idle_right")
+            {
+                Camera_Time = 0;
             }
         }
     }

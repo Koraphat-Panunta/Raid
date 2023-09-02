@@ -86,5 +86,9 @@ namespace Raid.MainCharacter
         {
             return Char_Hitbox;
         }
+        public float Get_MovingSpeed()
+        {
+            return Moving_Speed;
+        }
     }
 }
