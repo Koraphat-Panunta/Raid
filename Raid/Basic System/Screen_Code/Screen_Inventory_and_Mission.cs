@@ -49,6 +49,7 @@ namespace Raid.Screen_Code
         {
             
             Global.spriteBatch.Draw(Invt.BG, new Vector2(0, 0), Color.White);
+            Global.spriteBatch.Draw(Invt.Map, Invt.Get_Map_Pos(), Color.White);
             Global.spriteBatch.Draw(Invt.Deploy_select,Invt.Get_Deploy_Pos(0),Color.White);
             Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(1), Color.White);
             Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(2), Color.White);

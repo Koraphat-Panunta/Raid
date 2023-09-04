@@ -32,7 +32,7 @@ namespace Raid
         }
         public  Vector2 Object_Vector(Vector2 Object)
         {
-            return new Vector2(Object.X + (960 - CameraPos.X), Object.Y + (540 -CameraPos.Y)); 
+            return new Vector2(Object.X + (Global.GraphicsDevice.PreferredBackBufferWidth/2 - CameraPos.X), Object.Y + (Global.GraphicsDevice.PreferredBackBufferHeight/2 -CameraPos.Y)); 
         }
     }
 }

@@ -45,8 +45,8 @@ namespace Raid
             Global.spriteBatch = _spriteBatch;
             Global.GraphicsDevice = _graphics;           
             /////////////////////////////////////// Set Resolution /////////////////////////////////////
-            Global.GraphicsDevice.PreferredBackBufferHeight = 1080;
-            Global.GraphicsDevice.PreferredBackBufferWidth = 1920;
+            Global.GraphicsDevice.PreferredBackBufferHeight = 540;
+            Global.GraphicsDevice.PreferredBackBufferWidth = 960;
             Global.GraphicsDevice.ApplyChanges();
             /////////////////////////////////////// Set Screen /////////////////////////////////////////  
             Curent_Screen = Title;

@@ -9,7 +9,7 @@ namespace Raid.MainCharacter
         public Vector2 CharPos;
         private Rectangle Char_Hitbox;
         private float HP;
-        public int Hitstreak;
+        private int Hitstreak;
         private int Moving_Speed;
 
         public Main_Character_Mechanic(float HP,int Hitsteak,int Speed) 
@@ -18,7 +18,7 @@ namespace Raid.MainCharacter
             this.Hitstreak = Hitsteak;
             this.Moving_Speed = Speed;
         }
-        public void Main_Character_Action(string Character_State)
+        public void Main_Character_Action(string Character_State,string Character_ATK_state)
         {
             if(Character_State == "Main_Char_Moving_Up")
             {
@@ -81,7 +81,7 @@ namespace Raid.MainCharacter
         private void Update_Regtangle()
         {
             Char_Hitbox = new Rectangle((int)CharPos.X,(int)CharPos.Y,Char_Hitbox.Width,Char_Hitbox.Height);
-        }
+        }        
         public Rectangle Get_CharBox()
         {
             return Char_Hitbox;
@@ -89,6 +89,18 @@ namespace Raid.MainCharacter
         public float Get_MovingSpeed()
         {
             return Moving_Speed;
+        }
+        public float Get_HP()
+        {
+            return this.HP;
+        }
+        public void Set_Hitstreak(int i)
+        {
+            this.Hitstreak = i;
+        }
+        public int Get_Hitstreak()
+        {
+            return this.Hitstreak;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Raid.Content
         public Screen_Menu() { }
         public override void load(Main_Character main_Character, Vector2 Pos)
         {
-            BG = Global.Content.Load<Texture2D>("Title_Test");
+            BG = Global.Content.Load<Texture2D>("Menu_Logo");
             base.load(main_Character,Pos);
         }
         public override void Update(GameTime gameTime)

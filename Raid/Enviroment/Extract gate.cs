@@ -17,7 +17,7 @@ namespace Raid.Enviroment
         {
             Gate_Texture = Global.Content.Load<Texture2D>("Extraction");
             Gate_Position = Deploy_Pos;
-            Gate_Box = new Rectangle((int)Gate_Position.X+137, (int)Gate_Position.Y+137,335,335);
+            Gate_Box = new Rectangle((int)Gate_Position.X+73, (int)Gate_Position.Y+73,166,155);
         }
         public Rectangle Get_Box()
         {

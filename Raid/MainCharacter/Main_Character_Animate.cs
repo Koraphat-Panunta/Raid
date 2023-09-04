@@ -17,7 +17,7 @@ namespace Raid.MainCharacter
         }
         protected void load()
         {
-            Char_animate.Load(Global.Content,"RaiderSpriteSheetWIP",4,8,3);
+            Char_animate.Load(Global.Content, "Raider4Side-Sheet", 4,8,3);
         }
         public void Animate(Vector2 Char_Pos, string Char_state)
         {
