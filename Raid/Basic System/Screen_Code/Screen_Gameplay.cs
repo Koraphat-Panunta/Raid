@@ -145,7 +145,10 @@ namespace Raid.Screen_Code
         private void Draw_Form_Pos_inWorld()
         {
             //Global.spriteBatch.Draw(BG, Camera.Object_Vector(new Vector2(0, 0)), Color.White);
-            Global.spriteBatch.Draw(map.Get_Map_Texture(5), Camera.Object_Vector(map.Get_Map_Pos(5)), Color.White);
+            for(int i = 0; i < 13; i++)
+            {
+                Global.spriteBatch.Draw(map.Get_Map_Texture(i),Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
+            }
             Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
@@ -180,7 +183,7 @@ namespace Raid.Screen_Code
         {
             float Camera_acceleration_X = 6.0f;
             float Camera_acceleration_Y = 3.75f;
-            float Lenght_x = (Global.GraphicsDevice.PreferredBackBufferWidth/4)/2.5f;
+            float Lenght_x = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
             float Lenght_y = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
             
             if (Main_Character.Get_state() == "Main_Char_Moving_Up")

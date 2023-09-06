@@ -11,7 +11,7 @@ namespace Raid.MainCharacter
 {
     public class Main_Character
     {
-        private Main_Character_Mechanic Character_Mechanic = new Main_Character_Mechanic(100, 6, 3);
+        private Main_Character_Mechanic Character_Mechanic = new Main_Character_Mechanic(100, 6,2);
         private Main_Character_Animate Character_Animate = new Main_Character_Animate(Vector2.Zero, 0, 1f,1f);
         public Inventory inventory = new Inventory(50f);
         bool KeyIspressed = false;
@@ -206,7 +206,7 @@ namespace Raid.MainCharacter
                 Main_Char_ATK_State = Main_Char_None_Attack;
                 Key_ATK_ISPressed = false;
             }
-            Main_Char_ATK_State = Main_Char_None_Attack;
+            
         }
         public void Deploy_Pos(Vector2 Deploy_Pos)
         {
