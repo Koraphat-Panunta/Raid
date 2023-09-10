@@ -53,7 +53,7 @@ namespace Raid
             Gameplay_Screen = new Screen_Gameplay();
             Menu_Screen = new Screen_Menu();
             Management_Screen = new Screen_Inventory_and_Mission();                       
-            Menu_Screen.load(new Main_Character(), Vector2.Zero);
+            Menu_Screen.load( Vector2.Zero);
             /////////////////////////////////////// Set Variable ///////////////////////////////////////
             Debug_Update = 0;
             DebugCheck = true;
@@ -89,7 +89,7 @@ namespace Raid
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
                 {
                     Curent_Screen = Management;
-                    Management_Screen.load(new Main_Character(),Vector2.Zero);
+                    Management_Screen.load(Vector2.Zero);
                 }
             }
             if(Curent_Screen == Management)
@@ -98,9 +98,7 @@ namespace Raid
                 if (Management_Screen.Deploy_Confirm == true)
                 {
                     Curent_Screen = Gameplay;
-                    Gameplay_Screen.load(new Main_Character(),Management_Screen.Deploy_Pos);
-                    Gameplay_Screen.Main_Character.inventory.Grace_num = Management_Screen.main_Character.inventory.Grace_num;
-                    Gameplay_Screen.Main_Character.inventory.carry_weight = Management_Screen.main_Character.inventory.carry_weight;
+                    Gameplay_Screen.load(Management_Screen.Deploy_Pos);                    
                     Management_Screen.Deploy_Confirm = false;
                 }
             }
@@ -111,16 +109,11 @@ namespace Raid
                 {
                     Gameplay_Screen.Extract = false;
                     Curent_Screen = Management;
-                    Management_Screen.load(new Main_Character(),Vector2.Zero);
-                    Management_Screen.main_Character.inventory.Grace_num = Gameplay_Screen.Main_Character.inventory.Grace_num;
+                    Management_Screen.load(Vector2.Zero);
+                    
                     
                 }
-                if (Gameplay_Screen.Main_Character.Get_Char_Alive() == false)
-                {
-                    Curent_Screen = Management;
-                    Management_Screen.main_Character.inventory.Grace_num = Gameplay_Screen.Main_Character.inventory.Grace_num;                    
-                    Gameplay_Screen.Main_Character.Set_Char_Alive(true);
-                }
+                
             }
         }
         public void SceneDraw(GameTime gameTime)

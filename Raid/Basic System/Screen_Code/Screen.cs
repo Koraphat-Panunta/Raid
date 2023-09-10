@@ -15,7 +15,7 @@ namespace Raid.Screen_Code
         protected string Menu = "Menu";        
         
         public Screen() { }
-        public virtual void load(Main_Character main_Character,Vector2 Pos)
+        public virtual void load(Vector2 Pos)
         {            
             //Curt_Scene = Menu;                       
         }

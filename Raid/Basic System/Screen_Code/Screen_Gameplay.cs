@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Raid.Core;
+using Raid.Enemy;
 using Raid.Enviroment;
 using Raid.Item;
 using Raid.MainCharacter;
@@ -12,7 +13,9 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        public Main_Character Main_Character = new Main_Character();
+        
+        public Main_Char Main_Char;
+        private EnemyClose enemyClose;
         Map map;
         Camera Camera;
         private int Max_Grace;
@@ -23,125 +26,215 @@ namespace Raid.Screen_Code
         public bool Extract;       
         private Time Time;
         private Vector2 Camera_Pos;
+        Texture2D Pos;
         public Screen_Gameplay() 
         { 
         }
-        public override void load(Main_Character main_Character,Vector2 Deploy_Pos)
+        public override void load(Vector2 Deploy_Pos)
         {           
-            base.load(main_Character,Deploy_Pos);
-            this.Main_Character = main_Character;
+            base.load(Deploy_Pos);
+            Main_Char = new Main_Char();               
+            enemyClose = new EnemyClose(new Vector2(2768, 5634));
             map = new Map();
             Max_Gate = 4;
             Max_Grace = 4;
             this.Time = new Time(15);
             Grace = new Grace[Max_Grace];
             extract_Gate = new Extract_gate[Max_Gate];
-            //BG = Global.Content.Load<Texture2D>("Gameplay_test2");            
-            Object_Load();
-            Deploy(Deploy_Pos);
-            Main_Character.Set_MainCharacterHitbox(new Rectangle((int)Main_Character.Get_MainCharacterPos().X,(int)Main_Character.Get_MainCharacterPos().Y,102,184));
-            Camera = new Camera();           
-            Main_Character.Set_state("Main_Char_idle_right");
-            Main_Character.Set_ATK_state("None");
-            Main_Character.Set_Char_Alive(true);
-           Camera_Pos = Main_Character.Get_MainCharacterPos();
-        }     
+            //BG = Global.Content.Load<Texture2D>("Gameplay_test2");
+            Main_Char.Deploy(Deploy_Pos);
+            Object_Load();                        
+            Camera = new Camera();            
+           Camera_Pos = Main_Char.Get_Pos();
+            Pos = Global.Content.Load<Texture2D>("Rectangle 159");
+
+        }
+        double Distance;
         public override void Update(GameTime gameTime)
         {
-            Camera.CameraPos_Update(Camera_Pos);
-            
-            lootingsystem();
-            Extractionsystem();
-            if (Main_Character.Get_Char_Alive() == true)
+            Camera.CameraPos_Update(Camera_Pos); ;
+            enemyClose.Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
+            if (enemyClose.Enemy_is_Alert == true)
             {
-                Main_Character.Main_Character_Updatestate();
-                Camera_Movement();
-                //this.Time.Time_Count();
+                if (enemyClose.stunt == false && enemyClose.immune == false && enemyClose.Unarmed == false)
+                {
+                    if (enemyClose.Get_Pos().X < Main_Char.Get_Pos().X)
+                    {
+                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X + 1, enemyClose.Get_Pos().Y));
+                    }
+                    else if (enemyClose.Get_Pos().X > Main_Char.Get_Pos().X)
+                    {
+                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X - 1, enemyClose.Get_Pos().Y));
+                    }
+                    if (enemyClose.Get_Pos().Y < Main_Char.Get_Pos().Y)
+                    {
+                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X, enemyClose.Get_Pos().Y + 1));
+                    }
+                    else if (enemyClose.Get_Pos().Y > Main_Char.Get_Pos().Y)
+                    {
+                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X, enemyClose.Get_Pos().Y - 1));
+                    }
+                }
+                if (enemyClose.Enemy_is_attack == true)
+                {
+                    Main_Char.Get_Dmg(1);
+                }
+                if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Common_ATK)
+                {
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
+                    {
+                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Common_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
+                    {
+                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Common_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
+                    {
+                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Common_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
+                    {
+                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Common_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+
+                }
+                if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Heavy_ATK)
+                {
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
+                    {
+                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
+                    {
+                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
+                    {
+                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
+                    {
+                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        {
+                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
+                            enemyClose.stunt = true;
+                            enemyClose.immune = true;
+                            Main_Char.Hitstreak_Plus();
+                        }
+                    }
+                }
             }
-            if (Main_Character.Get_Char_Alive() == false)
-            {
-                Main_Character.inventory.Grace_num = 0;
-            }            
-            base.Update(gameTime);
+                Extractionsystem();
+                Main_Char.Update();
+                Camera_Movement();
+                //this.Time.Time_Count();                            
+                base.Update(gameTime);
+            
         }
         public override void Draw(GameTime gameTime)
         {
             Draw_Form_Pos_inWorld();
             Draw_UI();
+            Global.spriteBatch.Draw(Pos,Camera.Object_Vector(Main_Char.Get_Pos()), new Rectangle(-3,-3, 6, 6), Color.White);
+            Global.spriteBatch.Draw(Pos, Camera.Object_Vector(Camera_Pos), new Rectangle(-3,-3, 6, 6), Color.White);
+            Global.spriteBatch.Draw(Pos, Camera.Object_Vector(enemyClose.Get_Pos()), new Rectangle(-3, -3, 6, 6), Color.White);
             base.Draw(gameTime);
         }    
         public override void Unload()
-        {            
-            Main_Character.Set_MainCharacterPos(new Vector2(0,0));            
+        {                               
             base.Unload();
         }
         public override void Debuging()
         {
-            Console.WriteLine("Main_Char_State ={0}", Main_Character.Get_state());
-            Console.WriteLine("Main_Char_ATK_State ={0}", Main_Character.Get_ATK_state());
-            Console.WriteLine(Main_Character.Key_ATK_ISPressed);         
-            Console.WriteLine("Main_Char_Pos = {0}", Main_Character.Get_MainCharacterPos());
-            Console.WriteLine("Grace_Pos = {0}", Grace[0].Get_GracePosition());
-            Console.WriteLine("Grace num = {0}", Main_Character.inventory.Grace_num);
-            Console.WriteLine("Weight ={0}/{1}", Main_Character.inventory.carry_weight, Main_Character.inventory.Max_weight);
+            Console.WriteLine("Enemy_Close Unarmed =" + enemyClose.Unarmed);
+            Console.WriteLine("Enemy_Close immune =" + enemyClose.immune);
+            Console.WriteLine("Enemy_Distance =" + enemyClose.Enemy_Distance);
+            Console.WriteLine("HP ="+Main_Char.HP);
+            Console.WriteLine("Enemy HP =" + enemyClose.HP);
+            Console.WriteLine("Hitstreak count =" + Main_Char.Hitsteak);
             base.Debuging();
         }       
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
-        public void lootingsystem()
-        {
-            Main_Character.inventory.Cal_Weight(Grace[1].Get_Weight());
+        //public void lootingsystem()
+        //{
+        //    Main_Character.inventory.Cal_Weight(Grace[1].Get_Weight());
 
-            int i = 0;
-            for (int num = 0; num < 4; num++)
-            {
+        //    int i = 0;
+        //    for (int num = 0; num < 4; num++)
+        //    {
                 
-                if (Main_Character.Get_MainCharacterBox().Intersects(Grace[i].Get_Grace_Hitbox()))
-                {
-                    Hit = true;                  
-                    break;
-                }
-                else
-                {
-                    Hit = false;
-                }
-                i++;
-            }
+        //        if (Main_Character.Get_MainCharacterBox().Intersects(Grace[i].Get_Grace_Hitbox()))
+        //        {
+        //            Hit = true;                  
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            Hit = false;
+        //        }
+        //        i++;
+        //    }
             
-            if (Hit == true && Keyboard.GetState().IsKeyDown(Keys.E))
-            {
-                float x = Main_Character.inventory.carry_weight;
-                if (x + Grace[i].Get_Weight() <= Main_Character.inventory.Max_weight)
-                {
-                    Grace[i].disapear();
-                    Main_Character.inventory.Grace_num += 1;
-                    Main_Character.inventory.Cal_Weight(this.Grace[i].Get_Weight());
-                }
-            }
-        }
+        //    if (Hit == true && Keyboard.GetState().IsKeyDown(Keys.E))
+        //    {
+        //        float x = Main_Character.inventory.carry_weight;
+        //        if (x + Grace[i].Get_Weight() <= Main_Character.inventory.Max_weight)
+        //        {
+        //            Grace[i].disapear();
+        //            Main_Character.inventory.Grace_num += 1;
+        //            Main_Character.inventory.Cal_Weight(this.Grace[i].Get_Weight());
+        //        }
+        //    }
+        //}
         private void Extractionsystem()
         {
-            for(int i=0;i<4;i++)
-            {
-                if (Main_Character.Get_MainCharacterBox().Intersects(extract_Gate[i].Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E)&&Main_Character.Get_Char_Alive()==true)
-                {
-                    Extract = true;
-                    break;
-                }
-                else
-                {
-                    Extract = false;
-                }
-            }
-            if (this.Time.Get_Time_Count() <= 0)
-            {
-                Main_Character.Set_Char_Alive(false);
-            }
+           
               
         }       
-        public void Deploy(Vector2 Deploy_Pos)
-        {           
-            Main_Character.Set_MainCharacterPos(Deploy_Pos);            
-        }
+       
         private void Draw_Form_Pos_inWorld()
         {
             //Global.spriteBatch.Draw(BG, Camera.Object_Vector(new Vector2(0, 0)), Color.White);
@@ -157,7 +250,10 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(Grace[1].Get_Grace_Texture(), Camera.Object_Vector(Grace[1].Get_GracePosition()), Color.White);
             Global.spriteBatch.Draw(Grace[2].Get_Grace_Texture(), Camera.Object_Vector(Grace[2].Get_GracePosition()), Color.White);
             Global.spriteBatch.Draw(Grace[3].Get_Grace_Texture(), Camera.Object_Vector(Grace[3].Get_GracePosition()), Color.White);
-            Main_Character.Animate(Camera.Object_Vector(Main_Character.Get_MainCharacterPos()));
+            enemyClose.animate(Camera.Object_Vector(enemyClose.Get_Pos()));
+            Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
+
+            
         }
         private void Draw_UI()
         {
@@ -165,7 +261,7 @@ namespace Raid.Screen_Code
         }
         private void Object_Load()
         {
-            extract_Gate[0] = new Extract_gate(new Vector2(2469,6328));
+            extract_Gate[0] = new Extract_gate(new Vector2(-225, 63));
             extract_Gate[1] = new Extract_gate(new Vector2(1450 * 2, 30));
             extract_Gate[2] = new Extract_gate(new Vector2(30, 750 * 2));
             extract_Gate[3] = new Extract_gate(new Vector2(1450 * 2, 750 * 2));
@@ -186,122 +282,122 @@ namespace Raid.Screen_Code
             float Lenght_x = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
             float Lenght_y = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
             
-            if (Main_Character.Get_state() == "Main_Char_Moving_Up")
+            if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X+24)
+                if (Camera_Pos.X < Main_Char.Get_Pos().X)
                 {
                     Camera_Pos.X += Camera_acceleration_X * Camera_Time;  
-                    if(Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 24)
+                    if(Camera_Pos.X > Main_Char.Get_Pos().X )
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 24;
+                        Camera_Pos.X = Main_Char.Get_Pos().X;
                     }
                 }
-                else if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X+ 24)
+                else if (Camera_Pos.X > Main_Char.Get_Pos().X)
                 {
                     Camera_Pos.X -= Camera_acceleration_X * Camera_Time; 
-                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 24)
+                    if (Camera_Pos.X < Main_Char.Get_Pos().X)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 24;
+                        Camera_Pos.X = Main_Char.Get_Pos().X;
                     }
                 }               
-                if(Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 48 -Lenght_y)
+                if(Camera_Pos.Y > Main_Char.Get_Pos().Y- Lenght_y)
                 {
-                    Camera_Pos.Y -= Main_Character.Get_speed() + Camera_acceleration_Y * Camera_Time; 
-                    if(Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y+ 48 - Lenght_y)
+                    Camera_Pos.Y -= Main_Char.Get_speed() + Camera_acceleration_Y * Camera_Time; 
+                    if(Camera_Pos.Y < Main_Char.Get_Pos().Y - Lenght_y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y+ 48 - Lenght_y;
+                        Camera_Pos.Y = Main_Char.Get_Pos().Y - Lenght_y;
                     }
                 }               
             }
-            if (Main_Character.Get_state() == "Main_Char_Moving_Down")
+            if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 24)
+                if (Camera_Pos.X < Main_Char.Get_Pos().X)
                 {
                     Camera_Pos.X += Camera_acceleration_X * Camera_Time;
-                    if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 24)
+                    if (Camera_Pos.X > Main_Char.Get_Pos().X)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 24;
+                        Camera_Pos.X = Main_Char.Get_Pos().X;
                     }
                 }
-                else if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 24)
+                else if (Camera_Pos.X > Main_Char.Get_Pos().X)
                 {
                     Camera_Pos.X -= Camera_acceleration_X * Camera_Time;
-                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 24)
+                    if (Camera_Pos.X < Main_Char.Get_Pos().X)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 24;
+                        Camera_Pos.X = Main_Char.Get_Pos().X;
                     }
                 }
-                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y+ 48 + Lenght_y)
+                if (Camera_Pos.Y < Main_Char.Get_Pos().Y + Lenght_y)
                 {
-                    Camera_Pos.Y += Main_Character.Get_speed() + Camera_acceleration_Y * Camera_Time;
-                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y+ 48 + Lenght_y)
+                    Camera_Pos.Y += Main_Char.Get_speed() + Camera_acceleration_Y * Camera_Time;
+                    if (Camera_Pos.Y > Main_Char.Get_Pos().Y + Lenght_y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y+ 48 + Lenght_y;
+                        Camera_Pos.Y = Main_Char.Get_Pos().Y + Lenght_y;
                     }
                 }
 
             }
-            if ( Main_Character.Get_state() == "Main_Char_Moving_Left")
+            if (Main_Char.Main_Char_curt_State == "Main_Char_Moving_Left")
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 48)
+                if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                 {
                     Camera_Pos.Y += Camera_acceleration_Y * Camera_Time;
-                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 48)
+                    if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 48;
+                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
                     }
                 }
-                else if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 48)
+                else if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                 {
                     Camera_Pos.Y -= Camera_acceleration_Y * Camera_Time;
-                    if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 48)
+                    if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 48;
+                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
                     }
                 }
-                if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 24 - Lenght_x)
+                if (Camera_Pos.X > Main_Char.Get_Pos().X - Lenght_x)
                 {
-                    Camera_Pos.X -= Main_Character.Get_speed() + Camera_acceleration_X * Camera_Time;
-                    if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 24 - Lenght_x)
+                    Camera_Pos.X -= Main_Char.Get_speed() + Camera_acceleration_X * Camera_Time;
+                    if (Camera_Pos.X < Main_Char.Get_Pos().X - Lenght_x)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 24 - Lenght_x;
+                        Camera_Pos.X = Main_Char.Get_Pos().X - Lenght_x;
                     }
                 }
 
             }
-            if ( Main_Character.Get_state() == "Main_Char_Moving_Right")
+            if (Main_Char.Main_Char_curt_State == "Main_Char_Moving_Right")
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 48)
+                if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                 {
                     Camera_Pos.Y += Camera_acceleration_Y * Camera_Time;
-                    if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 48)
+                    if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 48;
+                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
                     }
                 }
-                else if (Camera_Pos.Y > Main_Character.Get_MainCharacterPos().Y + 48)
+                else if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                 {
                     Camera_Pos.Y -= Camera_acceleration_Y * Camera_Time;
-                    if (Camera_Pos.Y < Main_Character.Get_MainCharacterPos().Y + 48)
+                    if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                     {
-                        Camera_Pos.Y = Main_Character.Get_MainCharacterPos().Y + 48;
+                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
                     }
                 }
-                if (Camera_Pos.X < Main_Character.Get_MainCharacterPos().X + 24 + Lenght_x)
+                if (Camera_Pos.X < Main_Char.Get_Pos().X + Lenght_x)
                 {
-                    Camera_Pos.X += Main_Character.Get_speed() + Camera_acceleration_X * Camera_Time;
-                    if (Camera_Pos.X > Main_Character.Get_MainCharacterPos().X + 24 + Lenght_x)
+                    Camera_Pos.X += Main_Char.Get_speed() + Camera_acceleration_X * Camera_Time;
+                    if (Camera_Pos.X > Main_Char.Get_Pos().X + Lenght_x)
                     {
-                        Camera_Pos.X = Main_Character.Get_MainCharacterPos().X + 24 + Lenght_x;
+                        Camera_Pos.X = Main_Char.Get_Pos().X + Lenght_x;
                     }
                 }
 
             }
-            if(Main_Character.Get_state() == "Main_Char_idle_Up"|| Main_Character.Get_state() == "Main_Char_idle_Down"|| Main_Character.Get_state() == "Main_Char_idle_left"|| Main_Character.Get_state() == "Main_Char_idle_right")
+            if(Main_Char.Main_Char_curt_State == "Main_Char_idle_Up"||Main_Char.Main_Char_curt_State == "Main_Char_idle_Down"|| Main_Char.Main_Char_curt_State == "Main_Char_idle_left"|| Main_Char.Main_Char_curt_State == "Main_Char_idle_right")
             {
                 Camera_Time = 0;
             }

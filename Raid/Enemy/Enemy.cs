@@ -1,41 +1,57 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.ComponentModel.Design;
 
 namespace Raid.Enemy
 {
-    abstract public class Enemy
+    abstract public class Enemy:Dynamic_Obg
     {
-        protected int HP;
-        protected Texture2D Enemy_Texture;
-        protected AnimatedTexture Enemy_animation;
-        protected Rectangle Enemy_Box;
-        protected Vector2 Enemy_Position;
-        protected string Enemy_state;
+        public double HP;       
+        public string Enemy_state;
         protected bool Alive;
-        protected bool immune;
-        protected bool stunt;
-
+        public bool immune;
+        public bool stunt;
+        public bool Unarmed;
+        protected double stunt_time;
+        protected double Unarmed_time;
+        protected float immune_time;
+        public float Enemy_ATK_Range;
+        public float Enemy_Detection_Range;
+        public int Enemt_ATK_DMG;
         bool Enemy_Alive;
 
         public Enemy()
         {
 
-        }      
+        }
+        public virtual void Load() { }
+        public virtual void animate()
+        {
+
+        }
         public Vector2 Get_Pos()
         {
-            return Enemy_Position;
+            return base.Vector2;
         }
         public Texture2D GetTexture()
         {
-            return Enemy_Texture;
+            return base.texture;
         }
         public Rectangle GetBox()
         {
-            return Enemy_Box;
+            return base.Box;
         }
         public string GetState()
         {
             return Enemy_state;
+        }
+        public void Set_Pos(Vector2 Pos)
+        {
+            base.Vector2 = Pos;
+        }
+        public void Get_DMG(double DMG)
+        {
+            HP -= DMG;
         }
     }
 }

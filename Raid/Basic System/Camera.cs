@@ -9,7 +9,6 @@ namespace Raid
         
     {
         public Vector2 CameraPos;
-        private Main_Character Char_animate;
         private Vector2 Main_Char_Pos;
         private Texture2D World;
         private List<Texture2D> Enviroment_Texture = new List<Texture2D>();
@@ -27,8 +26,7 @@ namespace Raid
             CameraPos = Tracking_Object;           
         }
         public void Camera_Show()
-        {            
-            Global.spriteBatch.Draw(World,Object_Vector(new Vector2(0, 0)), Color.White);           
+        {                              
         }
         public  Vector2 Object_Vector(Vector2 Object)
         {

@@ -14,10 +14,9 @@ namespace Raid.MainCharacter
         public float carry_value;
         public int Grace_num;
         public int Rune_Time_num;
-        public Inventory(float weight) 
-        {          
-            this.Max_weight = weight;
-        }
+        public int Rune_ATK_num;
+        public int Rune_Arrmor_num;
+        public int Rune_life_num;      
         public Inventory(float weight,int num)
         {
             this.Max_weight = weight;
@@ -25,8 +24,7 @@ namespace Raid.MainCharacter
         }
         public void Cal_Weight(float weight) 
         {
-            carry_weight = weight * Grace_num;
-            
+            carry_weight = weight * Grace_num;            
         }
         
     }
