@@ -15,7 +15,7 @@ namespace Raid.Screen_Code
     {
         
         public Main_Char Main_Char;
-        private EnemyClose enemyClose;
+        private EnemyClose[] enemyClose = new EnemyClose[4];
         Map map;
         Camera Camera;
         private int Max_Grace;
@@ -33,8 +33,12 @@ namespace Raid.Screen_Code
         public override void load(Vector2 Deploy_Pos)
         {           
             base.load(Deploy_Pos);
-            Main_Char = new Main_Char();               
-            enemyClose = new EnemyClose(new Vector2(2768, 5634));
+            Main_Char = new Main_Char();
+            enemyClose[0] = new EnemyClose(new Vector2(2768, 5634));
+            enemyClose[1] = new EnemyClose(new Vector2(2800,5600));
+            enemyClose[2] = new EnemyClose(new Vector2(3000, 6000));
+            enemyClose[3] = new EnemyClose(new Vector2(2500,5400));
+            
             map = new Map();
             Max_Gate = 4;
             Max_Grace = 4;
@@ -52,117 +56,163 @@ namespace Raid.Screen_Code
         double Distance;
         public override void Update(GameTime gameTime)
         {
-            Camera.CameraPos_Update(Camera_Pos); ;
-            enemyClose.Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
-            if (enemyClose.Enemy_is_Alert == true)
+            Camera.CameraPos_Update(Camera_Pos); ;            
+            for (int i = 0; i < enemyClose.Length; i++)
             {
-                if (enemyClose.stunt == false && enemyClose.immune == false && enemyClose.Unarmed == false)
+                enemyClose[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
+                if (enemyClose[i].Enemy_is_Alert == true)
                 {
-                    if (enemyClose.Get_Pos().X < Main_Char.Get_Pos().X)
+                    if (enemyClose[i].stunt == false && enemyClose[i].immune == false && enemyClose[i].Unarmed == false)
                     {
-                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X + 1, enemyClose.Get_Pos().Y));
-                    }
-                    else if (enemyClose.Get_Pos().X > Main_Char.Get_Pos().X)
-                    {
-                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X - 1, enemyClose.Get_Pos().Y));
-                    }
-                    if (enemyClose.Get_Pos().Y < Main_Char.Get_Pos().Y)
-                    {
-                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X, enemyClose.Get_Pos().Y + 1));
-                    }
-                    else if (enemyClose.Get_Pos().Y > Main_Char.Get_Pos().Y)
-                    {
-                        enemyClose.Set_Pos(new Vector2(enemyClose.Get_Pos().X, enemyClose.Get_Pos().Y - 1));
-                    }
-                }
-                if (enemyClose.Enemy_is_attack == true)
-                {
-                    Main_Char.Get_Dmg(1);
-                }
-                if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Common_ATK)
-                {
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
-                    {
-                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose.immune == false)
+                        if (enemyClose[i].Get_Pos().X < Main_Char.Get_Pos().X)
                         {
-                            enemyClose.Get_DMG(Main_Char.Common_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
+                            enemyClose[i].Set_Pos(new Vector2(enemyClose[i].Get_Pos().X + 1, enemyClose[i].Get_Pos().Y));
+                        }
+                        else if (enemyClose[i].Get_Pos().X > Main_Char.Get_Pos().X)
+                        {
+                            enemyClose[i].Set_Pos(new Vector2(enemyClose[i].Get_Pos().X - 1, enemyClose[i].Get_Pos().Y));
+                        }
+                        if (enemyClose[i].Get_Pos().Y < Main_Char.Get_Pos().Y)
+                        {
+                            enemyClose[i].Set_Pos(new Vector2(enemyClose[i].Get_Pos().X, enemyClose[i].Get_Pos().Y + 1));
+                        }
+                        else if (enemyClose[i].Get_Pos().Y > Main_Char.Get_Pos().Y)
+                        {
+                            enemyClose[i].Set_Pos(new Vector2(enemyClose[i].Get_Pos().X, enemyClose[i].Get_Pos().Y - 1));
                         }
                     }
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
+                    if (enemyClose[i].Enemy_is_attack == true)
                     {
-                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose.immune == false)
-                        {
-                            enemyClose.Get_DMG(Main_Char.Common_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
-                        }
+                        Main_Char.Get_Dmg(1);
                     }
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
+                    if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Common_ATK)
                     {
-                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
                         {
-                            enemyClose.Get_DMG(Main_Char.Common_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
                         }
-                    }
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
-                    {
-                        if (enemyClose.Enemy_Distance + 36 <= Main_Char.ATK_common_Range && enemyClose.Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
                         {
-                            enemyClose.Get_DMG(Main_Char.Common_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
                         }
-                    }
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
+                        {
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
+                        }
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
+                        {
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
+                        }
 
-                }
-                if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Heavy_ATK)
-                {
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
+                    }
+                    if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Heavy_ATK)
                     {
-                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose.immune == false)
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
                         {
-                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
+                        }
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
+                        {
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
+                        }
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
+                        {
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
+                        }
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
+                        {
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
                         }
                     }
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
+                    if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Roll_ATK)
                     {
-                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose.immune == false)
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
                         {
-                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
                         }
-                    }
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
-                    {
-                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
                         {
-                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
                         }
-                    }
-                    if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
-                    {
-                        if (enemyClose.Enemy_Distance  <= Main_Char.ATK_Heavy_Range && enemyClose.Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose.immune == false)
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
                         {
-                            enemyClose.Get_DMG(Main_Char.Heavy_ATK);
-                            enemyClose.stunt = true;
-                            enemyClose.immune = true;
-                            Main_Char.Hitstreak_Plus();
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
+                        }
+                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
+                        {
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
+                            {
+                                enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
+                                enemyClose[i].stunt = true;
+                                enemyClose[i].immune = true;
+                                Main_Char.Hitstreak_Plus();
+                            }
                         }
                     }
                 }
@@ -180,7 +230,7 @@ namespace Raid.Screen_Code
             Draw_UI();
             Global.spriteBatch.Draw(Pos,Camera.Object_Vector(Main_Char.Get_Pos()), new Rectangle(-3,-3, 6, 6), Color.White);
             Global.spriteBatch.Draw(Pos, Camera.Object_Vector(Camera_Pos), new Rectangle(-3,-3, 6, 6), Color.White);
-            Global.spriteBatch.Draw(Pos, Camera.Object_Vector(enemyClose.Get_Pos()), new Rectangle(-3, -3, 6, 6), Color.White);
+            
             base.Draw(gameTime);
         }    
         public override void Unload()
@@ -189,46 +239,24 @@ namespace Raid.Screen_Code
         }
         public override void Debuging()
         {
-            Console.WriteLine("Enemy_Close Unarmed =" + enemyClose.Unarmed);
-            Console.WriteLine("Enemy_Close immune =" + enemyClose.immune);
-            Console.WriteLine("Enemy_Distance =" + enemyClose.Enemy_Distance);
+            Console.WriteLine("Enemy_Close Unarmed =" + enemyClose[0].Unarmed);
+            Console.WriteLine("Enemy_Close immune =" + enemyClose[0].immune);
+            Console.WriteLine("Enemy_Distance =" + enemyClose[0].Enemy_Distance);
             Console.WriteLine("HP ="+Main_Char.HP);
-            Console.WriteLine("Enemy HP =" + enemyClose.HP);
+            Console.WriteLine("Enemy HP =" + enemyClose[0].HP);
             Console.WriteLine("Hitstreak count =" + Main_Char.Hitsteak);
             base.Debuging();
-        }       
+        }
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
-        //public void lootingsystem()
-        //{
-        //    Main_Character.inventory.Cal_Weight(Grace[1].Get_Weight());
+        public void lootingsystem()
+        {
+            Main_Char.inventory.Cal_Weight();
+            int i = 0;
+            //foreach(Stactic_Obg Obg in GameObg)
+            //{
 
-        //    int i = 0;
-        //    for (int num = 0; num < 4; num++)
-        //    {
-                
-        //        if (Main_Character.Get_MainCharacterBox().Intersects(Grace[i].Get_Grace_Hitbox()))
-        //        {
-        //            Hit = true;                  
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            Hit = false;
-        //        }
-        //        i++;
-        //    }
-            
-        //    if (Hit == true && Keyboard.GetState().IsKeyDown(Keys.E))
-        //    {
-        //        float x = Main_Character.inventory.carry_weight;
-        //        if (x + Grace[i].Get_Weight() <= Main_Character.inventory.Max_weight)
-        //        {
-        //            Grace[i].disapear();
-        //            Main_Character.inventory.Grace_num += 1;
-        //            Main_Character.inventory.Cal_Weight(this.Grace[i].Get_Weight());
-        //        }
-        //    }
-        //}
+            //}
+        }
         private void Extractionsystem()
         {
            
@@ -250,7 +278,11 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(Grace[1].Get_Grace_Texture(), Camera.Object_Vector(Grace[1].Get_GracePosition()), Color.White);
             Global.spriteBatch.Draw(Grace[2].Get_Grace_Texture(), Camera.Object_Vector(Grace[2].Get_GracePosition()), Color.White);
             Global.spriteBatch.Draw(Grace[3].Get_Grace_Texture(), Camera.Object_Vector(Grace[3].Get_GracePosition()), Color.White);
-            enemyClose.animate(Camera.Object_Vector(enemyClose.Get_Pos()));
+            for(int i = 0; i < enemyClose.Length; i++)
+            {
+                enemyClose[i].animate(Camera.Object_Vector(enemyClose[i].Get_Pos()));
+            }
+            
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
 
             

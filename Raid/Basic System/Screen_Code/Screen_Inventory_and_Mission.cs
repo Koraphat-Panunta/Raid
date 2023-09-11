@@ -12,7 +12,7 @@ namespace Raid.Screen_Code
 
     {
         public Prepare_Page Invt;
-        private Inventory Stash = new Inventory(1000f, 60);
+        //private Inventory Stash = new Inventory(1000f, 60);
 
         public Texture2D Deploy_select;
         public Rectangle mouse;
@@ -72,7 +72,7 @@ namespace Raid.Screen_Code
             Console.WriteLine("Deploye select[0] = ({0},{1})", Invt.Get_Deploy_select_Box(0).X, Invt.Get_Deploy_select_Box(0).Y);
             /* Console.WriteLine("Deploy_Pos = {0}", Deploy_Pos)*/
             ;
-            Console.WriteLine("Stash Grace num = " + Stash.Grace_num);
+            //Console.WriteLine("Stash Grace num = " + Stash.Grace_num);
 
 
 

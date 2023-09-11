@@ -8,21 +8,19 @@ using System.Threading.Tasks;
 
 namespace Raid.Item
 {
-    public abstract class item
+    public abstract class item:Stactic_Obg
     {
         protected float Weight;
-        protected float Value;
-        protected Vector2 item_Pos;
-        protected Rectangle item_Box;
+        protected float Value;             
         public item(Vector2 Pos) 
         {
-            item_Pos = Pos;                     
+            base.Vector2 = Pos;                     
         }
-        protected virtual void SetWeight_Value()
+        public item()
         {
-            
+
         }
-        public virtual float Get_Weight()
+         public virtual float Get_Weight()
         {
             return this.Weight;
         } 

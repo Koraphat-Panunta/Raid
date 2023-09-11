@@ -6,6 +6,7 @@ namespace Raid.MainCharacter
 {
     public class Main_Char:Dynamic_Obg
     {
+        public Inventory inventory;
         public float HP;
         public string Main_Char_curt_State;
         public string Main_Char_ATK_State;
@@ -36,7 +37,7 @@ namespace Raid.MainCharacter
         AnimatedTexture ATK_animation;
 
         bool KeyIspressed = false;
-        int Moving_Speed = 3;
+        float Moving_Speed = 2.5f;
 
         public int Hitsteak;
         public Main_Char() 
@@ -45,11 +46,12 @@ namespace Raid.MainCharacter
         }
         public override void Load()
         {
-            ATK_common_Range = (Global.Tile * 2)+36;
+            inventory = new Inventory(50f);            
+            inventory.Grace_num = 0;
+            ATK_common_Range = (Global.Tile * 2)+14;
             ATK_Heavy_Range = ATK_common_Range * 1.5f;
-            ATK_Roll_Range = ATK_common_Range * 1.5f;
-            
-            base.animation.Load(Global.Content, "RaiderSpriteSheetWIP Move",4,8,8);
+            ATK_Roll_Range = ATK_common_Range * 1.5f;           
+            base.animation.Load(Global.Content,"RaiderSpriteSheetWIP Move", 4,8,8);
             ATK_animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
             ATK_animation.Load(Global.Content, "RaiderSpriteSheetWIP", 4, 12, 8);
             Main_Char_curt_State = Main_Char_idle_Up;
@@ -65,7 +67,7 @@ namespace Raid.MainCharacter
         public void Deploy(Vector2 Pos)
         {
             base.Vector2 = Pos; 
-            //base.Vector2 = new Vector2(base.Vector2.X + 144, base.Vector2.Y + 144/2);
+            
             
         }
         public override void Update()
@@ -129,7 +131,7 @@ namespace Raid.MainCharacter
             if(ATK_ready == false)
             {
                 Rate_of_attack += Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if(Rate_of_attack >= 0.5)
+                if(Rate_of_attack >= 0.6)
                 {
                     Rate_of_attack = 0;
                     ATK_ready = true;  
@@ -139,7 +141,7 @@ namespace Raid.MainCharacter
             {
                 Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
                 ATK_animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-                Moving_Speed = 1;
+                Moving_Speed = 0.5f;
                 if (Attack_duration >= 0.5)
                 {
                     Main_Char_ATK_State = Main_Char_None;
@@ -324,7 +326,7 @@ namespace Raid.MainCharacter
         {
             return base.Vector2;
         }
-        public int Get_speed()
+        public float Get_speed()
         {
             return Moving_Speed;
         }

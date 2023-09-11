@@ -13,18 +13,17 @@ namespace Raid.MainCharacter
         public float carry_weight;
         public float carry_value;
         public int Grace_num;
-        public int Rune_Time_num;
-        public int Rune_ATK_num;
-        public int Rune_Arrmor_num;
-        public int Rune_life_num;      
-        public Inventory(float weight,int num)
+        private Rune_ATK rune_atk = new Rune_ATK();
+        public List<Rune_ATK> Rune_ATK = new List<Rune_ATK>();
+        public List<Grace> Graces = new List<Grace>();
+        public Inventory(float weight)
         {
             this.Max_weight = weight;
-            this.Grace_num = num;
+            
         }
-        public void Cal_Weight(float weight) 
+        public void Cal_Weight() 
         {
-            carry_weight = weight * Grace_num;            
+            carry_weight = Rune_ATK.Count * Rune_ATK[0].Get_Weight() + Graces.Count*Graces[0].Get_Weight(); ;          
         }
         
     }

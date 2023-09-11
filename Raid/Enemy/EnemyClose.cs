@@ -27,7 +27,7 @@ namespace Raid.Enemy
             base.texture = Global.Content.Load<Texture2D>("sprite-golem");
             base.animation = new AnimatedTexture(Vector2.Zero, 0f, 1.5f, 0.5f);
             base.animation.Load(Global.Content,"sprite-golem", 4, 2, 3);
-            base.HP = num.Next(60,140);
+            base.HP = num.Next(60,110);
             base.Alive = true;
             base.Enemy_ATK_Range = Global.Tile*0.5f;
             base.Enemy_state = idle_left;
@@ -41,8 +41,11 @@ namespace Raid.Enemy
         public float Enemy_Distance;
         public void Update(Vector2 Player_Pos)
         {
-          
-            Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X-(base.Vector2.X),2)+Math.Pow(Player_Pos.Y-(base.Vector2.Y),2));
+            Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y), 2));
+            if (base.HP <= 0)
+            {
+                base.Alive = false;
+            }
             if (base.Alive == true)
             {
                 if (base.Unarmed == true)
@@ -99,26 +102,35 @@ namespace Raid.Enemy
             Pos.X -= 24;
             Pos.Y -= 36;
             base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-            if(base.Enemy_state == idle_left)
+            if(base.Alive == true)
             {
-                base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                if (base.Enemy_state == idle_left)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                }
+                if (base.Enemy_state == idle_right)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                }
+                if (base.Enemy_state == Moving_left)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                }
+                if (base.Enemy_state == idle_right)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                }
+                if (Enemy_is_attack == true)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 2);
+                }
             }
-            if(base.Enemy_state == idle_right)
+            else if(base.Alive == false)
             {
-                base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0,48,48),Color.Red*1.8f,0f,Vector2.Zero,1.5f,SpriteEffects.None,0.5f);
             }
-            if (base.Enemy_state == Moving_left)
-            {
-                base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
-            }
-            if (base.Enemy_state == idle_right)
-            {
-                base.animation.DrawFrame(Global.spriteBatch, Pos,1);
-            }
-            if(Enemy_is_attack == true)
-            {
-                base.animation.DrawFrame(Global.spriteBatch, Pos, 2);
-            }
+            
+            
             base.animate();
         }
         public double get_stunt()
