@@ -41,8 +41,7 @@ namespace Raid.Screen_Code
             
             map = new Map();
             Max_Gate = 4;
-            Max_Grace = 4;
-            this.Time = new Time(15);
+            Max_Grace = 4;            
             Grace = new Grace[Max_Grace];
             extract_Gate = new Extract_gate[Max_Gate];
             //BG = Global.Content.Load<Texture2D>("Gameplay_test2");
@@ -57,7 +56,11 @@ namespace Raid.Screen_Code
         double Distance;
         public override void Update(GameTime gameTime)
         {
-            Camera.CameraPos_Update(Camera_Pos); ;            
+            Camera.CameraPos_Update(Camera_Pos); 
+            if(Main_Char.Alive == true)
+            {
+                Time.Time_Count();
+            }
             for (int i = 0; i < enemyClose.Length; i++)
             {
                 enemyClose[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
@@ -255,7 +258,7 @@ namespace Raid.Screen_Code
         }
         private void Draw_UI()
         {
-            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(960, 0), Color.White);
+            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(480, 0), Color.White);
         }
         private void Object_Load()
         {

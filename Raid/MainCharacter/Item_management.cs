@@ -19,8 +19,7 @@ namespace Raid.MainCharacter
         public List<Grace> Graces = new List<Grace>();
         public Inventory(float weight)
         {
-            this.Max_weight = weight;
-            
+            this.Max_weight = weight;           
         }
         public void Cal_Weight() 
         {

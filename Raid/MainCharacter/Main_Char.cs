@@ -29,6 +29,8 @@ namespace Raid.MainCharacter
         public double Heavy_ATK;
         public double Roll_ATK;
 
+        public bool Alive;
+
         public double ATK_common_Range ;
         public double ATK_Heavy_Range ;
         public double ATK_Roll_Range ;
@@ -70,6 +72,7 @@ namespace Raid.MainCharacter
             Heavy_ATK = Common_ATK * 1.5f;
             Roll_ATK = Common_ATK * 3;
             HP = 25 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
+            Alive = true;
             
         }
         public override void Update()
