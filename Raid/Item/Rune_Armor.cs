@@ -8,7 +8,7 @@ namespace Raid.Item
 {
     public class Rune_Armor:item
     {
-        public const int HP_plus = 5;
+        static public readonly int HP_plus = 5;
         public Rune_Armor() 
         {
             base.Value = 5;

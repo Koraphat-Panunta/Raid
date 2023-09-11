@@ -51,6 +51,7 @@ namespace Raid.Screen_Code
             Camera = new Camera();            
            Camera_Pos = Main_Char.Get_Pos();
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
+            this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count *Rune_Time.time_plus));
 
         }
         double Distance;
@@ -83,7 +84,7 @@ namespace Raid.Screen_Code
                     }
                     if (enemyClose[i].Enemy_is_attack == true)
                     {
-                        Main_Char.Get_Dmg(1);
+                        Main_Char.Get_Dmg(enemyClose[i].Enemt_ATK_DMG);
                     }
                     if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Common_ATK)
                     {
@@ -137,8 +138,7 @@ namespace Raid.Screen_Code
                             {
                                 enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                 enemyClose[i].stunt = true;
-                                enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
+                                enemyClose[i].immune = true;                                
                             }
                         }
                         if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
@@ -147,8 +147,7 @@ namespace Raid.Screen_Code
                             {
                                 enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                 enemyClose[i].stunt = true;
-                                enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
+                                enemyClose[i].immune = true;                                
                             }
                         }
                         if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
@@ -158,7 +157,7 @@ namespace Raid.Screen_Code
                                 enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                 enemyClose[i].stunt = true;
                                 enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
+                                
                             }
                         }
                         if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
@@ -168,52 +167,19 @@ namespace Raid.Screen_Code
                                 enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                 enemyClose[i].stunt = true;
                                 enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
+                                
                             }
                         }
                     }
                     if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Roll_ATK)
-                    {
-                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Up || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Up)
-                        {
-                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
+                    {                       
+                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range  && enemyClose[i].immune == false)
                             {
                                 enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
                                 enemyClose[i].stunt = true;
                                 enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
-                            }
-                        }
-                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_Down || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Down)
-                        {
-                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y && enemyClose[i].immune == false)
-                            {
-                                enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
-                                enemyClose[i].stunt = true;
-                                enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
-                            }
-                        }
-                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_left || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Left)
-                        {
-                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
-                            {
-                                enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
-                                enemyClose[i].stunt = true;
-                                enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
-                            }
-                        }
-                        if (Main_Char.Main_Char_curt_State == Main_Char.Main_Char_idle_right || Main_Char.Main_Char_curt_State == Main_Char.Main_Char_Moving_Right)
-                        {
-                            if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X && enemyClose[i].immune == false)
-                            {
-                                enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
-                                enemyClose[i].stunt = true;
-                                enemyClose[i].immune = true;
-                                Main_Char.Hitstreak_Plus();
-                            }
-                        }
+                                
+                            }                      
                     }
                 }
             }

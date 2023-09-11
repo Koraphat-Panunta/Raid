@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
+using Raid.Item;
 
 namespace Raid.MainCharacter
 {
@@ -46,19 +46,18 @@ namespace Raid.MainCharacter
         }
         public override void Load()
         {
-            inventory = new Inventory(50f);            
-            inventory.Grace_num = 0;
+            inventory = new Inventory(50f);                        
             ATK_common_Range = (Global.Tile * 2)+14;
             ATK_Heavy_Range = ATK_common_Range * 1.5f;
             ATK_Roll_Range = ATK_common_Range * 1.5f;           
-            base.animation.Load(Global.Content,"RaiderSpriteSheetWIP Move", 4,8,8);
+            base.animation.Load(Global.Content,"RaiderSpriteSheetWIP Move", 4,8,4);
             ATK_animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
             ATK_animation.Load(Global.Content, "RaiderSpriteSheetWIP", 4, 12, 8);
             Main_Char_curt_State = Main_Char_idle_Up;
             Main_Char_ATK_State = Main_Char_None;
             ATK_ready = true;
             Hitsteak = 0;
-            HP = 60;
+            HP = 25;
             Common_ATK = 10;
             Heavy_ATK = Common_ATK*1.5f;
             Roll_ATK = Common_ATK * 3;
@@ -66,8 +65,11 @@ namespace Raid.MainCharacter
         }
         public void Deploy(Vector2 Pos)
         {
-            base.Vector2 = Pos; 
-            
+            base.Vector2 = Pos;
+            Common_ATK = 10 + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
+            Heavy_ATK = Common_ATK * 1.5f;
+            Roll_ATK = Common_ATK * 3;
+            HP = 25 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
             
         }
         public override void Update()

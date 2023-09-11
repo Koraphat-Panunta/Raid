@@ -12,7 +12,6 @@ namespace Raid.MainCharacter
         public float Max_weight;
         public float carry_weight;
         public float carry_value;
-        public int Grace_num;        
         public List<Rune_ATK> Rune_ATK = new List<Rune_ATK>();
         public List<Rune_Armor> Rune_Armor = new List<Rune_Armor>();
         public List<Rune_Time> Rune_Times = new List<Rune_Time>();
