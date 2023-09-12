@@ -174,7 +174,7 @@ namespace Raid.MainCharacter
                     Main_Char_ATK_State = Main_Char_None;
                     Attack_duration = 0;
                     ATK_animation.Reset();
-                    Moving_Speed = 3;
+                    Moving_Speed = 2.5f;
                 }
             }
             if(Main_Char_ATK_State == Main_Char_Dodge)
@@ -185,7 +185,7 @@ namespace Raid.MainCharacter
                 {
                     Main_Char_ATK_State= Main_Char_None;
                     Attack_duration = 0;
-                    Moving_Speed = 3;
+                    Moving_Speed = 2.5f;
                 }
             }
 
@@ -208,11 +208,11 @@ namespace Raid.MainCharacter
                 ATK_ready = false;
                 Hitsteak -= 5;
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space)&&ATK_ready == true && Hitsteak >= 2 && (Main_Char_curt_State == Main_Char_Moving_Down|| Main_Char_curt_State == Main_Char_Moving_Up || Main_Char_curt_State == Main_Char_Moving_Left || Main_Char_curt_State == Main_Char_Moving_Right))
+            if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space)&&ATK_ready == true && Hitsteak >= 1 && (Main_Char_curt_State == Main_Char_Moving_Down|| Main_Char_curt_State == Main_Char_Moving_Up || Main_Char_curt_State == Main_Char_Moving_Left || Main_Char_curt_State == Main_Char_Moving_Right))
             {
                 Main_Char_ATK_State = Main_Char_Dodge;
                 ATK_ready = false;
-                Hitsteak -= 2;
+                Hitsteak -= 1;
             }
            
             Old_Keys = Keyboard.GetState();

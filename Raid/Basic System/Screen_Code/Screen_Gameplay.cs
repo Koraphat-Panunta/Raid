@@ -77,7 +77,7 @@ namespace Raid.Screen_Code
                             enemyClose[i].Set_Pos(new Vector2(enemyClose[i].Get_Pos().X + enemyClose[i].Moving_speed, enemyClose[i].Get_Pos().Y));
                             enemyClose[i].Enemy_state = enemyClose[i].Moving_right;
                         }
-                        else if (enemyClose[i].Get_Pos().X > Main_Char.Get_Pos().X)
+                        else if (enemyClose[i].Get_Pos().X-3 >= Main_Char.Get_Pos().X)
                         {
                             enemyClose[i].Set_Pos(new Vector2(enemyClose[i].Get_Pos().X - enemyClose[i].Moving_speed, enemyClose[i].Get_Pos().Y));
                             enemyClose[i].Enemy_state = enemyClose[i].Moving_left;
@@ -95,6 +95,7 @@ namespace Raid.Screen_Code
                     {
                         Main_Char.Get_Dmg(enemyClose[i].Enemt_ATK_DMG);
                         feedback_time_start = true;
+                        break;
                     }
                     if (Main_Char.Main_Char_ATK_State == Main_Char.Main_Char_Common_ATK)
                     {

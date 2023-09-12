@@ -14,7 +14,7 @@ namespace Raid.Enemy
         public string idle_right = "idle_right";
         public string Moving_left = "Moving_left";
         public string Moving_right = "Moving_right";
-        public readonly int Moving_speed = 1; 
+        public readonly float Moving_speed = 1.5f; 
         public bool Enemy_is_attack;
         private AnimatedTexture animated_left;
         private AnimatedTexture animated_right;       
@@ -35,7 +35,7 @@ namespace Raid.Enemy
             base.Alive = true;
             base.Enemy_ATK_Range = Global.Tile*1.5f;
             base.Enemy_state = idle_left;
-            base.Enemy_Detection_Range = Global.Tile * 5;
+            base.Enemy_Detection_Range = Global.Tile * 7;
             Enemy_is_Alert = false;
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = num.Next(4,8);
@@ -56,7 +56,7 @@ namespace Raid.Enemy
                 {
                     Enemy_is_attack = false;
                     base.Unarmed_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                    if(base.Unarmed_time > 3)
+                    if(base.Unarmed_time > 2)
                     {
                         base.Unarmed = false;
                         base.Unarmed_time = 0;
@@ -86,6 +86,10 @@ namespace Raid.Enemy
                     if (Enemy_Distance < Enemy_Detection_Range)
                     {
                         Enemy_is_Alert = true;
+                    }
+                    else if(Enemy_Distance >= Enemy_Detection_Range)
+                    {
+                        Enemy_is_Alert = false;
                     }
                     if (Enemy_Distance < Enemy_ATK_Range)
                     {
@@ -186,11 +190,11 @@ namespace Raid.Enemy
                 
                 if (base.Enemy_state == Moving_right)
                 {
-                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 160, 160), Color.White*fading);
+                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 160, 160), Color.Red*fading);
                 }
                 if (base.Enemy_state == Moving_left)
                 {
-                    Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.White*fading);
+                    Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.Red*fading);
                 }
                 if(fading > 0)
                 {
