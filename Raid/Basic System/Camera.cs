@@ -13,6 +13,7 @@ namespace Raid
         private Texture2D World;
         private List<Texture2D> Enviroment_Texture = new List<Texture2D>();
         private List<Vector2> Enviroment_Pos = new List<Vector2>();
+        //camera_finish
         public Camera()
         {
            
