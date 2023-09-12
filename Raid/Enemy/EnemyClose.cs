@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Raid.Enemy
 {
@@ -17,19 +14,26 @@ namespace Raid.Enemy
         public string idle_right = "idle_right";
         public string Moving_left = "Moving_left";
         public string Moving_right = "Moving_right";
+        public readonly int Moving_speed = 1; 
         public bool Enemy_is_attack;
+        private AnimatedTexture animated_left;
+        private AnimatedTexture animated_right;       
+        private Texture2D animated;
         public EnemyClose(Vector2 Spawn_Pos) 
         {
             Load(Spawn_Pos);                    
         }
         private void Load(Vector2 Pos)
         {
-            base.texture = Global.Content.Load<Texture2D>("sprite-golem");
-            base.animation = new AnimatedTexture(Vector2.Zero, 0f, 1.5f, 0.5f);
-            base.animation.Load(Global.Content,"sprite-golem", 4, 2, 3);
+            base.texture = Global.Content.Load<Texture2D>("enemy_Close_Right");
+            animated = Global.Content.Load<Texture2D>("enemy_Close_Left");
+            animated_left = new AnimatedTexture(Vector2.Zero,0f,1f,0.5f);
+            animated_right = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
+            animated_left.Load(Global.Content, "enemy_Close_Left",4,3,4);
+            animated_right.Load(Global.Content, "enemy_Close_Right", 4, 3,4);
             base.HP = num.Next(60,80);
             base.Alive = true;
-            base.Enemy_ATK_Range = Global.Tile*0.5f;
+            base.Enemy_ATK_Range = Global.Tile*1.5f;
             base.Enemy_state = idle_left;
             base.Enemy_Detection_Range = Global.Tile * 5;
             Enemy_is_Alert = false;
@@ -60,8 +64,8 @@ namespace Raid.Enemy
                 }
                 if(base.stunt == true)
                 {
-                    base.stunt_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                    if(stunt_time > 0.5)
+                    base.stunt_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;                                    
+                    if (stunt_time > 0.5)
                     {
                         base.stunt_time = 0;
                         base.stunt = false;
@@ -97,45 +101,101 @@ namespace Raid.Enemy
             }            
             base.Update();
         }
+        float fading = 1;
         public void animate(Vector2 Pos)
         {
-            Pos.X -= 24;
-            Pos.Y -= 36;
-            base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-            if(base.Alive == true)
+            Pos.X -= 80;
+            Pos.Y -= 80;
+            animated_left.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+            animated_right.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+            if (base.Alive == true)
             {
                 if (base.stunt == false)
                 {
-
                     if (base.Enemy_state == idle_left)
-                    {
-                        base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                    {                      
+                        if (base.Unarmed == true && base.Unarmed_time < 0.3f)
+                        {                           
+                            animated_left.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_left.DrawFrame(Global.spriteBatch, Pos, 2);
+                        }
+                        else if(Unarmed == false || base.Unarmed_time >= 0.3f)
+                        {
+                            animated_left.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_left.DrawFrame(Global.spriteBatch, Pos, 3);
+                        }
                     }
                     if (base.Enemy_state == idle_right)
-                    {
-                        base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                    {                       
+                        if (base.Unarmed == true && base.Unarmed_time < 0.3f)
+                        {                          
+                            animated_right.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_right.DrawFrame(Global.spriteBatch, Pos, 2);
+                        }
+                        else if (Unarmed == false || base.Unarmed_time >= 0.3f)
+                        {
+                            animated_right.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_right.DrawFrame(Global.spriteBatch, Pos, 3);
+                        }
                     }
                     if (base.Enemy_state == Moving_left)
                     {
-                        base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                       
+                        if (base.Unarmed == true && base.Unarmed_time < 0.3f)
+                        {                           
+                            animated_left.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_left.DrawFrame(Global.spriteBatch, Pos, 2);
+                        }
+                        else if (Unarmed == false || base.Unarmed_time >= 0.3f)
+                        {
+                            animated_left.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_left.DrawFrame(Global.spriteBatch, Pos, 1);
+                        }
                     }
-                    if (base.Enemy_state == idle_right)
+                    if (base.Enemy_state == Moving_right)
                     {
-                        base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                        
+                        if (base.Unarmed == true && base.Unarmed_time < 0.3f)
+                        {
+                            animated_right.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_right.DrawFrame(Global.spriteBatch, Pos, 2);
+                        }
+                        else if (Unarmed == false || base.Unarmed_time >= 0.3f)
+                        {
+                            animated_right.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                            animated_right.DrawFrame(Global.spriteBatch, Pos, 1);
+                        }
+
                     }
-                    if (Enemy_is_attack == true)
-                    {
-                        base.animation.DrawFrame(Global.spriteBatch, Pos, 2);
-                    }
+                    
                 }
-                else if(base.stunt == true)
+                else if (base.stunt == true)
                 {
-                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 48, 48), Color.Violet * 1f, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.5f);
+                    if(base.Enemy_state == Moving_right)
+                    {
+                        Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 160, 160), Color.Red);
+                    }
+                    if(base.Enemy_state == Moving_left)
+                    {
+                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.Red);
+                    }
                 }
             }
             else if(base.Alive == false)
             {
-                Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0,48,48),Color.Red*1.8f,0f,Vector2.Zero,1.5f,SpriteEffects.None,0.5f);
+                
+                if (base.Enemy_state == Moving_right)
+                {
+                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 160, 160), Color.White*fading);
+                }
+                if (base.Enemy_state == Moving_left)
+                {
+                    Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.White*fading);
+                }
+                if(fading > 0)
+                {
+                    fading -= (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+                }
             }
             
             

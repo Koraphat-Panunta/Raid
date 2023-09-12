@@ -49,12 +49,12 @@ namespace Raid.MainCharacter
         public override void Load()
         {
             inventory = new Inventory(50f);                        
-            ATK_common_Range = (Global.Tile * 2)+14;
+            ATK_common_Range = (Global.Tile * 2);
             ATK_Heavy_Range = ATK_common_Range * 1.5f;
             ATK_Roll_Range = ATK_common_Range * 1.5f;           
-            base.animation.Load(Global.Content,"RaiderSpriteSheetWIP Move", 4,8,4);
+            base.animation.Load(Global.Content, "Main_Char_Move_ani", 4,12,4);
             ATK_animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
-            ATK_animation.Load(Global.Content, "RaiderSpriteSheetWIP", 4, 12, 8);
+            ATK_animation.Load(Global.Content, "Main_Char_ATK_ani", 4, 12, 8);
             Main_Char_curt_State = Main_Char_idle_Up;
             Main_Char_ATK_State = Main_Char_None;
             ATK_ready = true;
@@ -87,45 +87,67 @@ namespace Raid.MainCharacter
         }
         private void Update_Input_Moving_state()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && KeyIspressed == false)
+            if (Main_Char_ATK_State == Main_Char_None)
             {
-                Main_Char_curt_State = Main_Char_Moving_Up;
-                KeyIspressed = true;
+                if (Keyboard.GetState().IsKeyDown(Keys.W) && KeyIspressed == false)
+                {
+                    Main_Char_curt_State = Main_Char_Moving_Up;
+                    KeyIspressed = true;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.A) && KeyIspressed == false)
+                {
+                    Main_Char_curt_State = Main_Char_Moving_Left;
+                    KeyIspressed = true;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.S) && KeyIspressed == false)
+                {
+                    Main_Char_curt_State = Main_Char_Moving_Down;
+                    KeyIspressed = true;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D) && KeyIspressed == false)
+                {
+                    Main_Char_curt_State = Main_Char_Moving_Right;
+                    KeyIspressed = true;
+                }
+                if (Keyboard.GetState().IsKeyUp(Keys.W) && Main_Char_curt_State == Main_Char_Moving_Up)
+                {
+                    Main_Char_curt_State = Main_Char_idle_Up;
+                    KeyIspressed = false;
+                }
+                if (Keyboard.GetState().IsKeyUp(Keys.A) && Main_Char_curt_State == Main_Char_Moving_Left)
+                {
+                    Main_Char_curt_State = Main_Char_idle_left;
+                    KeyIspressed = false;
+                }
+                if (Keyboard.GetState().IsKeyUp(Keys.S) && Main_Char_curt_State == Main_Char_Moving_Down)
+                {
+                    Main_Char_curt_State = Main_Char_idle_Down;
+                    KeyIspressed = false;
+                }
+                if (Keyboard.GetState().IsKeyUp(Keys.D) && Main_Char_curt_State == Main_Char_Moving_Right)
+                {
+                    Main_Char_curt_State = Main_Char_idle_right;
+                    KeyIspressed = false;
+                }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.A) && KeyIspressed == false)
+            else if(Main_Char_ATK_State == Main_Char_Common_ATK || Main_Char_ATK_State == Main_Char_Heavy_ATK || Main_Char_ATK_State == Main_Char_Roll_ATK)
             {
-                Main_Char_curt_State = Main_Char_Moving_Left;
-                KeyIspressed = true;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && KeyIspressed == false)
-            {
-                Main_Char_curt_State = Main_Char_Moving_Down;
-                KeyIspressed = true;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D) && KeyIspressed == false)
-            {
-                Main_Char_curt_State = Main_Char_Moving_Right;
-                KeyIspressed = true;
-            }
-            if (Keyboard.GetState().IsKeyUp(Keys.W) && Main_Char_curt_State == Main_Char_Moving_Up)
-            {
-                Main_Char_curt_State = Main_Char_idle_Up;
-                KeyIspressed = false;
-            }
-            if (Keyboard.GetState().IsKeyUp(Keys.A) && Main_Char_curt_State == Main_Char_Moving_Left)
-            {
-                Main_Char_curt_State = Main_Char_idle_left;
-                KeyIspressed = false;
-            }
-            if (Keyboard.GetState().IsKeyUp(Keys.S) && Main_Char_curt_State == Main_Char_Moving_Down)
-            {
-                Main_Char_curt_State = Main_Char_idle_Down;
-                KeyIspressed = false;
-            }
-            if (Keyboard.GetState().IsKeyUp(Keys.D) && Main_Char_curt_State == Main_Char_Moving_Right)
-            {
-                Main_Char_curt_State = Main_Char_idle_right;
-                KeyIspressed = false;
+                if (Keyboard.GetState().IsKeyDown(Keys.W) )
+                {
+                    base.Vector2.Y -= 0.7f;                                                   
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    base.Vector2.X -= 0.7f;                                      
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.S) )
+                {
+                    base.Vector2.Y += 0.7f;                                      
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D) )
+                {
+                    base.Vector2.X += 0.7f; 
+                }               
             }
         }
         private KeyboardState Old_Keys;
@@ -146,12 +168,23 @@ namespace Raid.MainCharacter
             {
                 Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
                 ATK_animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-                Moving_Speed = 0.5f;
+                Moving_Speed = 0f;                
                 if (Attack_duration >= 0.5)
                 {
                     Main_Char_ATK_State = Main_Char_None;
                     Attack_duration = 0;
                     ATK_animation.Reset();
+                    Moving_Speed = 3;
+                }
+            }
+            if(Main_Char_ATK_State == Main_Char_Dodge)
+            {
+                Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
+                Moving_Speed = 8;
+                if(Attack_duration >= 0.35f)
+                {
+                    Main_Char_ATK_State= Main_Char_None;
+                    Attack_duration = 0;
                     Moving_Speed = 3;
                 }
             }
@@ -173,8 +206,13 @@ namespace Raid.MainCharacter
             {
                 Main_Char_ATK_State = Main_Char_Roll_ATK;
                 ATK_ready = false;
-
                 Hitsteak -= 5;
+            }
+            if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space)&&ATK_ready == true && Hitsteak >= 2 && (Main_Char_curt_State == Main_Char_Moving_Down|| Main_Char_curt_State == Main_Char_Moving_Up || Main_Char_curt_State == Main_Char_Moving_Left || Main_Char_curt_State == Main_Char_Moving_Right))
+            {
+                Main_Char_ATK_State = Main_Char_Dodge;
+                ATK_ready = false;
+                Hitsteak -= 2;
             }
            
             Old_Keys = Keyboard.GetState();
@@ -229,7 +267,8 @@ namespace Raid.MainCharacter
                 {
                     base.Vector2.Y += Moving_Speed;
                 }
-            }          
+            }
+           
         }
         public void animate(Vector2 Position)
         {
@@ -324,6 +363,25 @@ namespace Raid.MainCharacter
                 if (Main_Char_curt_State == Main_Char_idle_right || Main_Char_curt_State == Main_Char_Moving_Right)
                 {
                     ATK_animation.DrawFrame(Global.spriteBatch, Pos, 12);
+                }
+            }
+            if(Main_Char_ATK_State == Main_Char_Dodge)
+            {
+                if(Main_Char_curt_State == Main_Char_Moving_Up)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 10);
+                }
+                if (Main_Char_curt_State == Main_Char_Moving_Down)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 9);
+                }
+                if (Main_Char_curt_State == Main_Char_Moving_Left)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 11);
+                }
+                if (Main_Char_curt_State == Main_Char_Moving_Right)
+                {
+                    base.animation.DrawFrame(Global.spriteBatch, Pos, 12);
                 }
             }
         }
