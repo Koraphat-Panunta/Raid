@@ -7,8 +7,8 @@ namespace Raid.Enemy
     abstract public class Enemy:Dynamic_Obg
     {
         public double HP;       
-        public string Enemy_state;
-        protected bool Alive;
+        public int Enemy_state;
+        public bool Alive;
         public bool immune;
         public bool stunt;
         public bool Unarmed;
@@ -19,6 +19,12 @@ namespace Raid.Enemy
         public float Enemy_Detection_Range;
         public int Enemt_ATK_DMG;
         bool Enemy_Alive;
+        public float Enemy_Distance;
+        protected float Render_Range;
+        protected float fading = 1;
+        public bool Enemy_is_Alert;
+        public bool Enemy_is_attack;
+        public readonly float Moving_speed;
 
         public Enemy()
         {
@@ -41,7 +47,7 @@ namespace Raid.Enemy
         {
             return base.Box;
         }
-        public string GetState()
+        public int GetState()
         {
             return Enemy_state;
         }

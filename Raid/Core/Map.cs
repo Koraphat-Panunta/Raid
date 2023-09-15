@@ -68,7 +68,7 @@ namespace Raid.Core
             Area_Box[12] = new Rectangle((int)Area_Pos[12].X, (int)Area_Pos[12].Y, 3880, 2363);
 
             Area_Texture[13] = Global.Content.Load<Texture2D>("A14");
-            Area_Pos[13] = new Vector2(5895, 14);
+            Area_Pos[13] = new Vector2(5895, 14 );
             Area_Box[13] = new Rectangle((int)Area_Pos[13].X, (int)Area_Pos[13].Y, 1516, 1174);
         }
         public Texture2D Get_Map_Texture(int i)

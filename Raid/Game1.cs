@@ -67,8 +67,8 @@ namespace Raid
             Global.gameTime = gameTime;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            SceneUpdate(gameTime);            
-            Debuging(gameTime);
+            SceneUpdate(gameTime);
+            //Debuging(gameTime);
             base.Update(gameTime);           
         }
 
@@ -105,13 +105,15 @@ namespace Raid
             if(Curent_Screen == Gameplay)
             {
                 Gameplay_Screen.Update(gameTime);
-                if(Gameplay_Screen.Extract == true)
+                if(Gameplay_Screen.Extract_success == true)
+                {                   
+                    Curent_Screen = Management;
+                    Management_Screen.load(Vector2.Zero);                                       
+                }
+                if(Gameplay_Screen.Extract_fail == true)
                 {
-                    Gameplay_Screen.Extract = false;
                     Curent_Screen = Management;
                     Management_Screen.load(Vector2.Zero);
-                    
-                    
                 }
                 
             }
@@ -133,13 +135,13 @@ namespace Raid
         }
         
         protected void Debuging(GameTime gameTime)
-        {         
-            Debug_Update += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        {            
+            //Debug_Update += (float)gameTime.ElapsedGameTime.TotalSeconds;
             ///////////////////////////////////// Add your debuging variable //////////////////////////
-            if( DebugCheck == true)
-            {                
-                Console.WriteLine("Curent_Screen = {0}",Curent_Screen);               
-                Console.WriteLine("Keyinput ={0}",keyinput);
+            if (DebugCheck == true)
+            {
+                Console.WriteLine("Curent_Screen = {0}", Curent_Screen);
+                Console.WriteLine("Keyinput ={0}", keyinput);
                 //Console.WriteLine("Extract Complete = {0}", Gameplay_Screen.Extract);                                
                 if (Curent_Screen == Title)
                 {
@@ -154,8 +156,8 @@ namespace Raid
                     Gameplay_Screen.Debuging();
                 }
 
-                DebugCheck = false;
-            }           
+                
+            }
             /////////////////////////////////// Char_state/////////////////////////////////////////////           
             ////////////////////////////////////// Clear Console //////////////////////////////////////
             if (Debug_Update > 0.1)
@@ -163,7 +165,7 @@ namespace Raid
                 Console.Clear();
                 Debug_Update = 0;
                 DebugCheck = true;
-                
+
             }
         }
     }

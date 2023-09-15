@@ -11,8 +11,7 @@ namespace Raid.Screen_Code
     public class Screen
     {       
         //public string Curt_Scene;
-        protected string Gameplay = "Gameplay";
-        protected string Menu = "Menu";        
+        
         
         public Screen() { }
         public virtual void load(Vector2 Pos)

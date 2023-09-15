@@ -28,12 +28,12 @@ namespace Raid.Core
         }
         private void Set_ALL()
         {
-            Map_Pos = new Vector2(615, 46);
-            Deploy_select_pos[0] = new Vector2(705,287);
-            Deploy_select_pos[1] = new Vector2(1803,192);
-            Deploy_select_pos[2] = new Vector2(1275,520);
+            Map_Pos = new Vector2(615,65);
+            Deploy_select_pos[0] = new Vector2(704,280);
+            Deploy_select_pos[1] = new Vector2(823, 224);
+            Deploy_select_pos[2] = new Vector2(696, 208);
             Deploy_select_pos[3] = new Vector2(1803,520);
-            Deploy_Button_pos = new Vector2(831,433);
+            Deploy_Button_pos = new Vector2(812, 443);
             Deploy_Button_Box = new Rectangle((int)Deploy_Button_pos.X,(int)Deploy_Button_pos.Y,90,36);
             for (int i = 0;i<=Deploy_select_Box.Length-1;i++) 
             {
@@ -54,9 +54,9 @@ namespace Raid.Core
             {
                 case 0: return new Vector2(2469,6328);
                     break;
-                case 1: return new Vector2(1600*2,135);
+                case 1: return new Vector2(5782, 4538);
                     break;
-                case 2: return new Vector2(135,800*2);
+                case 2: return new Vector2(2227, 4115);
                     break;
                 case 3: return new Vector2(1600 * 2,800*2);
                     break;

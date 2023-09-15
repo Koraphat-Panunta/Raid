@@ -12,6 +12,7 @@ namespace Raid.MainCharacter
         public float Max_weight;
         public float carry_weight;
         public float carry_value;
+        int max = 2;
         public List<Rune_ATK> Rune_ATK = new List<Rune_ATK>();
         public List<Rune_Armor> Rune_Armor = new List<Rune_Armor>();
         public List<Rune_Time> Rune_Times = new List<Rune_Time>();
@@ -19,6 +20,11 @@ namespace Raid.MainCharacter
         public List<Grace> Graces = new List<Grace>();
         public Inventory(float weight)
         {
+            for(int i = 0; i < max; i++)
+            {
+                Rune_Times.Add(new Rune_Time());
+                
+            }
             this.Max_weight = weight;           
         }
         public void Cal_Weight() 

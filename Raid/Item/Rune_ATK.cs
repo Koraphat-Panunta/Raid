@@ -8,7 +8,7 @@ namespace Raid.Item
 {
     public class Rune_ATK:item
     {
-        public static readonly int Damage_plus = 4;
+        public static readonly int Damage_plus = 2;
         
         public Rune_ATK() 
         {

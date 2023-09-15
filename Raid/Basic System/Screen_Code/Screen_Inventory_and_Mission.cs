@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Raid.Core;
+using Raid.Item;
 using Raid.MainCharacter;
 using System;
 
@@ -12,6 +13,8 @@ namespace Raid.Screen_Code
 
     {
         public Prepare_Page Invt;
+        public Inventory inventory;
+        private Inventory stash;
         //private Inventory Stash = new Inventory(1000f, 60);
 
         public Texture2D Deploy_select;
@@ -19,6 +22,7 @@ namespace Raid.Screen_Code
         public Vector2 Deploy_Pos;
         public bool Deploy_selected;
         public bool Deploy_Confirm;
+        
         public Screen_Inventory_and_Mission()
         {
         }
@@ -30,6 +34,7 @@ namespace Raid.Screen_Code
             this.Deploy_selected = false;
             this.Deploy_Confirm = false;
             base.load(Pos);
+            
         }
         public void load()
         {
@@ -50,10 +55,17 @@ namespace Raid.Screen_Code
 
             Global.spriteBatch.Draw(Invt.BG, new Vector2(0, 0), Color.White);
             Global.spriteBatch.Draw(Invt.Map, Invt.Get_Map_Pos(), Color.White);
-            Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(0), Color.White);
-            Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(1), Color.White);
-            Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(2), Color.White);
-            Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(3), Color.White);
+            for(int i = 0; i < 3; i++)
+            {
+                if (Deploy_Pos == Invt.Get_Deploy_select_pos(i))
+                {
+                    Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(i), Color.Yellow) ;
+                }
+                else
+                {
+                    Global.spriteBatch.Draw(Invt.Deploy_select, Invt.Get_Deploy_Pos(i), Color.White);
+                }
+            }                      
             Global.spriteBatch.Draw(Invt.Deploy_Button, Invt.Get_Deploy_Button_pos(), Color.White);
             base.Draw(gameTime);
         }
@@ -78,7 +90,7 @@ namespace Raid.Screen_Code
 
             base.Debuging();
         }
-
+        
         public void Deploy_check()
         {
             for (int i = 0; i < 4; i++)
@@ -86,14 +98,13 @@ namespace Raid.Screen_Code
                 if (mouse.Intersects(Invt.Get_Deploy_select_Box(i)) && Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     Deploy_Pos = Invt.Get_Deploy_select_pos(i);
-                    Deploy_selected = true;
+                    Deploy_selected = true;                   
                 }
                 if (Deploy_selected == true && mouse.Intersects(Invt.Get_Deploy_Button_Box()) && Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     Deploy_Confirm = true;
                 }
             }
-
         }
         private void Item_management()
         {

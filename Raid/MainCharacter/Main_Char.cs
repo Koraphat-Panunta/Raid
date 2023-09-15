@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Raid.Item;
 
@@ -8,8 +9,27 @@ namespace Raid.MainCharacter
     {
         public Inventory inventory;
         public float HP;
-        public string Main_Char_curt_State;
-        public string Main_Char_ATK_State;
+        //public string Main_Char_curt_State;
+        public int Curt_state;
+        // Curt_state 
+        // 0:none
+        // 1:Main_Char_idle_Up
+        // 2:Main_Char_idle_Down
+        // 3:Main_Char_idle_left
+        // 4:Main_Char_idle_right
+        // 5:Main_Char_Moving_Up
+        // 6:Main_Char_Moving_Down
+        // 7:Main_Char_Moving_Left
+        // 8:Main_Char_Moving_Right
+
+        public int ATK_state;
+        // ATK_state
+        // 0:none
+        // 1:Main_Char_Common_ATK
+        // 2:Main_Char_Heavy_ATK
+        // 3:Main_Char_Dodge
+        // 4:Main_Char_Roll_ATK
+        //public string Main_Char_ATK_State;
         public string Main_Char_idle_Up = "Main_Char_idle_Up";
         public string Main_Char_idle_Down = "Main_Char_idle_Down";
         public string Main_Char_idle_left = "Main_Char_idle_left";
@@ -39,7 +59,7 @@ namespace Raid.MainCharacter
         AnimatedTexture ATK_animation;
 
         bool KeyIspressed = false;
-        float Moving_Speed = 2.5f;
+        float Moving_Speed = 2f;
 
         public int Hitsteak;
         public Main_Char() 
@@ -51,86 +71,89 @@ namespace Raid.MainCharacter
             inventory = new Inventory(50f);                        
             ATK_common_Range = (Global.Tile * 2);
             ATK_Heavy_Range = ATK_common_Range * 1.5f;
-            ATK_Roll_Range = ATK_common_Range * 1.5f;           
+            ATK_Roll_Range = ATK_common_Range * 1.5f;
+            base.texture = Global.Content.Load<Texture2D>("Main_Char_Move_ani");
             base.animation.Load(Global.Content, "Main_Char_Move_ani", 4,12,4);
             ATK_animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
-            ATK_animation.Load(Global.Content, "Main_Char_ATK_ani", 4, 12, 8);
-            Main_Char_curt_State = Main_Char_idle_Up;
-            Main_Char_ATK_State = Main_Char_None;
-            ATK_ready = true;
-            Hitsteak = 0;
-            HP = 25;
-            Common_ATK = 10;
-            Heavy_ATK = Common_ATK*1.5f;
-            Roll_ATK = Common_ATK * 3;
+            ATK_animation.Load(Global.Content, "Main_Char_ATK_ani", 4, 12, 8);                 
             base.Load();
         }
         public void Deploy(Vector2 Pos)
         {
             base.Vector2 = Pos;
+            Curt_state = 1;
+            ATK_state = 0;
+            ATK_ready = true;
+            Hitsteak = 0;
             Common_ATK = 10 + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
-            Heavy_ATK = Common_ATK * 1.5f;
-            Roll_ATK = Common_ATK * 3;
-            HP = 25 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
+            Heavy_ATK = Common_ATK * 3.5f;
+            Roll_ATK = Common_ATK * 4f;
+            HP = 50 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
             Alive = true;
             
         }
         public override void Update()
         {
-            
-            base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-            Update_Input_Moving_state();
-            Update_Input_ATK_state();
-            Main_Character_Action();
-            base.Box = new Rectangle((int)base.Vector2.X + 120,(int)base.Vector2.Y + 96, 48, 96);
+            if(Alive == true)
+            {
+                base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                Update_Input_Moving_state();
+                Update_Input_ATK_state();
+                Main_Character_Action();
+                base.Box = new Rectangle((int)base.Vector2.X-24, (int)base.Vector2.Y-48, 48, 96);
+            }           
+            if(HP <= 0)
+            {
+                Alive = false;
+            }
             base.Update();
         }
         private void Update_Input_Moving_state()
         {
-            if (Main_Char_ATK_State == Main_Char_None)
+            if (ATK_state == 0)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.W) && KeyIspressed == false)
                 {
-                    Main_Char_curt_State = Main_Char_Moving_Up;
+                    Curt_state = 5;
                     KeyIspressed = true;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.A) && KeyIspressed == false)
                 {
-                    Main_Char_curt_State = Main_Char_Moving_Left;
+                    Curt_state = 7;
                     KeyIspressed = true;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.S) && KeyIspressed == false)
                 {
-                    Main_Char_curt_State = Main_Char_Moving_Down;
+                    Curt_state = 6;
                     KeyIspressed = true;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D) && KeyIspressed == false)
                 {
-                    Main_Char_curt_State = Main_Char_Moving_Right;
+                    Curt_state = 8;
                     KeyIspressed = true;
                 }
-                if (Keyboard.GetState().IsKeyUp(Keys.W) && Main_Char_curt_State == Main_Char_Moving_Up)
+                if (Keyboard.GetState().IsKeyUp(Keys.W) && Curt_state == 5)
                 {
-                    Main_Char_curt_State = Main_Char_idle_Up;
+                    Curt_state = 1;
                     KeyIspressed = false;
                 }
-                if (Keyboard.GetState().IsKeyUp(Keys.A) && Main_Char_curt_State == Main_Char_Moving_Left)
+                if (Keyboard.GetState().IsKeyUp(Keys.A) && Curt_state == 7)
                 {
-                    Main_Char_curt_State = Main_Char_idle_left;
+                    Curt_state = 3;
                     KeyIspressed = false;
                 }
-                if (Keyboard.GetState().IsKeyUp(Keys.S) && Main_Char_curt_State == Main_Char_Moving_Down)
+                if (Keyboard.GetState().IsKeyUp(Keys.S) && Curt_state == 6)
                 {
-                    Main_Char_curt_State = Main_Char_idle_Down;
+                    Curt_state = 2;
                     KeyIspressed = false;
                 }
-                if (Keyboard.GetState().IsKeyUp(Keys.D) && Main_Char_curt_State == Main_Char_Moving_Right)
+                if (Keyboard.GetState().IsKeyUp(Keys.D) && Curt_state == 8)
                 {
-                    Main_Char_curt_State = Main_Char_idle_right;
+                    Curt_state = 4;
                     KeyIspressed = false;
                 }
             }
-            else if(Main_Char_ATK_State == Main_Char_Common_ATK || Main_Char_ATK_State == Main_Char_Heavy_ATK || Main_Char_ATK_State == Main_Char_Roll_ATK)
+            else if (ATK_state == 1 ||ATK_state == 2 || ATK_state ==4)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.W) )
                 {
@@ -158,59 +181,59 @@ namespace Raid.MainCharacter
             if(ATK_ready == false)
             {
                 Rate_of_attack += Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if(Rate_of_attack >= 0.6)
+                if(Rate_of_attack >= 0.5f)
                 {
                     Rate_of_attack = 0;
                     ATK_ready = true;  
                 }
             }
-            if (Main_Char_ATK_State == Main_Char_Common_ATK || Main_Char_ATK_State == Main_Char_Heavy_ATK || Main_Char_ATK_State == Main_Char_Roll_ATK)
+            if (ATK_state == 1 || ATK_state == 2 || ATK_state == 4)
             {
                 Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
                 ATK_animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 Moving_Speed = 0f;                
-                if (Attack_duration >= 0.5)
+                if (Attack_duration >= 0.4)
                 {
-                    Main_Char_ATK_State = Main_Char_None;
+                    ATK_state = 0;
                     Attack_duration = 0;
                     ATK_animation.Reset();
-                    Moving_Speed = 2.5f;
+                    Moving_Speed = 2f;
                 }
             }
-            if(Main_Char_ATK_State == Main_Char_Dodge)
+            if(ATK_state == 3)
             {
                 Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
-                Moving_Speed = 8;
-                if(Attack_duration >= 0.35f)
+                Moving_Speed = 6;
+                if(Attack_duration >= 0.5f)
                 {
-                    Main_Char_ATK_State= Main_Char_None;
+                    ATK_state = 0;
                     Attack_duration = 0;
-                    Moving_Speed = 2.5f;
+                    Moving_Speed = 2f;
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.J) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true)
             {
-                Main_Char_ATK_State = Main_Char_Common_ATK;
+                ATK_state = 1;
                 ATK_ready = false;
                
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.K) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak>=3)
+            if (Keyboard.GetState().IsKeyDown(Keys.K) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak>=2)
             {
-                Main_Char_ATK_State = Main_Char_Heavy_ATK;
+                ATK_state = 2;
                 ATK_ready = false;
 
-                Hitsteak = Hitsteak - 3;
+                Hitsteak = Hitsteak - 2;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.L) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak >=5)
+            if (Keyboard.GetState().IsKeyDown(Keys.L) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak >=4)
             {
-                Main_Char_ATK_State = Main_Char_Roll_ATK;
+                ATK_state = 4;
                 ATK_ready = false;
-                Hitsteak -= 5;
+                Hitsteak -= 4;
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space)&&ATK_ready == true && Hitsteak >= 1 && (Main_Char_curt_State == Main_Char_Moving_Down|| Main_Char_curt_State == Main_Char_Moving_Up || Main_Char_curt_State == Main_Char_Moving_Left || Main_Char_curt_State == Main_Char_Moving_Right))
+            if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space)&&ATK_ready == true && Hitsteak >= 1 && (Curt_state == 5|| Curt_state == 6 || Curt_state == 7 || Curt_state == 8))
             {
-                Main_Char_ATK_State = Main_Char_Dodge;
+                ATK_state = 3;
                 ATK_ready = false;
                 Hitsteak -= 1;
             }
@@ -220,7 +243,7 @@ namespace Raid.MainCharacter
         
         public void Main_Character_Action()
         {
-            if (Main_Char_curt_State == "Main_Char_Moving_Up")
+            if (Curt_state == 5)
             {
                 base.Vector2.Y -= Moving_Speed;
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
@@ -232,7 +255,7 @@ namespace Raid.MainCharacter
                     base.Vector2.X += Moving_Speed;
                 }
             }
-            if (Main_Char_curt_State == "Main_Char_Moving_Down")
+            if (Curt_state == 6)
             {
                 base.Vector2.Y += Moving_Speed;
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
@@ -244,7 +267,7 @@ namespace Raid.MainCharacter
                     base.Vector2.X += Moving_Speed;
                 }
             }
-            if (Main_Char_curt_State == "Main_Char_Moving_Left")
+            if (Curt_state == 7)
             {
                 base.Vector2.X -= Moving_Speed;
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
@@ -256,7 +279,7 @@ namespace Raid.MainCharacter
                     base.Vector2.Y += Moving_Speed;
                 }
             }
-            if (Main_Char_curt_State == "Main_Char_Moving_Right")
+            if (Curt_state == 8)
             {
                 base.Vector2.X += Moving_Speed;
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
@@ -270,124 +293,154 @@ namespace Raid.MainCharacter
             }
            
         }
+        float Fading = 1;
         public void animate(Vector2 Position)
         {
             Vector2 Pos = new Vector2(Position.X - 144, Position.Y -144);
-            if (Main_Char_ATK_State == Main_Char_None)
+            if (Alive == true)
             {
-                if (Main_Char_curt_State == "Main_Char_Moving_Up")
+                Fading = 1;
+                if (ATK_state == 0)
                 {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 6);
+                    if (Curt_state == 5)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 6);
+                    }
+                    if (Curt_state == 6)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 5);
+                    }
+                    if (Curt_state == 7)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 7);
+                    }
+                    if (Curt_state == 8)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 8);
+                    }
+                    if (Curt_state == 1)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 2);
+                    }
+                    if (Curt_state == 2)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                    }
+                    if (Curt_state == 3)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 3);
+                    }
+                    if (Curt_state == 4)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 4);
+                    }
                 }
-                if (Main_Char_curt_State == "Main_Char_Moving_Down")
+                if (ATK_state == 1)
                 {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 5);
+                    if (Curt_state == 1 || Curt_state == 5)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 2);
+                    }
+                    if (Curt_state == 2 || Curt_state == 6)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                    }
+                    if (Curt_state == 3 || Curt_state == 7)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 3);
+                    }
+                    if (Curt_state == 4 || Curt_state == 8)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 4);
+                    }
                 }
-                if (Main_Char_curt_State == "Main_Char_Moving_Left")
+                if (ATK_state == 2)
                 {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 7);
+                    if (Curt_state == 1 || Curt_state == 5)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 6);
+                    }
+                    if (Curt_state == 2 || Curt_state == 6)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 5);
+                    }
+                    if (Curt_state == 3 || Curt_state == 7)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 7);
+                    }
+                    if (Curt_state == 4 || Curt_state == 8)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 8);
+                    }
                 }
-                if (Main_Char_curt_State == "Main_Char_Moving_Right")
+                if (ATK_state == 4)
                 {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 8);
+                    if (Curt_state == 1 || Curt_state == 5)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 10);
+                    }
+                    if (Curt_state == 2 || Curt_state == 6)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 9);
+                    }
+                    if (Curt_state == 3 || Curt_state == 7)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 11);
+                    }
+                    if (Curt_state == 4 || Curt_state == 8)
+                    {
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 12);
+                    }
                 }
-                if (Main_Char_curt_State == "Main_Char_idle_Up")
+                if (ATK_state == 3)
                 {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 2);
-                }
-                if (Main_Char_curt_State == "Main_Char_idle_Down")
-                {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 1);
-                }
-                if (Main_Char_curt_State == "Main_Char_idle_left")
-                {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 3);
-                }
-                if (Main_Char_curt_State == "Main_Char_idle_right")
-                {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 4);
+                    if (Curt_state == 5)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 10);
+                    }
+                    if (Curt_state == 6)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 9);
+                    }
+                    if (Curt_state == 7)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 11);
+                    }
+                    if (Curt_state == 8)
+                    {
+                        base.animation.DrawFrame(Global.spriteBatch, Pos, 12);
+                    }
                 }
             }
-            if(Main_Char_ATK_State == Main_Char_Common_ATK)
+            if(Alive == false)
             {
-                if(Main_Char_curt_State == Main_Char_idle_Up||Main_Char_curt_State == Main_Char_Moving_Up)
+                Fading -= (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+                if(Curt_state == 1 || Curt_state == 5)
                 {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 2);
+                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0,1*288, 288, 288), Color.White * Fading);
                 }
-                if (Main_Char_curt_State == Main_Char_idle_Down || Main_Char_curt_State == Main_Char_Moving_Down)
+                if (Curt_state == 2 || Curt_state == 6)
                 {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 1);
+                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0,0*288, 288, 288), Color.White * Fading);
                 }
-                if (Main_Char_curt_State == Main_Char_idle_left || Main_Char_curt_State == Main_Char_Moving_Left)
+                if (Curt_state == 3 || Curt_state == 7)
                 {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 3);
+                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 1 * 288, 288, 288), Color.White * Fading);
                 }
-                if (Main_Char_curt_State == Main_Char_idle_right || Main_Char_curt_State == Main_Char_Moving_Right)
+                if (Curt_state == 4 || Curt_state == 8)
                 {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 4);
+                    Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 2 * 288, 288, 288), Color.White * Fading);
                 }
-            }
-            if (Main_Char_ATK_State == Main_Char_Heavy_ATK)
-            {
-                if (Main_Char_curt_State == Main_Char_idle_Up || Main_Char_curt_State == Main_Char_Moving_Up)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 6);
-                }
-                if (Main_Char_curt_State == Main_Char_idle_Down || Main_Char_curt_State == Main_Char_Moving_Down)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 5);
-                }
-                if (Main_Char_curt_State == Main_Char_idle_left || Main_Char_curt_State == Main_Char_Moving_Left)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 7);
-                }
-                if (Main_Char_curt_State == Main_Char_idle_right || Main_Char_curt_State == Main_Char_Moving_Right)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 8);
-                }
-            }
-            if (Main_Char_ATK_State == Main_Char_Roll_ATK)
-            {
-                if (Main_Char_curt_State == Main_Char_idle_Up || Main_Char_curt_State == Main_Char_Moving_Up)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 10);
-                }
-                if (Main_Char_curt_State == Main_Char_idle_Down || Main_Char_curt_State == Main_Char_Moving_Down)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 9);
-                }
-                if (Main_Char_curt_State == Main_Char_idle_left || Main_Char_curt_State == Main_Char_Moving_Left)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 11);
-                }
-                if (Main_Char_curt_State == Main_Char_idle_right || Main_Char_curt_State == Main_Char_Moving_Right)
-                {
-                    ATK_animation.DrawFrame(Global.spriteBatch, Pos, 12);
-                }
-            }
-            if(Main_Char_ATK_State == Main_Char_Dodge)
-            {
-                if(Main_Char_curt_State == Main_Char_Moving_Up)
-                {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 10);
-                }
-                if (Main_Char_curt_State == Main_Char_Moving_Down)
-                {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 9);
-                }
-                if (Main_Char_curt_State == Main_Char_Moving_Left)
-                {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 11);
-                }
-                if (Main_Char_curt_State == Main_Char_Moving_Right)
-                {
-                    base.animation.DrawFrame(Global.spriteBatch, Pos, 12);
-                }
+
             }
         }
         public Vector2 Get_Pos()
         {
             return base.Vector2;
+        }
+        public Rectangle Get_Box()
+        {
+            return base.Box;
         }
         public float Get_speed()
         {
