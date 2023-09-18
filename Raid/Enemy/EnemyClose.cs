@@ -9,14 +9,12 @@ namespace Raid.Enemy
     public class EnemyClose:Enemy
     {
 
-        Random num = new Random();
-        public bool Enemy_is_Alert;              
-        public readonly float Moving_speed = 0.75f; 
-        public bool Enemy_is_attack;
+        Random num = new Random();                     
+        public readonly float Moving_speed = 0.75f;         
         private AnimatedTexture animated_left;
         private AnimatedTexture animated_right;       
         private Texture2D animated;
-        private float Render_Range ;
+        
         public EnemyClose(Vector2 Spawn_Pos) 
         {
             Load(Spawn_Pos);                    
@@ -29,19 +27,19 @@ namespace Raid.Enemy
             animated_right = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
             animated_left.Load(Global.Content, "enemy_Close_Left",4,3,4);
             animated_right.Load(Global.Content, "enemy_Close_Right", 4, 3,4);
-            base.HP = num.Next(100,150);
+            base.HP = num.Next(140,210);
             base.Alive = true;
             base.Enemy_ATK_Range = Global.Tile*1.5f;
             base.Enemy_state = 1;
-            base.Enemy_Detection_Range = Global.Tile * 6;
-            Render_Range = Global.Tile * 11;
+            base.Enemy_Detection_Range = Global.Tile * 7;
+            Render_Range = Global.Tile * 14;
             Enemy_is_Alert = false;
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = num.Next(4,8);
             base.Vector2 = Pos;
             base.Load();
         }
-        public float Enemy_Distance;
+        
         public void Update(Vector2 Player_Pos)
         {            
             Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y), 2));

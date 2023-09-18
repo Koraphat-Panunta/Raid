@@ -11,7 +11,8 @@ namespace Raid.Item
     public abstract class item:Stactic_Obg
     {
         protected float Weight;
-        protected float Value;             
+        protected float Value;
+        
         public item(Vector2 Pos) 
         {
             base.Vector2 = Pos;                     

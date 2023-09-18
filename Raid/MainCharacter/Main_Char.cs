@@ -85,9 +85,9 @@ namespace Raid.MainCharacter
             ATK_state = 0;
             ATK_ready = true;
             Hitsteak = 0;
-            Common_ATK = 10 + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
+            Common_ATK = 5 + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
             Heavy_ATK = Common_ATK * 3.5f;
-            Roll_ATK = Common_ATK * 4f;
+            Roll_ATK = Common_ATK * 4.5f;
             HP = 50 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
             Alive = true;
             
@@ -95,16 +95,24 @@ namespace Raid.MainCharacter
         public override void Update()
         {
             if(Alive == true)
-            {
-                base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+            {               
                 Update_Input_Moving_state();
                 Update_Input_ATK_state();
                 Main_Character_Action();
                 base.Box = new Rectangle((int)base.Vector2.X-24, (int)base.Vector2.Y-48, 48, 96);
+                base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
             }           
             if(HP <= 0)
             {
-                Alive = false;
+                if (inventory.Rune_Lives.Count > 0)
+                {
+                    HP = 50 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
+                    inventory.Rune_Lives.Remove(inventory.Rune_Lives[0]);
+                }
+                else
+                {
+                    Alive = false;
+                }                
             }
             base.Update();
         }
@@ -172,6 +180,7 @@ namespace Raid.MainCharacter
                     base.Vector2.X += 0.7f; 
                 }               
             }
+            
         }
         private KeyboardState Old_Keys;
         public double Rate_of_attack = 0;
@@ -236,8 +245,7 @@ namespace Raid.MainCharacter
                 ATK_state = 3;
                 ATK_ready = false;
                 Hitsteak -= 1;
-            }
-           
+            }            
             Old_Keys = Keyboard.GetState();
         }
         

@@ -24,19 +24,17 @@ namespace Raid.Enemy
             base.texture = Global.Content.Load<Texture2D>("enemy_range_Right");
             this.texture = Global.Content.Load<Texture2D>("enemy_range_left");
             base.Vector2 = Spawn_Pos;
-            base.HP = random.Next(50, 80);
+            base.HP = random.Next(35,50);
             base.Alive = true;
-            base.Enemt_ATK_DMG = random.Next(4, 8);
-            base.Enemy_Detection_Range = Global.Tile * 6;
-            base.Enemy_ATK_Range = Global.Tile * 4.5f;
+            base.Enemt_ATK_DMG = random.Next(4,6);
+            base.Enemy_Detection_Range = Global.Tile * 8;
+            base.Enemy_ATK_Range = Global.Tile * 7f;
             base.Enemy_state = 7;
-            base.Render_Range = Global.Tile * 11;
+            base.Render_Range = Global.Tile * 14;
             base.Enemy_is_Alert = false;
-            base.Enemy_is_attack = false;
-            
+            base.Enemy_is_attack = false;            
             //1:left
-            //2:right
-            
+            //2:right            
             base.texture = Global.Content.Load<Texture2D>("enemy_range_left");
         }
         public void update(Vector2 Player_Pos)
@@ -162,11 +160,11 @@ namespace Raid.Enemy
                     {
                         if (base.Enemy_state == 7)
                         {
-                            base.animation.DrawFrame(Global.spriteBatch, Pos);
+                            base.animation.DrawFrame(Global.spriteBatch,Pos,1);
                         }
                         if (base.Enemy_state == 8)
                         {
-                            this.animation.DrawFrame(Global.spriteBatch, Pos);
+                            this.animation.DrawFrame(Global.spriteBatch,Pos,1);
                         }                       
                     }
                     else if (base.stunt == true)

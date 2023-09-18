@@ -13,15 +13,15 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 5;
-        int enemyRangemax = 1;
+        int enemyclosemax = 15;
+        int enemyRangemax = 6;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
         List<EnemyRange> enemyRanges = new List<EnemyRange>();
         Map map;
         Camera Camera;       
-        public Grace[] Grace;
+        public List<Grace> graces = new List<Grace>();  
         bool Hit =false;
         public Extract_gate[] extract_Gate;
         public bool Extract_success;
@@ -34,8 +34,7 @@ namespace Raid.Screen_Code
         { 
         }
         public override void load(Vector2 Deploy_Pos)
-        {           
-            base.load(Deploy_Pos);
+        {                      
             Main_Char = new Main_Char();
             for(int i = 0; i < enemyclosemax; i++)
             {
@@ -47,15 +46,42 @@ namespace Raid.Screen_Code
             }
             Extract_fail = false;
             Extract_success = false;
-            map = new Map();                     
-            Grace = new Grace[4];
-            extract_Gate = new Extract_gate[4];            
-            Main_Char.Deploy(Deploy_Pos);
-            Object_Load();                        
+            map = new Map();                                 
+            extract_Gate = new Extract_gate[3];
+            extract_Gate[0] = new Extract_gate(new Vector2(2238,6153));
+            extract_Gate[1] = new Extract_gate(new Vector2(5547,4563));
+            extract_Gate[2] = new Extract_gate(new Vector2(2001,4145));
+            Main_Char.Deploy(Deploy_Pos);                                   
             Camera = new Camera();            
            Camera_Pos = Main_Char.Get_Pos();
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count *Rune_Time.time_plus));
+            Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
+        }
+        public void load(Vector2 Deploy_Pos,Inventory inventory)
+        {
+            Main_Char = new Main_Char();
+            Main_Char.inventory = inventory;
+            for (int i = 0; i < enemyclosemax; i++)
+            {
+                enemyClose.Add(new EnemyClose(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+            }
+            for (int i = 0; i < enemyRangemax; i++)
+            {
+                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+            }
+            Extract_fail = false;
+            Extract_success = false;
+            map = new Map();
+            extract_Gate = new Extract_gate[3];
+            extract_Gate[0] = new Extract_gate(new Vector2(2238, 6153));
+            extract_Gate[1] = new Extract_gate(new Vector2(5547, 4563));
+            extract_Gate[2] = new Extract_gate(new Vector2(2001, 4145));
+            Main_Char.Deploy(Deploy_Pos);
+            Camera = new Camera();
+            Camera_Pos = Main_Char.Get_Pos();
+            Pos = Global.Content.Load<Texture2D>("Rectangle 159");
+            this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
         }
         double Distance;
@@ -65,13 +91,17 @@ namespace Raid.Screen_Code
             Main_Char.Update();
             Camera.CameraPos_Update(Camera_Pos);
             Camera_Movement();
+            
             if (Main_Char.Alive == true)
             {
+                Extractionsystem();
+                lootingsystem();
                 Time.Time_Count();
                 for (int i = 0; i < enemyClose.Count; i++)
                 {
                     if (enemyClose[i].Alive == false)
                     {
+                        graces.Add(new Grace(enemyClose[i].Get_Pos()));
                         enemyClose.Remove(enemyClose[i]);
                         break;
                     }
@@ -190,11 +220,13 @@ namespace Raid.Screen_Code
                                 }
                             }
                         }
+                   
                     }
                 for (int i = 0; i < enemyRanges.Count; i++)
                 {
                     if (enemyRanges[i].Alive == false)
                     {
+                        graces.Add(new Grace(enemyRanges[i].Get_Pos()));
                         enemyRanges.Remove(enemyRanges[i]);
                         break;
                     }
@@ -317,8 +349,7 @@ namespace Raid.Screen_Code
                             }
                         }
                     }
-                }
-
+                }                         
                 if (Time.Get_Time_Count() <= 0)
                 {
                     Main_Char.Alive = false;
@@ -330,18 +361,17 @@ namespace Raid.Screen_Code
                 if(SceneEnd_time >= 4)
                 {
                     Extract_fail = true;
+                    Main_Char.inventory.Clear_All();
                 }
             }
-            Extractionsystem();               
-               
+            
                 base.Update(gameTime);            
         }
         public override void Draw(GameTime gameTime)
         {
             Draw_Form_Pos_inWorld();
             Draw_UI();
-            Global.spriteBatch.Draw(Pos,Camera.Object_Vector(Main_Char.Get_Pos()), new Rectangle(-3,-3, 6, 6), Color.White);                   
-            
+            Global.spriteBatch.Draw(Pos,Camera.Object_Vector(Main_Char.Get_Pos()), new Rectangle(-3,-3, 6, 6), Color.White);                  
             base.Draw(gameTime);
         }    
         public override void Unload()
@@ -351,33 +381,46 @@ namespace Raid.Screen_Code
         public override void Debuging()
         {
             Console.WriteLine("Enemy_number = " + enemyClose.Count);
-            Console.WriteLine("HP ="+Main_Char.HP);            
-            Console.WriteLine("Hitstreak count =" + Main_Char.Hitsteak);
-            Console.WriteLine("Feedback_time ="+feedback_time);
-           
+            Console.WriteLine("grace num ="+Main_Char.inventory.Graces.Count);                       
+            Console.WriteLine("Intersect = {0}",Main_Char.Get_Box().Intersects(extract_Gate[0].Get_Box()));
+            Console.WriteLine("Intersect = {0}", Main_Char.Get_Box().Intersects(extract_Gate[1].Get_Box()));
+            Console.WriteLine("Intersect = {0}", Main_Char.Get_Box().Intersects(extract_Gate[2].Get_Box()));
+            Console.WriteLine("Key E = {0}",Keyboard.GetState().IsKeyDown(Keys.E));
+
             base.Debuging();
         }
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
         public void lootingsystem()
         {
             Main_Char.inventory.Cal_Weight();
-            int i = 0;
-            //foreach(Stactic_Obg Obg in GameObg)
-            //{
+            for (int i = 0; i < graces.Count;i++)
+            {
+                if (graces[i].Get_Grace_Hitbox().Intersects(Main_Char.Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E) && Main_Char.inventory.carry_weight + Main_Char.inventory.weight_Grace.Get_Weight() <= Main_Char.inventory.Max_weight) 
+                {
+                    graces.Remove(graces[i]);
+                    Main_Char.inventory.add_grace();
+                    break;
+                }
+            }
 
-            //}
         }
         private void Extractionsystem()
         {
-           
-              
+            for (int i = 0; i < extract_Gate.Length; i++)
+            {
+                if (extract_Gate[i].Get_Box().Intersects(Main_Char.Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E))
+                {
+                    Extract_success = true;
+                    break;
+                }
+            }
         }       
        
         private void Draw_Form_Pos_inWorld()
         {
             for (int i = 0; i < 13; i++)
             {
-                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 400)
+                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 700 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 700 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 700 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 700)
                 {
                     Global.spriteBatch.Draw(map.Get_Map_Texture(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
                     
@@ -386,11 +429,7 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
-            Global.spriteBatch.Draw(extract_Gate[3].Get_Texture(), Camera.Object_Vector(extract_Gate[3].Get_Position()), Color.White);
-            Global.spriteBatch.Draw(Grace[0].Get_Grace_Texture(), Camera.Object_Vector(Grace[0].Get_GracePosition()), Color.White);
-            Global.spriteBatch.Draw(Grace[1].Get_Grace_Texture(), Camera.Object_Vector(Grace[1].Get_GracePosition()), Color.White);
-            Global.spriteBatch.Draw(Grace[2].Get_Grace_Texture(), Camera.Object_Vector(Grace[2].Get_GracePosition()), Color.White);
-            Global.spriteBatch.Draw(Grace[3].Get_Grace_Texture(), Camera.Object_Vector(Grace[3].Get_GracePosition()), Color.White);
+            
             for (int i = 0; i < enemyClose.Count; i++)
             {
                 enemyClose[i].animate(Camera.Object_Vector(enemyClose[i].Get_Pos()));
@@ -402,11 +441,14 @@ namespace Raid.Screen_Code
                 if (enemyRanges[i].fire_ball.Count > 0)
                 {
                     enemyRanges[i].fire_ball[enemyRanges[i].fire_ball.Count - 1].animate(Camera.Object_Vector(enemyRanges[i].fire_ball[enemyRanges[i].fire_ball.Count - 1].Return_Pos()));
-                    //Global.spriteBatch.Draw(Pos,Camera.Object_Vector( enemyRanges[i].fire_ball[enemyRanges[i].fire_ball.Count - 1].Return_Pos()),new Rectangle(0,0,25,25), Color.White);
+                    
                 }
             }
-            //Global.spriteBatch.Draw(Pos,Camera.Object_Vector(new Vector2(Main_Char.Get_Pos().X-24, Main_Char.Get_Pos().Y - 48)),new Rectangle(0,0,48,96),Color.White);
-            //Global.spriteBatch.Draw();
+          
+                for(int i = 0; i < graces.Count; i++)
+                {
+                    Global.spriteBatch.Draw(graces[i].Get_Grace_Texture(),Camera.Object_Vector( graces[i].Get_GracePosition()),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
+                }            
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
 
 
@@ -419,7 +461,7 @@ namespace Raid.Screen_Code
             if(feedback_time_start == true)
             {
                 feedback_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;                
-                Global.spriteBatch.Draw(Blood_Feedback, Vector2.Zero, Color.White * 0.5f);
+                Global.spriteBatch.Draw(Blood_Feedback, Vector2.Zero,null, Color.White*0.7f,0f,Vector2.Zero,1.35f,SpriteEffects.None,0.5f);
                 if (feedback_time >= 0.5)
                 {
                     feedback_time = 0;
@@ -428,21 +470,30 @@ namespace Raid.Screen_Code
             }
             
             Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(480, 0), Color.White);
-            Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HitSteak = " + Main_Char.Hitsteak, new Vector2(50, 500), Color.White);
+            Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HitSteak = " + Main_Char.Hitsteak, new Vector2(550, 500), Color.DarkRed);
             Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HP:" + Main_Char.HP, new Vector2(50,0), Color.Black);
-            
+            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910, 0), Color.White);
+
         }
-        private void Object_Load()
+        public void Reset()
         {
-            extract_Gate[0] = new Extract_gate(new Vector2(-225, 63));
-            extract_Gate[1] = new Extract_gate(new Vector2(1450 * 2, 30));
-            extract_Gate[2] = new Extract_gate(new Vector2(30, 750 * 2));
-            extract_Gate[3] = new Extract_gate(new Vector2(1450 * 2, 750 * 2));
-            this.Grace[0] = new Grace(new Vector2(729, 428));
-            this.Grace[1] = new Grace(new Vector2(1219 * 2, 449));
-            this.Grace[2] = new Grace(new Vector2(673, 678 * 2));
-            this.Grace[3] = new Grace(new Vector2(1110 * 2, 673 * 2));
-            
+             SceneEnd_time = 0;
+
+            if (enemyClose.Count > 0)
+            {
+                for(int i = 0; i < enemyClose.Count; i++)
+                {
+                    enemyClose.Remove(enemyClose[i]);
+                }
+            }
+            if (enemyRanges.Count > 0)
+            {
+                for (int i = 0; i < enemyRanges.Count; i++)
+                {
+                    enemyRanges.Remove(enemyRanges[i]);
+                }
+            }
+            graces.Clear();
         }
 
         private float Camera_Time = 0;

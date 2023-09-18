@@ -17,11 +17,12 @@ namespace Raid.Enemy
         {
             base.Vector2.X += velocity_x;
             base.Vector2.Y += velocity_y;
-            base.Box = new Rectangle((int)base.Vector2.X, (int)base.Vector2.Y,25,25);
+            base.Box = new Rectangle((int)base.Vector2.X, (int)base.Vector2.Y,20,20);
             
         }
         public void animate(Vector2 Pos)
         {
+            base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
             Pos.X -= 50;
             Pos.Y -= 50;
             base.animation.DrawFrame(Global.spriteBatch,Pos);

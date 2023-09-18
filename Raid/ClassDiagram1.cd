@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Raid.Core.Map" Collapsed="true">
+    <Position X="32.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAgAgAAAAQAAAAAAAAAgAAQAgA=</HashCode>
+      <FileName>Core\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Prepare_Page" Collapsed="true">
+    <Position X="28.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIBGAAAEWFkAIAEaACFAmgCCAIEICAAgJAQBAACQAAI=</HashCode>
+      <FileName>Core\Prepare_Page.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Time" Collapsed="true">
+    <Position X="30.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAIAAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAEAII=</HashCode>
+      <FileName>Core\Time.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Grace" Collapsed="true">
+    <Position X="15" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAICAAAAAAAAAACAAAAAQAAQABAAAAAAA=</HashCode>
+      <FileName>Item\Grace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.item" Collapsed="true">
+    <Position X="12.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAQAhAgAAAAA=</HashCode>
+      <FileName>Item\item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_Armor" Collapsed="true">
+    <Position X="17.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAIAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item\Rune_Armor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_ATK" Collapsed="true">
+    <Position X="8.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Item\Rune_ATK.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_Life" Collapsed="true">
+    <Position X="10.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item\Rune_Life.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_Time" Collapsed="true">
+    <Position X="12.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Item\Rune_Time.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Screen_Code.Screen" Collapsed="true">
+    <Position X="10" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAAIAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Basic System\Screen_Code\Screen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Screen_Code.Screen_Gameplay" Collapsed="true">
+    <Position X="10" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQCEAiIAIJAFwAAAAoJBAAQAACAAABAIEwQAAAAKQY=</HashCode>
+      <FileName>Basic System\Screen_Code\Screen_Gameplay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Screen_Code.Screen_Inventory_and_Mission" Collapsed="true">
+    <Position X="12.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZAUBiAAIAAAgACAAAAAEAAAAIAAABCAEACAAAAAAQ=</HashCode>
+      <FileName>Basic System\Screen_Code\Screen_Inventory_and_Mission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Content.Screen_Menu" Collapsed="true">
+    <Position X="7.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAACAAIAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Basic System\Screen_Code\Screen_Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.Enemy" Collapsed="true">
+    <Position X="20.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAgFACAAAQAAACIEACAABAYBAEAMSEhAAAAAAQKAA=</HashCode>
+      <FileName>Enemy\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.EnemyClose" Collapsed="true">
+    <Position X="19.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEgLAAIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Enemy\EnemyClose.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.EnemyRange" Collapsed="true">
+    <Position X="21.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACIAAAAAAAAAIAAAAAEAgAAAAQQAAAEIAA=</HashCode>
+      <FileName>Enemy\EnemyRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.Weapon_range" Collapsed="true">
+    <Position X="26.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGgAAIAAAAAABAAAAAAAAAAAAAAEAAAAAAAAAAAFAAA=</HashCode>
+      <FileName>Enemy\Weapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Extract_gate" Collapsed="true">
+    <Position X="30.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAABIAAAAAAAACAQAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Enviroment\Extract gate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.MainCharacter.Inventory" Collapsed="true">
+    <Position X="30.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAQEEAAAAIUIJCQIACAIgAAAAgAQAAgIAAAACABAAA=</HashCode>
+      <FileName>MainCharacter\Item_management.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.MainCharacter.Main_Char" Collapsed="true">
+    <Position X="24" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UBwAiEAAgAAwICKABCEYSAhBQBgEAAQKBAQQIMAAAAI=</HashCode>
+      <FileName>MainCharacter\Main_Char.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.AnimatedTexture" Collapsed="true">
+    <Position X="28.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAKggAABAAAABIEAAQMAEIAAAAhABAAg4AAgAEkAAgE=</HashCode>
+      <FileName>AnimatedTexture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Dynamic_Obg" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dynamic_Obg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Game1" Collapsed="true">
+    <Position X="32.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQSAAAAAAAAA0CAAAAAAEAAQAEAAAACAIAAAgBCEAQ=</HashCode>
+      <FileName>Game1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.GameObg" Collapsed="true">
+    <Position X="17.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAIAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Global" Collapsed="true">
+    <Position X="28.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAgAAAAgAAAAAAAAACAAAAAAAAAAEAAAAAQA=</HashCode>
+      <FileName>Global.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Stactic_Obg" Collapsed="true">
+    <Position X="12.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stactic_Obg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

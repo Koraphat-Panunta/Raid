@@ -8,10 +8,14 @@ namespace Raid.Item
 {
     public class Rune_Life:item
     {
+        public static float Weight_static;
+        public static float Value_static;
         public Rune_Life() 
         {
-            base.Value = 15;
-            base.Weight = 30;
+            base.Value = 100;
+            base.Weight = 25;
+            Weight_static = Weight;
+            Value_static = Value;
         }
     }
 }

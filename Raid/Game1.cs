@@ -45,8 +45,8 @@ namespace Raid
             Global.spriteBatch = _spriteBatch;
             Global.GraphicsDevice = _graphics;           
             /////////////////////////////////////// Set Resolution /////////////////////////////////////
-            Global.GraphicsDevice.PreferredBackBufferHeight = 540;
-            Global.GraphicsDevice.PreferredBackBufferWidth = 960;
+            Global.GraphicsDevice.PreferredBackBufferHeight = 720;
+            Global.GraphicsDevice.PreferredBackBufferWidth = 1280;
             Global.GraphicsDevice.ApplyChanges();
             /////////////////////////////////////// Set Screen /////////////////////////////////////////  
             Curent_Screen = Title;
@@ -68,7 +68,7 @@ namespace Raid
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             SceneUpdate(gameTime);
-            //Debuging(gameTime);
+            Debuging(gameTime);
             base.Update(gameTime);           
         }
 
@@ -98,8 +98,9 @@ namespace Raid
                 if (Management_Screen.Deploy_Confirm == true)
                 {
                     Curent_Screen = Gameplay;
-                    Gameplay_Screen.load(Management_Screen.Deploy_Pos);                    
+                    Gameplay_Screen.load(Management_Screen.Deploy_Pos,Management_Screen.inventory);                    
                     Management_Screen.Deploy_Confirm = false;
+                    //Gameplay_Screen.Main_Char.inventory = Management_Screen.inventory;
                 }
             }
             if(Curent_Screen == Gameplay)
@@ -108,12 +109,14 @@ namespace Raid
                 if(Gameplay_Screen.Extract_success == true)
                 {                   
                     Curent_Screen = Management;
-                    Management_Screen.load(Vector2.Zero);                                       
+                    Gameplay_Screen.Reset();
+                    Management_Screen.load(Gameplay_Screen.Main_Char.inventory);                    
                 }
                 if(Gameplay_Screen.Extract_fail == true)
                 {
                     Curent_Screen = Management;
-                    Management_Screen.load(Vector2.Zero);
+                    Gameplay_Screen.Reset();
+                    Management_Screen.load(Gameplay_Screen.Main_Char.inventory);
                 }
                 
             }
@@ -135,9 +138,9 @@ namespace Raid
         }
         
         protected void Debuging(GameTime gameTime)
-        {            
-            //Debug_Update += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            ///////////////////////////////////// Add your debuging variable //////////////////////////
+        {
+            Debug_Update += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            /////////////////////////////////// Add your debuging variable //////////////////////////
             if (DebugCheck == true)
             {
                 Console.WriteLine("Curent_Screen = {0}", Curent_Screen);
@@ -154,18 +157,16 @@ namespace Raid
                 if (Curent_Screen == Gameplay)
                 {
                     Gameplay_Screen.Debuging();
-                }
-
-                
+                }      
+                DebugCheck = false;
             }
             /////////////////////////////////// Char_state/////////////////////////////////////////////           
             ////////////////////////////////////// Clear Console //////////////////////////////////////
             if (Debug_Update > 0.1)
             {
-                Console.Clear();
+                //Console.Clear();
                 Debug_Update = 0;
                 DebugCheck = true;
-
             }
         }
     }

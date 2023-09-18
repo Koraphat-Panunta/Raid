@@ -10,20 +10,21 @@ namespace Raid.Item
 {
     public class Grace : item
     {
-        private Texture2D Grace_Texture;
-        private Rectangle Grace_Hitbox;       
+        public static float Weight_static;
+        public static float Value_static;
         public Grace(Vector2 Pos):base(Pos) 
         {
-            Grace_Texture = Global.Content.Load<Texture2D>("Grace");
+            base.texture = Global.Content.Load<Texture2D>("Grace");
             base.Vector2 = Pos;
-            base.Box = new Rectangle((int)base.Vector2.X, (int)base.Vector2.Y, 96, 96);
-            base.Weight = 4;
-            base.Value = 10;           
+            base.Box = new Rectangle((int)base.Vector2.X, (int)base.Vector2.Y, 48, 48);
+            base.Weight = 1f;
+            base.Value = 10;  
+            Weight_static = Weight;
+            Value_static = Value;
         }
         public Grace()
         {
-            base.Weight = 4;
-            base.Value = 10;
+            base.Weight = 0.5f;            
         }
         public override float Get_Weight()
         {
@@ -39,7 +40,7 @@ namespace Raid.Item
         }
         public Texture2D Get_Grace_Texture()
         {
-            return Grace_Texture;
+            return base.texture;
         }
         public Rectangle Get_Grace_Hitbox()
         {
