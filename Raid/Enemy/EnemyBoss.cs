@@ -219,11 +219,11 @@ namespace Raid.Enemy
 
                     if (base.Enemy_state == 8)
                     {
-                        Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 160, 160), Color.Red * fading);
+                        Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 192, 192), Color.Red * fading);
                     }
                     if (base.Enemy_state == 7)
                     {
-                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.Red * fading);
+                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 192, 192), Color.Red * fading);
                     }
                     if (fading > 0)
                     {
