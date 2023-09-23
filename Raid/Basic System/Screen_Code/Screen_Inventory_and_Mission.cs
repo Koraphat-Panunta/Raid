@@ -38,10 +38,10 @@ namespace Raid.Screen_Code
             grace_texture = Global.Content.Load<Texture2D>("Grace");
             stash.add_rune_time();
             stash.add_rune_ATK();
-            //for(int i = 0; i < 1000; i++)
-            //{
-            //    stash.add_grace();
-            //}
+            for (int i = 0; i < 1000; i++)
+            {
+                stash.add_grace();
+            }
         }
         public void load(Inventory inventory)
         {
@@ -133,6 +133,14 @@ namespace Raid.Screen_Code
                     Global.spriteBatch.Draw(map.BuyItem_Texture, map.BuyItem_Pos[i], Color.White);
                 }
             }
+            if (mouse.Intersects(map.Upgrade_Inventory_Box))
+            {
+                Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(399, 426), Color.SkyBlue * 0.5f);
+            }
+            else
+            {
+                Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(399, 426), Color.White);
+            }
             Global.spriteBatch.Draw(grace_texture, new Vector2(542, 423),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
             Global.spriteBatch.DrawString(font," : "+stash.Graces.Count+"  $", new Vector2(576, 423 + 10), Color.White);
             Global.spriteBatch.DrawString(font,""+ inventory.Rune_ATK.Count + " / " + stash.Rune_ATK.Count, new Vector2(96, 480+10), Color.White);
@@ -147,6 +155,11 @@ namespace Raid.Screen_Code
             Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Weight() , new Vector2(168, 576 + 10), Color.White);
             Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Weight() , new Vector2(168, 624 + 10), Color.White);
             Global.spriteBatch.DrawString(font, "" + inventory.carry_weight + " / " + inventory.Max_weight + " Wt", new Vector2(200, 430), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_ATK.Get_Value() + " $", new Vector2(480,480+10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Armor.Get_Value() + " $", new Vector2(480,528 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Value() + " $", new Vector2(480 , 576 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Value() + " $", new Vector2(480 , 624 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + 75 + " $", new Vector2(480,426 + 10), Color.White);
 
 
 
@@ -195,7 +208,14 @@ namespace Raid.Screen_Code
             inventory.Cal_Weight();
             if (stash.Graces.Count >= 75)
             {
-
+                if (mouse.Intersects(map.Upgrade_Inventory_Box) && Mouse.GetState().LeftButton == ButtonState.Pressed && Oldmouse.LeftButton == ButtonState.Released)
+                {
+                    inventory.Max_weight += 15;
+                    for(int i = 0; i < 75; i++)
+                    {
+                        stash.Graces.Remove(stash.Graces[0]);
+                    }
+                }
             }
             //Input item
             if (stash.Rune_ATK.Count > 0)

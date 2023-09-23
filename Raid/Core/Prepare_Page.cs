@@ -17,10 +17,11 @@ namespace Raid.Core
         public Texture2D InputItem_Texture;
         public Texture2D StoreItem_Texture;
         public Texture2D BuyItem_Texture;
+        public Texture2D Upgrade_Inventory_Texture;
         public Vector2 Rune_ATK_Pos;
         public Vector2 Rune_Armor_Pos;
         public Vector2 Rune_Time_Pos;
-        public Vector2 Rune_Life_Pos;
+        public Vector2 Rune_Life_Pos;        
         public Vector2[] SellButton_Pos = new Vector2[4];
         public Vector2[] InputItem_Pos = new Vector2[4];
         public Vector2[] StoreItem_Pos = new Vector2[4];
@@ -33,6 +34,7 @@ namespace Raid.Core
         public Rectangle[] InputItem_Box = new Rectangle[4];
         public Rectangle[] StoreItem_Box = new Rectangle[4];
         public Rectangle[] BuyItem_Box = new Rectangle[4];
+        public Rectangle Upgrade_Inventory_Box;
         private Vector2 Deploy_Button_pos;
         private Vector2 Map_Pos;
         private Vector2[] Deploy_select_pos;
@@ -57,7 +59,9 @@ namespace Raid.Core
             InputItem_Texture = Global.Content.Load<Texture2D>("Input-item");
             StoreItem_Texture = Global.Content.Load<Texture2D>("store-item");
             BuyItem_Texture = Global.Content.Load<Texture2D>("store-item");
+            Upgrade_Inventory_Texture = Global.Content.Load<Texture2D>("Upgrade_inventory");
 
+            Upgrade_Inventory_Box = new Rectangle(399,426,64,32);
             Rune_ATK_Pos = new Vector2(64,480);
             Rune_Armor_Pos = new Vector2(64, 528);
             Rune_Time_Pos = new Vector2(64,576);

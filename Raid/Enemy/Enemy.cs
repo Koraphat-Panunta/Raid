@@ -24,7 +24,7 @@ namespace Raid.Enemy
         protected float fading = 1;
         public bool Enemy_is_Alert;
         public bool Enemy_is_attack;
-        public readonly float Moving_speed;
+        public float Moving_speed;
 
         public Enemy()
         {

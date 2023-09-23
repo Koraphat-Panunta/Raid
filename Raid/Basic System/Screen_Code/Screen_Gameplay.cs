@@ -13,12 +13,14 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 15;
-        int enemyRangemax = 6;
+        int enemyclosemax = 0;
+        int enemyRangemax = 0;
+        int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
         List<EnemyRange> enemyRanges = new List<EnemyRange>();
+        List<EnemyBoss> enemyBosses = new List<EnemyBoss>();
         Map map;
         Camera Camera;       
         public List<Grace> graces = new List<Grace>();  
@@ -44,6 +46,10 @@ namespace Raid.Screen_Code
             {           
                 enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
             }
+            for(int i = 0; i < enemyBossmax; i++)
+            {
+                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(2400, 3000), random.Next(5000,6000))));
+            }
             Extract_fail = false;
             Extract_success = false;
             map = new Map();                                 
@@ -60,6 +66,7 @@ namespace Raid.Screen_Code
         }
         public void load(Vector2 Deploy_Pos,Inventory inventory)
         {
+
             Main_Char = new Main_Char();
             Main_Char.inventory = inventory;
             for (int i = 0; i < enemyclosemax; i++)
@@ -69,6 +76,10 @@ namespace Raid.Screen_Code
             for (int i = 0; i < enemyRangemax; i++)
             {
                 enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+            }
+            for (int i = 0; i < enemyBossmax; i++)
+            {
+                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
             }
             Extract_fail = false;
             Extract_success = false;
@@ -83,6 +94,7 @@ namespace Raid.Screen_Code
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
+
         }
         double Distance;
         float SceneEnd_time = 0;
@@ -349,7 +361,132 @@ namespace Raid.Screen_Code
                             }
                         }
                     }
-                }                         
+                }
+                for (int i = 0; i < enemyBosses.Count; i++)
+                {
+                    if (enemyBosses[i].Alive == false)
+                    {
+                        graces.Add(new Grace(enemyBosses[i].Get_Pos()));
+                        enemyBosses.Remove(enemyBosses[i]);
+                        break;
+                    }
+                    enemyBosses[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
+                    if (enemyBosses[i].Enemy_is_attack == true)
+                    {
+                        if (Main_Char.ATK_state != 3)
+                        {
+                            Main_Char.Get_Dmg(enemyBosses[i].Enemt_ATK_DMG);
+                            feedback_time_start = true;
+                            break;
+                        }
+                    }
+                    if (enemyBosses[i].immune == false)
+                    {
+                        if (Main_Char.ATK_state == 1)
+                        {
+                            if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 5)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    Main_Char.Hitstreak_Plus();
+                                    break;
+                                }
+                            }
+                            if (Main_Char.Curt_state == 2 || Main_Char.Curt_state == 6)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    Main_Char.Hitstreak_Plus();
+                                    break;
+                                }
+                            }
+                            if (Main_Char.Curt_state == 3 || Main_Char.Curt_state == 7)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    Main_Char.Hitstreak_Plus();
+                                    break;
+                                }
+                            }
+                            if (Main_Char.Curt_state == 4 || Main_Char.Curt_state == 8)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    Main_Char.Hitstreak_Plus();
+                                    break;
+                                }
+                            }
+
+                        }
+                        if (Main_Char.ATK_state == 2)
+                        {
+                            if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 5)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    break;
+
+                                }
+                            }
+                            if (Main_Char.Curt_state == 2 || Main_Char.Curt_state == 6)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    break;
+                                }
+                            }
+                            if (Main_Char.Curt_state == 3 || Main_Char.Curt_state == 7)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    break;
+                                }
+                            }
+                            if (Main_Char.Curt_state == 4 || Main_Char.Curt_state == 8)
+                            {
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 * 1.2f && enemyBosses[i].immune == false)
+                                {
+                                    enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].stunt = true;
+                                    enemyBosses[i].immune = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (Main_Char.ATK_state == 4)
+                        {
+                            if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 45*1.2f && enemyBosses[i].immune == false)
+                            {
+                                enemyBosses[i].Get_DMG(Main_Char.Roll_ATK);
+                                enemyBosses[i].stunt = true;
+                                enemyBosses[i].immune = true;
+                                break;
+                            }
+                        }
+                    }
+
+                }
                 if (Time.Get_Time_Count() <= 0)
                 {
                     Main_Char.Alive = false;
@@ -361,7 +498,11 @@ namespace Raid.Screen_Code
                 if(SceneEnd_time >= 4)
                 {
                     Extract_fail = true;
-                    Main_Char.inventory.Clear_All();
+                    Main_Char.inventory.Graces.Clear();
+                    Main_Char.inventory.Rune_Armor.Clear();
+                    Main_Char.inventory.Rune_ATK.Clear();
+                    Main_Char.inventory.Rune_Lives.Clear();
+                    Main_Char.inventory.Rune_Times.Clear();
                 }
             }
             
@@ -371,7 +512,14 @@ namespace Raid.Screen_Code
         {
             Draw_Form_Pos_inWorld();
             Draw_UI();
-            Global.spriteBatch.Draw(Pos,Camera.Object_Vector(Main_Char.Get_Pos()), new Rectangle(-3,-3, 6, 6), Color.White);                  
+            Global.spriteBatch.Draw(Pos,Camera.Object_Vector(Main_Char.Get_Pos()), new Rectangle(-3,-3, 6, 6), Color.White);
+            if (enemyBosses.Count > 0)
+            {
+                for(int i = 0; i < enemyBosses.Count; i++)
+                {
+                    Global.spriteBatch.Draw(Pos, Camera.Object_Vector(enemyBosses[i].Get_Pos()), new Rectangle(-3, -3, 6, 6), Color.White);
+                }
+            }
             base.Draw(gameTime);
         }    
         public override void Unload()
@@ -444,11 +592,15 @@ namespace Raid.Screen_Code
                     
                 }
             }
+            for(int i = 0;i<enemyBosses.Count;i++)
+            {
+                enemyBosses[i].animate(Camera.Object_Vector(enemyBosses[i].Get_Pos()));
+            }
           
-                for(int i = 0; i < graces.Count; i++)
-                {
+            for(int i = 0; i < graces.Count; i++)
+            {
                     Global.spriteBatch.Draw(graces[i].Get_Grace_Texture(),Camera.Object_Vector( graces[i].Get_GracePosition()),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
-                }            
+            }            
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
 
 
@@ -479,20 +631,9 @@ namespace Raid.Screen_Code
         {
              SceneEnd_time = 0;
 
-            if (enemyClose.Count > 0)
-            {
-                for(int i = 0; i < enemyClose.Count; i++)
-                {
-                    enemyClose.Remove(enemyClose[i]);
-                }
-            }
-            if (enemyRanges.Count > 0)
-            {
-                for (int i = 0; i < enemyRanges.Count; i++)
-                {
-                    enemyRanges.Remove(enemyRanges[i]);
-                }
-            }
+            enemyClose.Clear();
+            enemyRanges.Clear();
+            enemyBosses.Clear();
             graces.Clear();
         }
 
