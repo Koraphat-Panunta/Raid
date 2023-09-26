@@ -452,6 +452,25 @@
 /processorParam:TextureFormat=Color
 /build:Menu_Logo.png
 
+#begin Quest_Detail.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Quest_Detail.spritefont
+
+#begin Quest_icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Quest_icon.png
+
 #begin Rectangle 159.png
 /importer:TextureImporter
 /processor:TextureProcessor

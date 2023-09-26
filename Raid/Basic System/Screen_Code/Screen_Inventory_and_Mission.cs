@@ -12,6 +12,8 @@ namespace Raid.Screen_Code
     public class Screen_Inventory_and_Mission : Screen
 
     {
+        public Quest quest = new Quest();
+        public Quest_I Quest_I;
         private Texture2D grace_texture;
         private SpriteFont font;
         public Prepare_Page map;
@@ -42,8 +44,9 @@ namespace Raid.Screen_Code
             {
                 stash.add_grace();
             }
+            Quest_I = new Quest_I();
         }
-        public void load(Inventory inventory)
+        public void load(Inventory inventory,Quest quest)
         {
             Deploy_Pos = Vector2.Zero;
             map = new Prepare_Page();
@@ -57,12 +60,22 @@ namespace Raid.Screen_Code
                 stash.add_grace();
             }
             this.inventory.Graces.Clear();
+            this.quest = quest;
+            if(this.quest.Quest_Completed == true)
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    stash.add_grace();
+                }
+            }
+            this.quest = new Quest();
         }
         public override void Update(GameTime gameTime)
         {
             mouse = new Rectangle((int)Mouse.GetState().Position.X, (int)Mouse.GetState().Position.Y, 3, 3);
             Item_management();
             Deploy_check();
+            Mission_Select();
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
@@ -141,6 +154,18 @@ namespace Raid.Screen_Code
             {
                 Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(399, 426), Color.White);
             }
+            if (mouse.Intersects(Quest_I.Quest_Select_Box)&&Quest_I.Quest_Done == false||Quest_I.Quest_Selected == true)
+            {
+                Global.spriteBatch.Draw(Quest_I.Quest_Select_Texture, Quest_I.Quest_Select_Position, Color.Yellow);
+            }
+            else if(Quest_I.Quest_Completed == true)
+            {
+                Global.spriteBatch.Draw(Quest_I.Quest_Select_Texture, Quest_I.Quest_Select_Position, Color.Black*0.6f);
+            }
+            else
+            {
+                Global.spriteBatch.Draw(Quest_I.Quest_Select_Texture, Quest_I.Quest_Select_Position, Color.White );
+            }
             Global.spriteBatch.Draw(grace_texture, new Vector2(542, 423),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
             Global.spriteBatch.DrawString(font," : "+stash.Graces.Count+"  $", new Vector2(576, 423 + 10), Color.White);
             Global.spriteBatch.DrawString(font,""+ inventory.Rune_ATK.Count + " / " + stash.Rune_ATK.Count, new Vector2(96, 480+10), Color.White);
@@ -160,9 +185,10 @@ namespace Raid.Screen_Code
             Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Value() + " $", new Vector2(480 , 576 + 10), Color.White);
             Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Value() + " $", new Vector2(480 , 624 + 10), Color.White);
             Global.spriteBatch.DrawString(font, "" + 75 + " $", new Vector2(480,426 + 10), Color.White);
-
-
-
+            if(quest == Quest_I)
+            {
+                quest.Show_Detail();
+            }                        
             base.Draw(gameTime);
         }
         public override void Unload()
@@ -181,9 +207,6 @@ namespace Raid.Screen_Code
             /* Console.WriteLine("Deploy_Pos = {0}", Deploy_Pos)*/
             ;
             //Console.WriteLine("Stash Grace num = " + Stash.Grace_num);
-
-
-
             base.Debuging();
         }
         
@@ -199,6 +222,7 @@ namespace Raid.Screen_Code
                 if (Deploy_selected == true && mouse.Intersects(map.Get_Deploy_Button_Box()) && Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     Deploy_Confirm = true;
+                    this.quest.Quest_Selected = false;
                 }
             }
         }
@@ -377,6 +401,14 @@ namespace Raid.Screen_Code
                 }
             }
             Oldmouse = Mouse.GetState();
+        }
+        private void Mission_Select()
+        {
+            if (mouse.Intersects(Quest_I.Quest_Select_Box)&&Mouse.GetState().LeftButton == ButtonState.Pressed&&Quest_I.Quest_Completed == false)
+            {
+                quest = Quest_I;
+                quest.Quest_Selected = true;
+            }            
         }
     }
 }

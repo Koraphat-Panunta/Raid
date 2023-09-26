@@ -98,7 +98,7 @@ namespace Raid
                 if (Management_Screen.Deploy_Confirm == true)
                 {
                     Curent_Screen = Gameplay;
-                    Gameplay_Screen.load(Management_Screen.Deploy_Pos,Management_Screen.inventory);                    
+                    Gameplay_Screen.load(Management_Screen.Deploy_Pos,Management_Screen.inventory,Management_Screen.quest);                    
                     Management_Screen.Deploy_Confirm = false;
                     //Gameplay_Screen.Main_Char.inventory = Management_Screen.inventory;
                 }
@@ -110,13 +110,13 @@ namespace Raid
                 {                   
                     Curent_Screen = Management;
                     Gameplay_Screen.Reset();
-                    Management_Screen.load(Gameplay_Screen.Main_Char.inventory);                    
+                    Management_Screen.load(Gameplay_Screen.Main_Char.inventory,Gameplay_Screen.Quest);                    
                 }
                 if(Gameplay_Screen.Extract_fail == true)
                 {
                     Curent_Screen = Management;
                     Gameplay_Screen.Reset();
-                    Management_Screen.load(Gameplay_Screen.Main_Char.inventory);
+                    Management_Screen.load(Gameplay_Screen.Main_Char.inventory,Gameplay_Screen.Quest);
                 }
                 
             }

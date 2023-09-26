@@ -13,8 +13,8 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 0;
-        int enemyRangemax = 0;
+        int enemyclosemax = 25;
+        int enemyRangemax = 6;
         int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
@@ -32,6 +32,7 @@ namespace Raid.Screen_Code
         private Vector2 Camera_Pos;
         Texture2D Pos;
         Texture2D Blood_Feedback;
+        public Quest Quest;
         public Screen_Gameplay() 
         { 
         }
@@ -59,12 +60,43 @@ namespace Raid.Screen_Code
             extract_Gate[2] = new Extract_gate(new Vector2(2001,4145));
             Main_Char.Deploy(Deploy_Pos);                                   
             Camera = new Camera();            
-           Camera_Pos = Main_Char.Get_Pos();
+            Camera_Pos = Main_Char.Get_Pos();
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count *Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
         }
-        public void load(Vector2 Deploy_Pos,Inventory inventory)
+        public void load(Vector2 Deploy_Pos,Inventory inventory,Quest quest)
+        {
+            Main_Char = new Main_Char();
+            Main_Char.inventory = inventory;
+            for (int i = 0; i < enemyclosemax; i++)
+            {
+                enemyClose.Add(new EnemyClose(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+            }
+            for (int i = 0; i < enemyRangemax; i++)
+            {
+                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+            }
+            for (int i = 0; i < enemyBossmax; i++)
+            {
+                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+            }
+            Extract_fail = false;
+            Extract_success = false;
+            map = new Map();
+            extract_Gate = new Extract_gate[3];
+            extract_Gate[0] = new Extract_gate(new Vector2(2238, 6153));
+            extract_Gate[1] = new Extract_gate(new Vector2(5547, 4563));
+            extract_Gate[2] = new Extract_gate(new Vector2(2001, 4145));
+            Main_Char.Deploy(Deploy_Pos);
+            Camera = new Camera();
+            Camera_Pos = Main_Char.Get_Pos();
+            Pos = Global.Content.Load<Texture2D>("Rectangle 159");
+            this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
+            Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
+            this.Quest = quest;            
+        }
+        public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
 
             Main_Char = new Main_Char();
@@ -94,16 +126,14 @@ namespace Raid.Screen_Code
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
-
-        }
-        double Distance;
+            
+        }        
         float SceneEnd_time = 0;
         public override void Update(GameTime gameTime)
         {
             Main_Char.Update();
             Camera.CameraPos_Update(Camera_Pos);
-            Camera_Movement();
-            
+            Camera_Movement();            
             if (Main_Char.Alive == true)
             {
                 Extractionsystem();
@@ -368,6 +398,10 @@ namespace Raid.Screen_Code
                     {
                         graces.Add(new Grace(enemyBosses[i].Get_Pos()));
                         enemyBosses.Remove(enemyBosses[i]);
+                        if(Quest.Quest_Code == 1)
+                        {
+                            Quest.Quest_Done = true;
+                        }
                         break;
                     }
                     enemyBosses[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
@@ -495,6 +529,7 @@ namespace Raid.Screen_Code
             if(Main_Char.Alive == false)
             {
                 SceneEnd_time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+                Quest.Quest_Done = false;
                 if(SceneEnd_time >= 4)
                 {
                     Extract_fail = true;
@@ -504,8 +539,7 @@ namespace Raid.Screen_Code
                     Main_Char.inventory.Rune_Lives.Clear();
                     Main_Char.inventory.Rune_Times.Clear();
                 }
-            }
-            
+            }            
                 base.Update(gameTime);            
         }
         public override void Draw(GameTime gameTime)
@@ -534,7 +568,6 @@ namespace Raid.Screen_Code
             Console.WriteLine("Intersect = {0}", Main_Char.Get_Box().Intersects(extract_Gate[1].Get_Box()));
             Console.WriteLine("Intersect = {0}", Main_Char.Get_Box().Intersects(extract_Gate[2].Get_Box()));
             Console.WriteLine("Key E = {0}",Keyboard.GetState().IsKeyDown(Keys.E));
-
             base.Debuging();
         }
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
@@ -559,6 +592,13 @@ namespace Raid.Screen_Code
                 if (extract_Gate[i].Get_Box().Intersects(Main_Char.Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E))
                 {
                     Extract_success = true;
+                    if (Quest.Quest_Code != 0)
+                    {
+                        if (Quest.Quest_Done == true)
+                        {
+                            Quest.Quest_Completed = true;
+                        }
+                    }
                     break;
                 }
             }
@@ -624,8 +664,11 @@ namespace Raid.Screen_Code
             Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(480, 0), Color.White);
             Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HitSteak = " + Main_Char.Hitsteak, new Vector2(550, 500), Color.DarkRed);
             Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HP:" + Main_Char.HP, new Vector2(50,0), Color.Black);
-            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910, 0), Color.White);
-
+            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910,680), Color.White);
+            if(Quest.Quest_Code != 0)
+            {
+                Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(1000, 0), Color.White);
+            }
         }
         public void Reset()
         {
@@ -636,10 +679,7 @@ namespace Raid.Screen_Code
             enemyBosses.Clear();
             graces.Clear();
         }
-
-        private float Camera_Time = 0;
-        private float camera_speed_X = 9;
-        private float camera_speed_Y = 7;
+        private float Camera_Time = 0;        
         private void Camera_Movement()
         {
             float Camera_acceleration_X = 6.0f;
