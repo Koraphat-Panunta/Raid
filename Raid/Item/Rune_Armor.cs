@@ -8,7 +8,7 @@ namespace Raid.Item
 {
     public class Rune_Armor:item
     {
-        static public readonly int HP_plus = 15;
+        static public readonly int HP_plus = 5;
         public static float Weight_static;
         public static float Value_static;
         public Rune_Armor() 

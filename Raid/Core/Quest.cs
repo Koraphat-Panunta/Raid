@@ -21,7 +21,7 @@ namespace Raid.Core
         }
         protected void Load()
         {
-            Quest_Detail_font = Global.Content.Load<SpriteFont>("Time");
+            Quest_Detail_font = Global.Content.Load<SpriteFont>("Quest_Detail");
             Quest_Select_Texture = Global.Content.Load<Texture2D>("Quest_icon");
         }
         public virtual void Show_Detail()

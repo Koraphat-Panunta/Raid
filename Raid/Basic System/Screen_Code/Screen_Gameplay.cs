@@ -33,6 +33,7 @@ namespace Raid.Screen_Code
         Texture2D Pos;
         Texture2D Blood_Feedback;
         public Quest Quest;
+        private HP_BAR HP_BAR;
         public Screen_Gameplay() 
         { 
         }
@@ -64,6 +65,7 @@ namespace Raid.Screen_Code
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count *Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
+            HP_BAR = new HP_BAR();
         }
         public void load(Vector2 Deploy_Pos,Inventory inventory,Quest quest)
         {
@@ -94,7 +96,8 @@ namespace Raid.Screen_Code
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
-            this.Quest = quest;            
+            this.Quest = quest;
+            HP_BAR = new HP_BAR();
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -663,12 +666,24 @@ namespace Raid.Screen_Code
             
             Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(480, 0), Color.White);
             Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HitSteak = " + Main_Char.Hitsteak, new Vector2(550, 500), Color.DarkRed);
-            Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HP:" + Main_Char.HP, new Vector2(50,0), Color.Black);
+            //Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HP:" + Main_Char.HP, new Vector2(50,0), Color.Black);
             Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910,680), Color.White);
             if(Quest.Quest_Code != 0)
             {
                 Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(1000, 0), Color.White);
             }
+            
+                Global.spriteBatch.Draw(HP_BAR.HP_Bar, HP_BAR.HP_pos, null, Color.White, 0f, Vector2.Zero, new Vector2((float)Main_Char.HP / 50, 1), SpriteEffects.None, 0.5f);                                      
+                Global.spriteBatch.Draw(HP_BAR.Armmor_Bar, HP_BAR.Armmor_Pos, null, Color.LightBlue, 0f, Vector2.Zero, new Vector2(Main_Char.Armor /(Main_Char.inventory.Rune_Armor.Count*Rune_Armor.HP_plus), 1), SpriteEffects.None, 0.5f);
+            
+            Global.spriteBatch.Draw(HP_BAR.Texture, HP_BAR.Vector2, Color.White);
+            float armor = Main_Char.HP - 50f;
+            int life = Main_Char.inventory.Rune_Lives.Count;
+            if(armor <= 0)
+            {
+                armor = 0;
+            }
+            Global.spriteBatch.DrawString(HP_BAR.Font,"ATK:"+(int)Main_Char.Common_ATK+"  AR:"+(int)Main_Char.Armor+"  Life:"+life,new Vector2(99,80),Color.Black);
         }
         public void Reset()
         {

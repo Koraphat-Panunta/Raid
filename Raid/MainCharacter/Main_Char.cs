@@ -9,6 +9,11 @@ namespace Raid.MainCharacter
     {
         public Inventory inventory;
         public float HP;
+        public float Armor;
+        private float Max_Armor;
+        private double Armor_regen_count =0;
+        private bool Armor_is_regening = false;
+        private bool Armor_regen_count_start;
         //public string Main_Char_curt_State;
         public int Curt_state;
         // Curt_state 
@@ -88,9 +93,13 @@ namespace Raid.MainCharacter
             Common_ATK = 5 + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
             Heavy_ATK = Common_ATK * 3.5f;
             Roll_ATK = Common_ATK * 4.5f;
-            HP = 50 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
+            HP = 50 ;
+            Max_Armor = (float)inventory.Rune_Armor.Count * Rune_Armor.HP_plus; 
+            Armor = (float)inventory.Rune_Armor.Count * Rune_Armor.HP_plus;
             Alive = true;
-            
+            Armor_regen_count = 0;
+            Armor_is_regening = true;
+            Armor_regen_count_start = false;
         }
         public override void Update()
         {
@@ -101,6 +110,23 @@ namespace Raid.MainCharacter
                 Main_Character_Action();
                 base.Box = new Rectangle((int)base.Vector2.X-24, (int)base.Vector2.Y-48, 48, 96);
                 base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
+                if(Armor_is_regening == true&&Armor<Max_Armor)
+                {
+                    Armor += 0.05f;
+                    if (Armor > Max_Armor)
+                    {
+                        Armor = Max_Armor;
+                    }
+                }
+                if(Armor_is_regening == false)
+                {
+                    Armor_regen_count += Global.gameTime.ElapsedGameTime.TotalSeconds;
+                    if(Armor_regen_count >= 3)
+                    {
+                        Armor_is_regening = true;
+                        Armor_regen_count = 0;
+                    }
+                }
             }           
             if(HP <= 0)
             {
@@ -463,7 +489,20 @@ namespace Raid.MainCharacter
         }
         public void Get_Dmg(int DMG)
         {
-            HP -= DMG;
+            Armor_is_regening = false;
+            Armor_regen_count = 0;
+            if (Armor > 0)
+            {
+                Armor -= DMG;
+                if (Armor < 0)
+                {
+                    Armor = 0;
+                }
+            }
+            else if(Armor <= 0) 
+            {
+                HP -= DMG;
+            }
         }
     }
 }
