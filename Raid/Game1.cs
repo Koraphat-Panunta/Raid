@@ -68,7 +68,7 @@ namespace Raid
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             SceneUpdate(gameTime);
-            Debuging(gameTime);
+            //Debuging(gameTime);
             base.Update(gameTime);           
         }
 

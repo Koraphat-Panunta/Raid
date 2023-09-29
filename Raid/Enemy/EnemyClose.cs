@@ -10,7 +10,7 @@ namespace Raid.Enemy
     {
 
         Random num = new Random();                     
-        public readonly float Moving_speed = 0.75f;         
+        public readonly float Moving_speed = 1f;         
         private AnimatedTexture animated_left;
         private AnimatedTexture animated_right;       
         private Texture2D animated;
@@ -82,8 +82,7 @@ namespace Raid.Enemy
                     }
                 }
                     
-                if (base.Unarmed == true)
-                    
+                if (base.Unarmed == true)                    
                 {
                     Enemy_is_attack = false;
                     base.Unarmed_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;

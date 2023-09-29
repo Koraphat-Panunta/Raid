@@ -13,8 +13,8 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 25;
-        int enemyRangemax = 6;
+        int enemyclosemax = 12;
+        int enemyRangemax = 5;
         int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
@@ -34,6 +34,7 @@ namespace Raid.Screen_Code
         Texture2D Blood_Feedback;
         public Quest Quest;
         private HP_BAR HP_BAR;
+        private Hitstrak_Bar Hitstreak_bar;
         public Screen_Gameplay() 
         { 
         }
@@ -98,6 +99,7 @@ namespace Raid.Screen_Code
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
             this.Quest = quest;
             HP_BAR = new HP_BAR();
+            Hitstreak_bar = new Hitstrak_Bar();
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -620,30 +622,30 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
-            
+            for (int i = 0; i < graces.Count; i++)
+            {
+                Global.spriteBatch.Draw(graces[i].Get_Grace_Texture(), Camera.Object_Vector(graces[i].Get_GracePosition()), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
+            }
             for (int i = 0; i < enemyClose.Count; i++)
             {
                 enemyClose[i].animate(Camera.Object_Vector(enemyClose[i].Get_Pos()));
                 
             }
-            for(int i = 0;i< enemyRanges.Count; i++)
+            
+            for(int i = 0;i<enemyBosses.Count;i++)
+            {
+                enemyBosses[i].animate(Camera.Object_Vector(enemyBosses[i].Get_Pos()));
+            }
+            for (int i = 0; i < enemyRanges.Count; i++)
             {
                 enemyRanges[i].animate(Camera.Object_Vector(enemyRanges[i].Get_Pos()));
                 if (enemyRanges[i].fire_ball.Count > 0)
                 {
                     enemyRanges[i].fire_ball[enemyRanges[i].fire_ball.Count - 1].animate(Camera.Object_Vector(enemyRanges[i].fire_ball[enemyRanges[i].fire_ball.Count - 1].Return_Pos()));
-                    
+
                 }
             }
-            for(int i = 0;i<enemyBosses.Count;i++)
-            {
-                enemyBosses[i].animate(Camera.Object_Vector(enemyBosses[i].Get_Pos()));
-            }
-          
-            for(int i = 0; i < graces.Count; i++)
-            {
-                    Global.spriteBatch.Draw(graces[i].Get_Grace_Texture(),Camera.Object_Vector( graces[i].Get_GracePosition()),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
-            }            
+
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
 
 
@@ -665,7 +667,7 @@ namespace Raid.Screen_Code
             }
             
             Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(480, 0), Color.White);
-            Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HitSteak = " + Main_Char.Hitsteak, new Vector2(550, 500), Color.DarkRed);
+            //Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HitSteak = " + Main_Char.Hitsteak, new Vector2(550, 500), Color.DarkRed);
             //Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HP:" + Main_Char.HP, new Vector2(50,0), Color.Black);
             Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910,680), Color.White);
             if(Quest.Quest_Code != 0)
@@ -673,17 +675,15 @@ namespace Raid.Screen_Code
                 Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(1000, 0), Color.White);
             }
             
-                Global.spriteBatch.Draw(HP_BAR.HP_Bar, HP_BAR.HP_pos, null, Color.White, 0f, Vector2.Zero, new Vector2((float)Main_Char.HP / 50, 1), SpriteEffects.None, 0.5f);                                      
+                Global.spriteBatch.Draw(HP_BAR.HP_Bar, HP_BAR.HP_pos, null, Color.White, 0f, Vector2.Zero, new Vector2((float)Main_Char.HP / 30, 1), SpriteEffects.None, 0.5f);                                      
                 Global.spriteBatch.Draw(HP_BAR.Armmor_Bar, HP_BAR.Armmor_Pos, null, Color.LightBlue, 0f, Vector2.Zero, new Vector2(Main_Char.Armor /(Main_Char.inventory.Rune_Armor.Count*Rune_Armor.HP_plus), 1), SpriteEffects.None, 0.5f);
             
             Global.spriteBatch.Draw(HP_BAR.Texture, HP_BAR.Vector2, Color.White);
-            float armor = Main_Char.HP - 50f;
+            
             int life = Main_Char.inventory.Rune_Lives.Count;
-            if(armor <= 0)
-            {
-                armor = 0;
-            }
+            
             Global.spriteBatch.DrawString(HP_BAR.Font,"ATK:"+(int)Main_Char.Common_ATK+"  AR:"+(int)Main_Char.Armor+"  Life:"+life,new Vector2(99,80),Color.Black);
+            Hitstreak_bar.Hitstrak_Bar_Show(Main_Char.Hitsteak);
         }
         public void Reset()
         {
@@ -730,7 +730,7 @@ namespace Raid.Screen_Code
                     }
                 }               
             }
-            if (Main_Char.Curt_state == 6)
+            if (Main_Char.Curt_state == 6 )
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
                 if (Camera_Pos.X < Main_Char.Get_Pos().X)
@@ -759,7 +759,7 @@ namespace Raid.Screen_Code
                 }
 
             }
-            if (Main_Char.Curt_state == 7)
+            if (Main_Char.Curt_state == 7 )
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
                 if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
@@ -788,7 +788,7 @@ namespace Raid.Screen_Code
                 }
 
             }
-            if (Main_Char.Curt_state == 8)
+            if (Main_Char.Curt_state == 8 )
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
                 if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
