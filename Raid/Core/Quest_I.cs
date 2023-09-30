@@ -16,8 +16,8 @@ namespace Raid.Core
             base.Quest_Code = 1;
         }
         public override void Show_Detail()
-        {
-            Global.spriteBatch.DrawString(base.Quest_Detail_font, base.Quest_Detail_string, new Vector2(448,96), Color.Tomato);
+        {            
+                Global.spriteBatch.DrawString(base.Quest_Detail_font, base.Quest_Detail_string, new Vector2(448, 96), Color.DarkRed);            
         }
         
     }

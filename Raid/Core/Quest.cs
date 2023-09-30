@@ -26,7 +26,14 @@ namespace Raid.Core
         }
         public virtual void Show_Detail()
         {
-            Global.spriteBatch.DrawString(Quest_Detail_font, Quest_Detail_string, new Vector2(448, 96), Color.Tomato);
+            if (Quest_Done == false)
+            {
+                Global.spriteBatch.DrawString(Quest_Detail_font, Quest_Detail_string, new Vector2(448, 96), Color.DarkRed);
+            }
+            else if(Quest_Done == true)
+            {
+                Global.spriteBatch.DrawString(Quest_Detail_font, Quest_Detail_string, new Vector2(448, 96), Color.Yellow);
+            }
         }
 
     }

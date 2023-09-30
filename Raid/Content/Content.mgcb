@@ -658,6 +658,18 @@
 /processorParam:TextureFormat=Color
 /build:store-item.png
 
+#begin Time_Icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Time_Icon.png
+
 #begin Time.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -676,4 +688,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Upgrade_inventory.png
+
+#begin WeightUI.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:WeightUI.png
 

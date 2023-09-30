@@ -31,10 +31,11 @@ namespace Raid.Screen_Code
         private Time Time;
         private Vector2 Camera_Pos;
         Texture2D Pos;
-        Texture2D Blood_Feedback;
+        Texture2D Blood_Feedback;       
         public Quest Quest;
         private HP_BAR HP_BAR;
         private Hitstrak_Bar Hitstreak_bar;
+        private Weight_UI Weight_UI;
         public Screen_Gameplay() 
         { 
         }
@@ -100,6 +101,7 @@ namespace Raid.Screen_Code
             this.Quest = quest;
             HP_BAR = new HP_BAR();
             Hitstreak_bar = new Hitstrak_Bar();
+            Weight_UI = new Weight_UI();
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -550,15 +552,7 @@ namespace Raid.Screen_Code
         public override void Draw(GameTime gameTime)
         {
             Draw_Form_Pos_inWorld();
-            Draw_UI();
-            Global.spriteBatch.Draw(Pos,Camera.Object_Vector(Main_Char.Get_Pos()), new Rectangle(-3,-3, 6, 6), Color.White);
-            if (enemyBosses.Count > 0)
-            {
-                for(int i = 0; i < enemyBosses.Count; i++)
-                {
-                    Global.spriteBatch.Draw(Pos, Camera.Object_Vector(enemyBosses[i].Get_Pos()), new Rectangle(-3, -3, 6, 6), Color.White);
-                }
-            }
+            Draw_UI();            
             base.Draw(gameTime);
         }    
         public override void Unload()
@@ -665,14 +659,18 @@ namespace Raid.Screen_Code
                     feedback_time_start = false;
                 }
             }
-            
-            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Time = "+this.Time.Get_Time_Count(), new Vector2(480, 0), Color.White);
-            //Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HitSteak = " + Main_Char.Hitsteak, new Vector2(550, 500), Color.DarkRed);
-            //Global.spriteBatch.DrawString(Time.GetSpriteFont(), "HP:" + Main_Char.HP, new Vector2(50,0), Color.Black);
-            Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910,680), Color.White);
+            Time.animate();            
+            //Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910,680), Color.White);
             if(Quest.Quest_Code != 0)
             {
-                Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(1000, 0), Color.White);
+                if (Quest.Quest_Done == false)
+                {
+                    Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(862,48), Color.WhiteSmoke,0f,Vector2.Zero,1.5f,SpriteEffects.None,0.5f);
+                }
+                else if(Quest.Quest_Done == true) 
+                {
+                    Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(862,48), Color.WhiteSmoke * 0.4f,0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.5f);
+                }
             }
             
                 Global.spriteBatch.Draw(HP_BAR.HP_Bar, HP_BAR.HP_pos, null, Color.White, 0f, Vector2.Zero, new Vector2((float)Main_Char.HP / 30, 1), SpriteEffects.None, 0.5f);                                      
@@ -684,6 +682,7 @@ namespace Raid.Screen_Code
             
             Global.spriteBatch.DrawString(HP_BAR.Font,"ATK:"+(int)Main_Char.Common_ATK+"  AR:"+(int)Main_Char.Armor+"  Life:"+life,new Vector2(99,80),Color.Black);
             Hitstreak_bar.Hitstrak_Bar_Show(Main_Char.Hitsteak);
+            Weight_UI.Show_UI(Main_Char.inventory.carry_weight,Main_Char.inventory.Max_weight);
         }
         public void Reset()
         {
@@ -697,6 +696,7 @@ namespace Raid.Screen_Code
         private float Camera_Time = 0;        
         private void Camera_Movement()
         {
+            float Camera_Velocity_Second = Main_Char.Get_speed() * 0.75f;
             float Camera_acceleration_X = 6.0f;
             float Camera_acceleration_Y = 3.75f;
             float Lenght_x = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
@@ -707,7 +707,7 @@ namespace Raid.Screen_Code
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
                 if (Camera_Pos.X < Main_Char.Get_Pos().X)
                 {
-                    Camera_Pos.X += Camera_acceleration_X * Camera_Time;  
+                    Camera_Pos.X += Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time);  
                     if(Camera_Pos.X > Main_Char.Get_Pos().X )
                     {
                         Camera_Pos.X = Main_Char.Get_Pos().X;
@@ -715,7 +715,7 @@ namespace Raid.Screen_Code
                 }
                 else if (Camera_Pos.X > Main_Char.Get_Pos().X)
                 {
-                    Camera_Pos.X -= Camera_acceleration_X * Camera_Time; 
+                    Camera_Pos.X -= Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time); 
                     if (Camera_Pos.X < Main_Char.Get_Pos().X)
                     {
                         Camera_Pos.X = Main_Char.Get_Pos().X;
@@ -735,7 +735,7 @@ namespace Raid.Screen_Code
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
                 if (Camera_Pos.X < Main_Char.Get_Pos().X)
                 {
-                    Camera_Pos.X += Camera_acceleration_X * Camera_Time;
+                    Camera_Pos.X += Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time);
                     if (Camera_Pos.X > Main_Char.Get_Pos().X)
                     {
                         Camera_Pos.X = Main_Char.Get_Pos().X;
@@ -743,7 +743,7 @@ namespace Raid.Screen_Code
                 }
                 else if (Camera_Pos.X > Main_Char.Get_Pos().X)
                 {
-                    Camera_Pos.X -= Camera_acceleration_X * Camera_Time;
+                    Camera_Pos.X -= Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time);
                     if (Camera_Pos.X < Main_Char.Get_Pos().X)
                     {
                         Camera_Pos.X = Main_Char.Get_Pos().X;
@@ -764,7 +764,7 @@ namespace Raid.Screen_Code
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
                 if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                 {
-                    Camera_Pos.Y += Camera_acceleration_Y * Camera_Time;
+                    Camera_Pos.Y += Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
                     if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                     {
                         Camera_Pos.Y = Main_Char.Get_Pos().Y;
@@ -772,7 +772,7 @@ namespace Raid.Screen_Code
                 }
                 else if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                 {
-                    Camera_Pos.Y -= Camera_acceleration_Y * Camera_Time;
+                    Camera_Pos.Y -= Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
                     if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                     {
                         Camera_Pos.Y = Main_Char.Get_Pos().Y;
@@ -793,7 +793,7 @@ namespace Raid.Screen_Code
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
                 if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                 {
-                    Camera_Pos.Y += Camera_acceleration_Y * Camera_Time;
+                    Camera_Pos.Y += Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
                     if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                     {
                         Camera_Pos.Y = Main_Char.Get_Pos().Y;
@@ -801,7 +801,7 @@ namespace Raid.Screen_Code
                 }
                 else if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
                 {
-                    Camera_Pos.Y -= Camera_acceleration_Y * Camera_Time;
+                    Camera_Pos.Y -= Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
                     if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
                     {
                         Camera_Pos.Y = Main_Char.Get_Pos().Y;

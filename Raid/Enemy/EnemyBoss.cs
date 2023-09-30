@@ -37,7 +37,7 @@ namespace Raid.Enemy
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = 14;
             base.Vector2 = Pos;
-            base.Moving_speed = 0.5f;
+            base.Moving_speed = 0.75f;
             base.Load();
         }
 
