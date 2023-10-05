@@ -7,7 +7,7 @@ namespace Raid
     {
         protected Texture2D texture;
         protected Vector2 Vector2;
-        protected Rectangle Box;
+        public Rectangle Box;
 
     }
 }

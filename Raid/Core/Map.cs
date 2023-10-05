@@ -32,11 +32,11 @@ namespace Raid.Core
             Area_Box[3] = new Rectangle((int)Area_Pos[3].X, (int)Area_Pos[3].Y, 1276, 1699);
 
             Area_Texture[4] = Global.Content.Load<Texture2D>("A5");
-            Area_Pos[4] = new Vector2 (1735, 4625);
+            Area_Pos[4] = new Vector2 (1950, 4611);
             Area_Box[4] = new Rectangle((int)Area_Pos[4].X, (int)Area_Pos[4].Y, 2005, 2095);
 
             Area_Texture[5] = Global.Content.Load<Texture2D>("A6");
-            Area_Pos[5] = new Vector2(3740, 4625);
+            Area_Pos[5] = new Vector2(3740-1, 4625);
             Area_Box[5] = new Rectangle((int)Area_Pos[5].X, (int)Area_Pos[5].Y, 927, 1057);
 
             Area_Texture[6] = Global.Content.Load<Texture2D>("A7");

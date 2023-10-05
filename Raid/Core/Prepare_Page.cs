@@ -107,7 +107,7 @@ namespace Raid.Core
         {
             switch (i)
             {
-                case 0: return new Vector2(2469,6328);
+                case 0: return new Vector2(2572, 6212);
                     break;
                 case 1: return new Vector2(5782, 4538);
                     break;

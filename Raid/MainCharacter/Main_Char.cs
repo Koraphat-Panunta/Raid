@@ -83,7 +83,7 @@ namespace Raid.MainCharacter
             base.texture = Global.Content.Load<Texture2D>("Main_Char_Move_ani");
             base.animation.Load(Global.Content, "Main_Char_Move_ani", 4,12,4);
             ATK_animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
-            ATK_animation.Load(Global.Content, "Main_Char_ATK_ani", 4, 12, 8);
+            ATK_animation.Load(Global.Content, "Main_Char_ATK_ani", 4, 12, 7);
             Moving_Speed = Runing_Speed;
             base.Load();
         }
@@ -131,6 +131,7 @@ namespace Raid.MainCharacter
                         Armor_regen_count = 0;
                     }
                 }
+                
             }           
             if(HP <= 0)
             {
@@ -144,6 +145,7 @@ namespace Raid.MainCharacter
                     Alive = false;
                 }                
             }
+            
             base.Update();
         }
         private void Update_Input_Moving_state()
@@ -230,7 +232,7 @@ namespace Raid.MainCharacter
             {
                 Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
                 ATK_animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-                Moving_Speed = 0;
+                Moving_Speed = 0;                
                 if (Attack_duration >= 0.4)
                 {
                     ATK_state = 0;
@@ -479,6 +481,10 @@ namespace Raid.MainCharacter
         public Rectangle Get_Box()
         {
             return base.Box;
+        }
+        public void Set_Pos(Vector2 Pos)
+        {
+            base.Vector2 = Pos;
         }
         public float Get_speed()
         {

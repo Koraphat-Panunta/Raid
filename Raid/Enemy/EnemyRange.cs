@@ -90,7 +90,7 @@ namespace Raid.Enemy
                                 Set_Pos(new Vector2(Get_Pos().X, Get_Pos().Y - Moving_speed));
                             }
                         }
-                    }
+                    }                   
                 }
 
                 if (base.Unarmed == true)
@@ -145,6 +145,7 @@ namespace Raid.Enemy
             {
                 base.Box = new Rectangle((int)base.Vector2.X, (int)base.Vector2.Y, 128, 129);
             }
+            
         }
         public void animate(Vector2 Pos)
         {

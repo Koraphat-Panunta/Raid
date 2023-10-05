@@ -164,7 +164,7 @@ namespace Raid
             ////////////////////////////////////// Clear Console //////////////////////////////////////
             if (Debug_Update > 0.1)
             {
-                //Console.Clear();
+                Console.Clear();
                 Debug_Update = 0;
                 DebugCheck = true;
             }

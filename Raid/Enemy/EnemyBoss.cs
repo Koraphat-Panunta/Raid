@@ -80,7 +80,7 @@ namespace Raid.Enemy
                                 Set_Pos(new Vector2(Get_Pos().X, Get_Pos().Y - Moving_speed));
                             }
                         }
-                    }
+                    }                    
                 }
 
                 if (base.Unarmed == true)
@@ -130,6 +130,7 @@ namespace Raid.Enemy
                     }
                 }
             }
+            
             base.Update();
         }
         float fading = 1;

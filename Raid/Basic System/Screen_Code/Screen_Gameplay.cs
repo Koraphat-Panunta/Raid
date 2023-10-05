@@ -13,14 +13,14 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 12;
-        int enemyRangemax = 5;
+        int enemyclosemax = 14;
+        int enemyRangemax = 6;
         int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
         List<EnemyRange> enemyRanges = new List<EnemyRange>();
-        List<EnemyBoss> enemyBosses = new List<EnemyBoss>();
+        List<EnemyBoss> enemyBosses = new List<EnemyBoss>();       
         Map map;
         Camera Camera;       
         public List<Grace> graces = new List<Grace>();  
@@ -36,6 +36,7 @@ namespace Raid.Screen_Code
         private HP_BAR HP_BAR;
         private Hitstrak_Bar Hitstreak_bar;
         private Weight_UI Weight_UI;
+        private House_Contryside_font House_Contryside_Font;
         public Screen_Gameplay() 
         { 
         }
@@ -73,14 +74,17 @@ namespace Raid.Screen_Code
         {
             Main_Char = new Main_Char();
             Main_Char.inventory = inventory;
+   
+            
             for (int i = 0; i < enemyclosemax; i++)
             {
                 enemyClose.Add(new EnemyClose(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+
             }
             for (int i = 0; i < enemyRangemax; i++)
             {
                 enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
-            }
+            }   
             for (int i = 0; i < enemyBossmax; i++)
             {
                 enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
@@ -89,7 +93,7 @@ namespace Raid.Screen_Code
             Extract_success = false;
             map = new Map();
             extract_Gate = new Extract_gate[3];
-            extract_Gate[0] = new Extract_gate(new Vector2(2238, 6153));
+            extract_Gate[0] = new Extract_gate(new Vector2(2433, 6017));
             extract_Gate[1] = new Extract_gate(new Vector2(5547, 4563));
             extract_Gate[2] = new Extract_gate(new Vector2(2001, 4145));
             Main_Char.Deploy(Deploy_Pos);
@@ -102,6 +106,7 @@ namespace Raid.Screen_Code
             HP_BAR = new HP_BAR();
             Hitstreak_bar = new Hitstrak_Bar();
             Weight_UI = new Weight_UI();
+            House_Contryside_Font = new House_Contryside_font(new Vector2(2688, 5897));
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -138,7 +143,29 @@ namespace Raid.Screen_Code
         float SceneEnd_time = 0;
         public override void Update(GameTime gameTime)
         {
+            House_Contryside_Font.Trans_Check = false;
             Main_Char.Update();
+            if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Colli))
+            {
+                if (Main_Char.Get_Box().Top < House_Contryside_Font.Box_Colli.Bottom && Main_Char.Get_Box().Top > House_Contryside_Font.Box_Colli.Bottom - 7)
+                {
+                    Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, House_Contryside_Font.Box_Colli.Bottom+48));
+                }
+                 if (Main_Char.Get_Box().Bottom > House_Contryside_Font.Box_Colli.Top && Main_Char.Get_Box().Bottom < House_Contryside_Font.Box_Colli.Top + 7)
+                {
+                    Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, House_Contryside_Font.Box_Colli.Top-48));
+                }
+                 if(Main_Char.Get_Box().Right>House_Contryside_Font.Box_Colli.Left&& Main_Char.Get_Box().Right< House_Contryside_Font.Box_Colli.Left + 7)
+                {
+                    Main_Char.Set_Pos(new Vector2(House_Contryside_Font.Box_Colli.Left-24,Main_Char.Get_Pos().Y));
+                }
+                 if (Main_Char.Get_Box().Left < House_Contryside_Font.Box_Colli.Right && Main_Char.Get_Box().Left > House_Contryside_Font.Box_Colli.Right - 7)
+                {
+                    Main_Char.Set_Pos(new Vector2(House_Contryside_Font.Box_Colli.Right + 24, Main_Char.Get_Pos().Y));
+                }
+
+            }
+            Main_Char.Last_Pos = Main_Char.Get_Pos();
             Camera.CameraPos_Update(Camera_Pos);
             Camera_Movement();            
             if (Main_Char.Alive == true)
@@ -146,15 +173,40 @@ namespace Raid.Screen_Code
                 Extractionsystem();
                 lootingsystem();
                 Time.Time_Count();
-                for (int i = 0; i < enemyClose.Count; i++)
+                if(House_Contryside_Font.Trans_Check == false)
                 {
+                    if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans))
+                    {
+                        House_Contryside_Font.Trans = true;
+                        House_Contryside_Font.Trans_Check = true;
+                    }
+                    else
+                    {
+                        House_Contryside_Font.Trans = false;
+                    }
+                }
+                for (int i = 0; i < enemyClose.Count; i++)
+                {                                      
                     if (enemyClose[i].Alive == false)
                     {
                         graces.Add(new Grace(enemyClose[i].Get_Pos()));
                         enemyClose.Remove(enemyClose[i]);
                         break;
                     }
-                    enemyClose[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));                   
+                    enemyClose[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
+                    if (House_Contryside_Font.Trans_Check == false)
+                    {
+                        if (enemyClose[i].Box.Intersects(House_Contryside_Font.Box_Trans))
+                        {
+                            House_Contryside_Font.Trans = true;
+                            House_Contryside_Font.Trans_Check = true;
+                        }
+                        else
+                        {
+                            House_Contryside_Font.Trans = false;
+                        }
+                    }
+                    enemyClose[i].Last_Pos = enemyClose[i].Get_Pos();
                         if (enemyClose[i].Enemy_is_attack == true)
                         {
                             if (Main_Char.ATK_state != 3)
@@ -280,6 +332,7 @@ namespace Raid.Screen_Code
                         break;
                     }
                     enemyRanges[i].update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
+                    enemyRanges[i].Last_Pos = enemyRanges[i].Get_Pos();
                     if (enemyRanges[i].fire_ball.Count > 0)
                     {
                         if (enemyRanges[i].fire_ball[enemyRanges[i].fire_ball.Count-1].Return_box().Intersects(Main_Char.Get_Box()))
@@ -412,6 +465,7 @@ namespace Raid.Screen_Code
                         break;
                     }
                     enemyBosses[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
+                    enemyBosses[i].Last_Pos = enemyBosses[i].Get_Pos();
                     if (enemyBosses[i].Enemy_is_attack == true)
                     {
                         if (Main_Char.ATK_state != 3)
@@ -561,12 +615,18 @@ namespace Raid.Screen_Code
         }
         public override void Debuging()
         {
-            Console.WriteLine("Enemy_number = " + enemyClose.Count);
-            Console.WriteLine("grace num ="+Main_Char.inventory.Graces.Count);                       
-            Console.WriteLine("Intersect = {0}",Main_Char.Get_Box().Intersects(extract_Gate[0].Get_Box()));
-            Console.WriteLine("Intersect = {0}", Main_Char.Get_Box().Intersects(extract_Gate[1].Get_Box()));
-            Console.WriteLine("Intersect = {0}", Main_Char.Get_Box().Intersects(extract_Gate[2].Get_Box()));
-            Console.WriteLine("Key E = {0}",Keyboard.GetState().IsKeyDown(Keys.E));
+            Console.WriteLine(Main_Char.Get_Box().Right <= House_Contryside_Font.Box_Colli.Left + Main_Char.Get_speed());
+            Console.WriteLine(Main_Char.Get_Box().Right < House_Contryside_Font.Box_Colli.Right);
+            Console.WriteLine("\n\n");
+            Console.WriteLine(Main_Char.Get_Box().Left >= House_Contryside_Font.Box_Colli.Right - Main_Char.Get_speed());
+            Console.WriteLine(Main_Char.Get_Box().Left > House_Contryside_Font.Box_Colli.Left);
+            Console.WriteLine("\n\n");
+            Console.WriteLine(Main_Char.Get_Box().Bottom > House_Contryside_Font.Box_Colli.Top - Main_Char.Get_speed());
+            Console.WriteLine(Main_Char.Get_Box().Bottom >= House_Contryside_Font.Box_Colli.Bottom);
+            Console.WriteLine("\n\n");
+            Console.WriteLine(Main_Char.Get_Box().Top < House_Contryside_Font.Box_Colli.Bottom + Main_Char.Get_speed());
+            Console.WriteLine(Main_Char.Get_Box().Top <= House_Contryside_Font.Box_Colli.Top);
+            Console.WriteLine("\n\n");
             base.Debuging();
         }
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
@@ -613,6 +673,10 @@ namespace Raid.Screen_Code
                     
                 }
             }
+            if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans) == false)
+            {
+                House_Contryside_Font.Show(Camera.Object_Vector(House_Contryside_Font.Get_Pos()));
+            }
             Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
@@ -639,8 +703,15 @@ namespace Raid.Screen_Code
 
                 }
             }
-
+            
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
+           
+                if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans))
+                {
+                    House_Contryside_Font.Show(Camera.Object_Vector(House_Contryside_Font.Get_Pos()));
+                }
+            
+
 
 
         }
@@ -673,7 +744,7 @@ namespace Raid.Screen_Code
                 }
             }
             
-                Global.spriteBatch.Draw(HP_BAR.HP_Bar, HP_BAR.HP_pos, null, Color.White, 0f, Vector2.Zero, new Vector2((float)Main_Char.HP / 30, 1), SpriteEffects.None, 0.5f);                                      
+                Global.spriteBatch.Draw(HP_BAR.HP_Bar, HP_BAR.HP_pos, null, Color.White, 0f, Vector2.Zero, new Vector2((float)Main_Char.HP / 30,1), SpriteEffects.None, 0.5f);                                      
                 Global.spriteBatch.Draw(HP_BAR.Armmor_Bar, HP_BAR.Armmor_Pos, null, Color.LightBlue, 0f, Vector2.Zero, new Vector2(Main_Char.Armor /(Main_Char.inventory.Rune_Armor.Count*Rune_Armor.HP_plus), 1), SpriteEffects.None, 0.5f);
             
             Global.spriteBatch.Draw(HP_BAR.Texture, HP_BAR.Vector2, Color.White);
@@ -696,12 +767,11 @@ namespace Raid.Screen_Code
         private float Camera_Time = 0;        
         private void Camera_Movement()
         {
-            float Camera_Velocity_Second = Main_Char.Get_speed() * 0.75f;
-            float Camera_acceleration_X = 6.0f;
-            float Camera_acceleration_Y = 3.75f;
+            float Camera_Velocity_Second = Main_Char.Get_speed() * 0.55f;
+            float Camera_acceleration_X = 4.5f;
+            float Camera_acceleration_Y = 3.5f;
             float Lenght_x = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
             float Lenght_y = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
-            
             if (Main_Char.Curt_state == 5)
             {
                 Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
@@ -815,11 +885,14 @@ namespace Raid.Screen_Code
                         Camera_Pos.X = Main_Char.Get_Pos().X + Lenght_x;
                     }
                 }
-
             }
-            if(Main_Char.Curt_state == 1||Main_Char.Curt_state == 2|| Main_Char.Curt_state == 3|| Main_Char.Curt_state == 4)
+            if (Main_Char.ATK_state == 4)
             {
-                Camera_Time = 0;
+                
+            }
+            if (Main_Char.Curt_state == 1||Main_Char.Curt_state == 2|| Main_Char.Curt_state == 3|| Main_Char.Curt_state == 4)
+            {
+                Camera_Time = 0; 
             }
         }
     }

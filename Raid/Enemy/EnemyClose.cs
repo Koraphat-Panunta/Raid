@@ -55,7 +55,7 @@ namespace Raid.Enemy
                 }
                 if (base.Alive == true && base.HP > 0)
                 {
-
+                    base.Box = new Rectangle((int)base.Vector2.X-80+16, (int)base.Vector2.Y-80+48, 142, 104);
                     if (Enemy_is_Alert == true)
                     {
                         if (stunt == false && Unarmed == false)
@@ -80,6 +80,7 @@ namespace Raid.Enemy
                             }
                         }
                     }
+                    
                 }
                     
                 if (base.Unarmed == true)                    
@@ -126,8 +127,8 @@ namespace Raid.Enemy
                         Enemy_is_attack = true;
                         base.Unarmed = true;
                     }
-                }                             
-            }                               
+                }                
+            }            
             base.Update();
         }
         float fading = 1;
