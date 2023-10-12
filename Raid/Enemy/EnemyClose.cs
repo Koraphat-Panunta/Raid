@@ -10,7 +10,7 @@ namespace Raid.Enemy
     {
 
         Random num = new Random();                     
-        public readonly float Moving_speed = 1f;         
+        public readonly float Moving_speed = 2f;         
         private AnimatedTexture animated_left;
         private AnimatedTexture animated_right;       
         private Texture2D animated;
@@ -32,6 +32,7 @@ namespace Raid.Enemy
             base.Enemy_ATK_Range = Global.Tile*1.5f;
             base.Enemy_state = 1;
             base.Enemy_Detection_Range = Global.Tile * 7;
+            
             Render_Range = Global.Tile * 14;
             Enemy_is_Alert = false;
             Enemy_is_attack = false;
@@ -40,7 +41,7 @@ namespace Raid.Enemy
             base.Load();
         }
         
-        public void Update(Vector2 Player_Pos)
+        public override void Update(Vector2 Player_Pos)
         {            
             Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y), 2));
             if (Enemy_Distance <= Render_Range)
@@ -127,9 +128,11 @@ namespace Raid.Enemy
                         Enemy_is_attack = true;
                         base.Unarmed = true;
                     }
-                }                
-            }            
-            base.Update();
+                }
+                Push();
+                
+            }
+            base.Update(Player_Pos);
         }
         float fading = 1;
         public void animate(Vector2 Pos)
@@ -232,6 +235,37 @@ namespace Raid.Enemy
 
             }  
             base.animate();
+        }
+        Vector2 Pos;
+        float v = 0;
+        float a = -6;
+        float U = 0;
+        public override void Get_Push(float U, Vector2 Pos)
+        {
+            this.U = U;
+            this.Pos = Pos;           
+        }
+        private void Push()
+        {
+            Push_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+            v = (U + (a * Push_Time));
+            if (v < 0)
+            {
+                v = 0;
+                U = 0;
+                Push_Time = 0;
+            }
+            if (Pos.X >= base.Vector2.X)
+            {                
+                base.Vector2.X -= v * (float)Math.Cos(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+                base.Vector2.Y -= v * (float)Math.Sin(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+            }
+            else if (Pos.X < base.Vector2.X)
+            {              
+                base.Vector2.X -= -v * (float)Math.Cos(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+                base.Vector2.Y -= -v * (float)Math.Sin(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+            }
+            
         }
         public double get_stunt()
         {

@@ -37,9 +37,10 @@ namespace Raid.Enemy
             //2:right            
             base.texture = Global.Content.Load<Texture2D>("enemy_range_left");
         }
-        public void update(Vector2 Player_Pos)
+        public override void Update(Vector2 Player_Pos)
         {
             base.Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y), 2));
+            Push();
             if (fire_ball.Count > 0)
             {
                 attact_duration += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
@@ -145,6 +146,7 @@ namespace Raid.Enemy
             {
                 base.Box = new Rectangle((int)base.Vector2.X, (int)base.Vector2.Y, 128, 129);
             }
+            base.Update(Player_Pos);
             
         }
         public void animate(Vector2 Pos)
@@ -198,6 +200,37 @@ namespace Raid.Enemy
                 }
 
             }
+        }
+        float v = 0;
+        float a = -6;
+        float U = 0;
+        Vector2 Pos;
+        public override void Get_Push(float U, Vector2 Pos)
+        {
+            this.U = 0.5f;
+            this.Pos = Pos;
+        }
+        private void Push()
+        {
+            Push_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+            v = (U + (a * Push_Time));
+            if (v < 0)
+            {
+                v = 0;
+                U = 0;
+                Push_Time = 0;
+            }
+            if (Pos.X >= base.Vector2.X)
+            {
+                base.Vector2.X -= v * (float)Math.Cos(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+                base.Vector2.Y -= v * (float)Math.Sin(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+            }
+            else if (Pos.X < base.Vector2.X)
+            {
+                base.Vector2.X -= -v * (float)Math.Cos(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+                base.Vector2.Y -= -v * (float)Math.Sin(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+            }
+
         }
         public Rectangle get_weaponBox()
         {

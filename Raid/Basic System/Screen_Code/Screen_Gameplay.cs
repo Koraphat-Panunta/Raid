@@ -13,9 +13,9 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 14;
-        int enemyRangemax = 6;
-        int enemyBossmax = 1;
+        int enemyclosemax = 18;
+        int enemyRangemax = 5;
+        int enemyBossmax = 2;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -29,7 +29,7 @@ namespace Raid.Screen_Code
         public bool Extract_success;
         public bool Extract_fail;
         private Time Time;
-        private Vector2 Camera_Pos;
+    
         Texture2D Pos;
         Texture2D Blood_Feedback;       
         public Quest Quest;
@@ -63,8 +63,7 @@ namespace Raid.Screen_Code
             extract_Gate[1] = new Extract_gate(new Vector2(5547,4563));
             extract_Gate[2] = new Extract_gate(new Vector2(2001,4145));
             Main_Char.Deploy(Deploy_Pos);                                   
-            Camera = new Camera();            
-            Camera_Pos = Main_Char.Get_Pos();
+            Camera = new Camera(Main_Char.Get_Pos());                       
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count *Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
@@ -97,8 +96,8 @@ namespace Raid.Screen_Code
             extract_Gate[1] = new Extract_gate(new Vector2(5547, 4563));
             extract_Gate[2] = new Extract_gate(new Vector2(2001, 4145));
             Main_Char.Deploy(Deploy_Pos);
-            Camera = new Camera();
-            Camera_Pos = Main_Char.Get_Pos();
+            Camera = new Camera(Main_Char.Get_Pos());
+            
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
@@ -133,13 +132,13 @@ namespace Raid.Screen_Code
             extract_Gate[1] = new Extract_gate(new Vector2(5547, 4563));
             extract_Gate[2] = new Extract_gate(new Vector2(2001, 4145));
             Main_Char.Deploy(Deploy_Pos);
-            Camera = new Camera();
-            Camera_Pos = Main_Char.Get_Pos();
+            Camera = new Camera(Main_Char.Get_Pos());
+            
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
-            
-        }        
+
+        }
         float SceneEnd_time = 0;
         public override void Update(GameTime gameTime)
         {
@@ -166,8 +165,7 @@ namespace Raid.Screen_Code
 
             }
             Main_Char.Last_Pos = Main_Char.Get_Pos();
-            Camera.CameraPos_Update(Camera_Pos);
-            Camera_Movement();            
+            Camera.Camera_Movement(Main_Char);            
             if (Main_Char.Alive == true)
             {
                 Extractionsystem();
@@ -225,6 +223,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y+48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                        Camera.CameraShake();
+                                        enemyClose[i].Get_Push(Main_Char.Commom_ATK_Push,Main_Char.Get_Pos());
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         Main_Char.Hitstreak_Plus();
@@ -236,6 +236,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y- 48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                        Camera.CameraShake();
+                                        enemyClose[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         Main_Char.Hitstreak_Plus();
@@ -247,6 +249,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X+ 48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                        enemyClose[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                        Camera.CameraShake();
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         Main_Char.Hitstreak_Plus();
@@ -258,6 +262,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X- 48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
+                                        Camera.CameraShake(); 
+                                        enemyClose[i].Get_Push(Main_Char.Commom_ATK_Push,Main_Char.Get_Pos());
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         Main_Char.Hitstreak_Plus(); 
@@ -273,6 +279,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                        Camera.CameraShake();
+                                        enemyClose[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         break;
@@ -284,6 +292,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                        Camera.CameraShake();
+                                        enemyClose[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         break;
@@ -294,6 +304,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                        Camera.CameraShake();
+                                        enemyClose[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         break;
@@ -304,6 +316,8 @@ namespace Raid.Screen_Code
                                     if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
+                                        enemyClose[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                        Camera.CameraShake();
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         break;
@@ -315,14 +329,16 @@ namespace Raid.Screen_Code
                                 if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 45 && enemyClose[i].immune == false)
                                 {
                                     enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
+                                    enemyClose[i].Get_Push(Main_Char.Roll_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyClose[i].stunt = true;
                                     enemyClose[i].immune = true;
                                     break;
                                 }
                             }
                         }
-                   
-                    }
+
+                }
                 for (int i = 0; i < enemyRanges.Count; i++)
                 {
                     if (enemyRanges[i].Alive == false)
@@ -331,7 +347,7 @@ namespace Raid.Screen_Code
                         enemyRanges.Remove(enemyRanges[i]);
                         break;
                     }
-                    enemyRanges[i].update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
+                    enemyRanges[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
                     enemyRanges[i].Last_Pos = enemyRanges[i].Get_Pos();
                     if (enemyRanges[i].fire_ball.Count > 0)
                     {
@@ -355,6 +371,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -366,6 +384,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -377,6 +397,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -388,6 +410,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -403,6 +427,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyRanges[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     break;
@@ -414,6 +440,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyRanges[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     break;
@@ -424,6 +452,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyRanges[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     break;
@@ -434,6 +464,8 @@ namespace Raid.Screen_Code
                                 if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyRanges[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyRanges[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyRanges[i].stunt = true;
                                     enemyRanges[i].immune = true;
                                     break;
@@ -445,6 +477,8 @@ namespace Raid.Screen_Code
                             if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 45 && enemyRanges[i].immune == false)
                             {
                                 enemyRanges[i].Get_DMG(Main_Char.Roll_ATK);
+                                enemyRanges[i].Get_Push(Main_Char.Roll_ATK_Push, Main_Char.Get_Pos());
+                                Camera.CameraShake();
                                 enemyRanges[i].stunt = true;
                                 enemyRanges[i].immune = true;
                                 break;
@@ -484,6 +518,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -495,6 +531,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -506,6 +544,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -517,6 +557,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     Main_Char.Hitstreak_Plus();
@@ -532,6 +574,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     break;
@@ -543,6 +587,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     break;
@@ -553,6 +599,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     break;
@@ -563,6 +611,8 @@ namespace Raid.Screen_Code
                                 if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 * 1.2f && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
+                                    enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
+                                    Camera.CameraShake();
                                     enemyBosses[i].stunt = true;
                                     enemyBosses[i].immune = true;
                                     break;
@@ -574,6 +624,8 @@ namespace Raid.Screen_Code
                             if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 45*1.2f && enemyBosses[i].immune == false)
                             {
                                 enemyBosses[i].Get_DMG(Main_Char.Roll_ATK);
+                                enemyBosses[i].Get_Push(Main_Char.Roll_ATK_Push, Main_Char.Get_Pos());
+                                Camera.CameraShake();
                                 enemyBosses[i].stunt = true;
                                 enemyBosses[i].immune = true;
                                 break;
@@ -615,18 +667,7 @@ namespace Raid.Screen_Code
         }
         public override void Debuging()
         {
-            Console.WriteLine(Main_Char.Get_Box().Right <= House_Contryside_Font.Box_Colli.Left + Main_Char.Get_speed());
-            Console.WriteLine(Main_Char.Get_Box().Right < House_Contryside_Font.Box_Colli.Right);
-            Console.WriteLine("\n\n");
-            Console.WriteLine(Main_Char.Get_Box().Left >= House_Contryside_Font.Box_Colli.Right - Main_Char.Get_speed());
-            Console.WriteLine(Main_Char.Get_Box().Left > House_Contryside_Font.Box_Colli.Left);
-            Console.WriteLine("\n\n");
-            Console.WriteLine(Main_Char.Get_Box().Bottom > House_Contryside_Font.Box_Colli.Top - Main_Char.Get_speed());
-            Console.WriteLine(Main_Char.Get_Box().Bottom >= House_Contryside_Font.Box_Colli.Bottom);
-            Console.WriteLine("\n\n");
-            Console.WriteLine(Main_Char.Get_Box().Top < House_Contryside_Font.Box_Colli.Bottom + Main_Char.Get_speed());
-            Console.WriteLine(Main_Char.Get_Box().Top <= House_Contryside_Font.Box_Colli.Top);
-            Console.WriteLine("\n\n");
+                        
             base.Debuging();
         }
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
@@ -718,8 +759,7 @@ namespace Raid.Screen_Code
         double feedback_time = 0;
         bool feedback_time_start = false;
         private void Draw_UI()
-        {
-            
+        {         
             if(feedback_time_start == true)
             {
                 feedback_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;                
@@ -730,8 +770,7 @@ namespace Raid.Screen_Code
                     feedback_time_start = false;
                 }
             }
-            Time.animate();            
-            //Global.spriteBatch.DrawString(Time.GetSpriteFont(),"Wt :" +(float)Main_Char.inventory.carry_weight+" / "+Main_Char.inventory.Max_weight, new Vector2(910,680), Color.White);
+            Time.animate();           
             if(Quest.Quest_Code != 0)
             {
                 if (Quest.Quest_Done == false)
@@ -763,137 +802,6 @@ namespace Raid.Screen_Code
             enemyRanges.Clear();
             enemyBosses.Clear();
             graces.Clear();
-        }
-        private float Camera_Time = 0;        
-        private void Camera_Movement()
-        {
-            float Camera_Velocity_Second = Main_Char.Get_speed() * 0.55f;
-            float Camera_acceleration_X = 4.5f;
-            float Camera_acceleration_Y = 3.5f;
-            float Lenght_x = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
-            float Lenght_y = (Global.GraphicsDevice.PreferredBackBufferHeight/4)/2.5f;
-            if (Main_Char.Curt_state == 5)
-            {
-                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.X < Main_Char.Get_Pos().X)
-                {
-                    Camera_Pos.X += Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time);  
-                    if(Camera_Pos.X > Main_Char.Get_Pos().X )
-                    {
-                        Camera_Pos.X = Main_Char.Get_Pos().X;
-                    }
-                }
-                else if (Camera_Pos.X > Main_Char.Get_Pos().X)
-                {
-                    Camera_Pos.X -= Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time); 
-                    if (Camera_Pos.X < Main_Char.Get_Pos().X)
-                    {
-                        Camera_Pos.X = Main_Char.Get_Pos().X;
-                    }
-                }               
-                if(Camera_Pos.Y > Main_Char.Get_Pos().Y- Lenght_y)
-                {
-                    Camera_Pos.Y -= Main_Char.Get_speed() + Camera_acceleration_Y * Camera_Time; 
-                    if(Camera_Pos.Y < Main_Char.Get_Pos().Y - Lenght_y)
-                    {
-                        Camera_Pos.Y = Main_Char.Get_Pos().Y - Lenght_y;
-                    }
-                }               
-            }
-            if (Main_Char.Curt_state == 6 )
-            {
-                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.X < Main_Char.Get_Pos().X)
-                {
-                    Camera_Pos.X += Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time);
-                    if (Camera_Pos.X > Main_Char.Get_Pos().X)
-                    {
-                        Camera_Pos.X = Main_Char.Get_Pos().X;
-                    }
-                }
-                else if (Camera_Pos.X > Main_Char.Get_Pos().X)
-                {
-                    Camera_Pos.X -= Camera_Velocity_Second + (Camera_acceleration_X * Camera_Time);
-                    if (Camera_Pos.X < Main_Char.Get_Pos().X)
-                    {
-                        Camera_Pos.X = Main_Char.Get_Pos().X;
-                    }
-                }
-                if (Camera_Pos.Y < Main_Char.Get_Pos().Y + Lenght_y)
-                {
-                    Camera_Pos.Y += Main_Char.Get_speed() + Camera_acceleration_Y * Camera_Time;
-                    if (Camera_Pos.Y > Main_Char.Get_Pos().Y + Lenght_y)
-                    {
-                        Camera_Pos.Y = Main_Char.Get_Pos().Y + Lenght_y;
-                    }
-                }
-
-            }
-            if (Main_Char.Curt_state == 7 )
-            {
-                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
-                {
-                    Camera_Pos.Y += Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
-                    if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
-                    {
-                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
-                    }
-                }
-                else if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
-                {
-                    Camera_Pos.Y -= Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
-                    if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
-                    {
-                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
-                    }
-                }
-                if (Camera_Pos.X > Main_Char.Get_Pos().X - Lenght_x)
-                {
-                    Camera_Pos.X -= Main_Char.Get_speed() + Camera_acceleration_X * Camera_Time;
-                    if (Camera_Pos.X < Main_Char.Get_Pos().X - Lenght_x)
-                    {
-                        Camera_Pos.X = Main_Char.Get_Pos().X - Lenght_x;
-                    }
-                }
-
-            }
-            if (Main_Char.Curt_state == 8 )
-            {
-                Camera_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
-                {
-                    Camera_Pos.Y += Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
-                    if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
-                    {
-                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
-                    }
-                }
-                else if (Camera_Pos.Y > Main_Char.Get_Pos().Y)
-                {
-                    Camera_Pos.Y -= Camera_Velocity_Second + (Camera_acceleration_Y * Camera_Time);
-                    if (Camera_Pos.Y < Main_Char.Get_Pos().Y)
-                    {
-                        Camera_Pos.Y = Main_Char.Get_Pos().Y;
-                    }
-                }
-                if (Camera_Pos.X < Main_Char.Get_Pos().X + Lenght_x)
-                {
-                    Camera_Pos.X += Main_Char.Get_speed() + Camera_acceleration_X * Camera_Time;
-                    if (Camera_Pos.X > Main_Char.Get_Pos().X + Lenght_x)
-                    {
-                        Camera_Pos.X = Main_Char.Get_Pos().X + Lenght_x;
-                    }
-                }
-            }
-            if (Main_Char.ATK_state == 4)
-            {
-                
-            }
-            if (Main_Char.Curt_state == 1||Main_Char.Curt_state == 2|| Main_Char.Curt_state == 3|| Main_Char.Curt_state == 4)
-            {
-                Camera_Time = 0; 
-            }
-        }
+        }              
     }
 }

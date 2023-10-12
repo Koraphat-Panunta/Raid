@@ -37,13 +37,14 @@ namespace Raid.Enemy
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = 14;
             base.Vector2 = Pos;
-            base.Moving_speed = 0.75f;
+            base.Moving_speed = 1.25f;
             base.Load();
         }
 
-        public void Update(Vector2 Player_Pos)
+        public override void Update(Vector2 Player_Pos)
         {
             Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y), 2));
+            Push();
             if (Enemy_Distance <= Render_Range)
             {
                 if (base.HP <= 0)
@@ -130,8 +131,8 @@ namespace Raid.Enemy
                     }
                 }
             }
-            
-            base.Update();
+
+            base.Update(Player_Pos);
         }
         float fading = 1;
         public void animate(Vector2 Pos)
@@ -234,6 +235,37 @@ namespace Raid.Enemy
 
             }
             base.animate();
+        }
+        float v = 0;
+        float a = -6;
+        float U = 0;
+        Vector2 Pos;
+        public override void Get_Push(float U, Vector2 Pos)
+        {
+            this.U = U;
+            this.Pos = Pos;
+        }
+        private void Push()
+        {
+            Push_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
+            v = (U + (a * Push_Time));
+            if (v < 0)
+            {
+                v = 0;
+                U = 0;
+                Push_Time = 0;
+            }
+            if (Pos.X >= base.Vector2.X)
+            {
+                base.Vector2.X -= v * (float)Math.Cos(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+                base.Vector2.Y -= v * (float)Math.Sin(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+            }
+            else if (Pos.X < base.Vector2.X)
+            {
+                base.Vector2.X -= -v * (float)Math.Cos(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+                base.Vector2.Y -= -v * (float)Math.Sin(Math.Atan((Pos.Y - base.Vector2.Y) / (Pos.X - base.Vector2.X)));
+            }
+
         }
         public double get_stunt()
         {

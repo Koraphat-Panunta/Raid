@@ -53,6 +53,9 @@ namespace Raid.MainCharacter
         public double Common_ATK;
         public double Heavy_ATK;
         public double Roll_ATK;
+        public float Commom_ATK_Push = 3f;
+        public float Heavy_ATK_Push = 3.5f;
+        public float Roll_ATK_Push = 3.9f;
 
         public bool Alive;
 
@@ -272,7 +275,7 @@ namespace Raid.MainCharacter
                 ATK_ready = false;
                 Hitsteak -= 4;
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space)&&ATK_ready == true && Hitsteak >= 1 && (Curt_state == 5|| Curt_state == 6 || Curt_state == 7 || Curt_state == 8))
+            if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space) && ATK_state != 3 && Hitsteak >= 1 && (Curt_state == 5|| Curt_state == 6 || Curt_state == 7 || Curt_state == 8))
             {
                 ATK_state = 3;
                 ATK_ready = false;

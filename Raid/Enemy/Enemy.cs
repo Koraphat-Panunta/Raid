@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.ComponentModel.Design;
+using System.Linq.Expressions;
 
 namespace Raid.Enemy
 {
@@ -25,12 +27,21 @@ namespace Raid.Enemy
         public bool Enemy_is_Alert;
         public bool Enemy_is_attack;
         public float Moving_speed;
+        float a = -1.25f;
+        public float v = 0;
+        float U;
+        Vector2 Pos;
 
         public Enemy()
         {
 
         }
         public virtual void Load() { }
+        public virtual void Update(Vector2 vector) 
+        {
+           
+
+        }
         public virtual void animate()
         {
 
@@ -58,6 +69,14 @@ namespace Raid.Enemy
         public void Get_DMG(double DMG)
         {
             HP -= DMG;
+        }
+        protected float Push_Time = 0;
+        public bool Pushing = false;
+        protected bool Push_Ready = true;
+        Vector2 Push_Pos;
+        public virtual void Get_Push(float U,Vector2 Pos)
+        {  
+           
         }
     }
 }
