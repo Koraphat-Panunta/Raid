@@ -38,7 +38,8 @@ namespace Raid.Screen_Code
         private Weight_UI Weight_UI;
         private House_Contryside_font House_Contryside_Font;
         public Screen_Gameplay() 
-        { 
+        {
+            
         }
         public override void load(Vector2 Deploy_Pos)
         {                      
