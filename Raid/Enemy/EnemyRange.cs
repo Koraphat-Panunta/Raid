@@ -13,7 +13,7 @@ namespace Raid.Enemy
         private Random random = new Random();
         private AnimatedTexture animation;
         private Texture2D texture;
-        private readonly float Moving_speed = 0.5f;
+        private readonly float Moving_speed = 1f;
         private float attact_duration = 0;
         public EnemyRange(Vector2 Spawn_Pos)
         {
@@ -28,7 +28,7 @@ namespace Raid.Enemy
             base.Alive = true;
             base.Enemt_ATK_DMG = random.Next(4,6);
             base.Enemy_Detection_Range = Global.Tile * 8;
-            base.Enemy_ATK_Range = Global.Tile * 7f;
+            base.Enemy_ATK_Range = Global.Tile * 6.7f;
             base.Enemy_state = 7;
             base.Render_Range = Global.Tile * 14;
             base.Enemy_is_Alert = false;
@@ -70,27 +70,49 @@ namespace Raid.Enemy
 
                     if (Enemy_is_Alert == true)
                     {
-                        if (stunt == false && Unarmed == false)
-                        {
-                            if (Get_Pos().X < Player_Pos.X)
+                       
+                            if (Enemy_Distance >= Enemy_ATK_Range)
                             {
-                                Set_Pos(new Vector2(Get_Pos().X + Moving_speed, Get_Pos().Y));
-                                Enemy_state = 8;
+                                if (base.Vector2.X < Player_Pos.X)
+                                {
+                                    base.Vector2.X += Moving_speed;
+                                    Enemy_state = 8;
+                                }
+                                else if (base.Vector2.X - 3 >= Player_Pos.X)
+                                {
+                                    base.Vector2.X -= Moving_speed;
+                                    Enemy_state = 7;
+                                }
+                                if (base.Vector2.Y < Player_Pos.Y)
+                                {
+                                    base.Vector2.Y += Moving_speed;
+                                }
+                                else if (base.Vector2.Y > Player_Pos.Y)
+                                {
+                                    base.Vector2.Y -= Moving_speed;
+                                }
                             }
-                            else if (Get_Pos().X - 3 >= Player_Pos.X)
+                            else if (Enemy_Distance < Global.Tile*3)
                             {
-                                Set_Pos(new Vector2(Get_Pos().X - Moving_speed, Get_Pos().Y));
-                                Enemy_state = 7;
-                            }
-                            if (Get_Pos().Y < Player_Pos.Y)
-                            {
-                                Set_Pos(new Vector2(Get_Pos().X, Get_Pos().Y + Moving_speed));
-                            }
-                            else if (Get_Pos().Y > Player_Pos.Y)
-                            {
-                                Set_Pos(new Vector2(Get_Pos().X, Get_Pos().Y - Moving_speed));
-                            }
-                        }
+                                if (base.Vector2.X < Player_Pos.X)
+                                {
+                                    base.Vector2.X -= Moving_speed;
+                                    Enemy_state = 8;
+                                }
+                                else if (base.Vector2.X - 3 >= Player_Pos.X)
+                                {
+                                    base.Vector2.X += Moving_speed;
+                                    Enemy_state = 7;
+                                }
+                                if (base.Vector2.Y < Player_Pos.Y)
+                                {
+                                    base.Vector2.Y -= Moving_speed;
+                                }
+                                else if (base.Vector2.Y > Player_Pos.Y)
+                                {
+                                    base.Vector2.Y += Moving_speed;
+                                }
+                            }                                                 
                     }                   
                 }
 

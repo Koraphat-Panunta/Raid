@@ -277,6 +277,18 @@
 /processorParam:TextureFormat=Color
 /build:enemy_boss_sheet_96_Left_2.png
 
+#begin enemy_Close_Left_attacked.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:enemy_Close_Left_attacked.png
+
 #begin enemy_Close_Left.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -54,8 +54,8 @@ namespace Raid.MainCharacter
         public double Heavy_ATK;
         public double Roll_ATK;
         public float Commom_ATK_Push = 3f;
-        public float Heavy_ATK_Push = 3.5f;
-        public float Roll_ATK_Push = 3.9f;
+        public float Heavy_ATK_Push = 4f;
+        public float Roll_ATK_Push = 4.5f;
 
         public bool Alive;
 
