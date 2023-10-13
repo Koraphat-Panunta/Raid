@@ -106,8 +106,8 @@ namespace Raid.Enemy
                 }
                 if (base.immune == true)
                 {
-                    base.immune_time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                    if (base.immune_time >= 0.49f)
+                    base.immune_time += 1;
+                    if (base.immune_time >= 36)
                     {
                         base.immune = false;
                         base.immune_time = 0;
@@ -242,10 +242,10 @@ namespace Raid.Enemy
         Vector2 Pos;
         public override void Get_Push(float U, Vector2 Pos)
         {
-            this.U = U;
+            this.U = U*0.5f;
             this.Pos = Pos;
         }
-        private void Push()
+        public void Push()
         {
             Push_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
             v = (U + (a * Push_Time));

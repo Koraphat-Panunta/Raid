@@ -70,7 +70,7 @@ namespace Raid.MainCharacter
         float Moving_Speed;
         float Runing_Speed = 2.7f;
         float Dashing_Speed = 6f;
-        float Runing_WhileATK_Speed = 0.7f;
+        float Runing_WhileATK_Speed = 0.3f;
 
         public int Hitsteak;
         public Main_Char() 
@@ -97,9 +97,9 @@ namespace Raid.MainCharacter
             ATK_state = 0;
             ATK_ready = true;
             Hitsteak = 0;
-            Common_ATK = 5 + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
-            Heavy_ATK = Common_ATK * 3.5f;
-            Roll_ATK = Common_ATK * 4.5f;
+            Common_ATK = 8.5f + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
+            Heavy_ATK = Common_ATK * 2.8f;
+            Roll_ATK = Common_ATK * 3.4f;
             HP = 30 ;
             Max_Armor = (float)inventory.Rune_Armor.Count * Rune_Armor.HP_plus; 
             Armor = (float)inventory.Rune_Armor.Count * Rune_Armor.HP_plus;
@@ -119,7 +119,7 @@ namespace Raid.MainCharacter
                 base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 if(Armor_is_regening == true&&Armor<Max_Armor)
                 {
-                    Armor += 0.05f;
+                    Armor += 0.13f;
                     if (Armor > Max_Armor)
                     {
                         Armor = Max_Armor;
@@ -153,7 +153,7 @@ namespace Raid.MainCharacter
         }
         private void Update_Input_Moving_state()
         {
-            if (ATK_state == 0)
+            if (ATK_state == 0 || ATK_state == 3)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.W) && KeyIspressed == false)
                 {
@@ -216,6 +216,7 @@ namespace Raid.MainCharacter
                 }               
             }
             
+            
         }
         private KeyboardState Old_Keys;
         public double Rate_of_attack = 0;
@@ -224,8 +225,8 @@ namespace Raid.MainCharacter
         {
             if(ATK_ready == false)
             {
-                Rate_of_attack += Global.gameTime.ElapsedGameTime.TotalSeconds;
-                if(Rate_of_attack >= 0.5f)
+                Rate_of_attack += 1;
+                if(Rate_of_attack >= 38)
                 {
                     Rate_of_attack = 0;
                     ATK_ready = true;  
@@ -233,10 +234,10 @@ namespace Raid.MainCharacter
             }
             if (ATK_state == 1 || ATK_state == 2 || ATK_state == 4)
             {
-                Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
+                Attack_duration += 1;
                 ATK_animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 Moving_Speed = 0;                
-                if (Attack_duration >= 0.4)
+                if (Attack_duration >= 35) 
                 {
                     ATK_state = 0;
                     Attack_duration = 0;
@@ -246,9 +247,9 @@ namespace Raid.MainCharacter
             }
             if(ATK_state == 3)
             {
-                Attack_duration += Global.gameTime.ElapsedGameTime.TotalSeconds;
+                Attack_duration += 1;
                 Moving_Speed = Dashing_Speed;
-                if(Attack_duration >= 0.5f)
+                if(Attack_duration >= 25)
                 {
                     ATK_state = 0;
                     Attack_duration = 0;
@@ -258,12 +259,16 @@ namespace Raid.MainCharacter
 
             if (Keyboard.GetState().IsKeyDown(Keys.J) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true)
             {
+                ATK_animation.Reset();
+                Attack_duration = 0;
                 ATK_state = 1;
                 ATK_ready = false;
                
             }
             if (Keyboard.GetState().IsKeyDown(Keys.K) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak>=2)
             {
+                ATK_animation.Reset();
+                Attack_duration = 0;
                 ATK_state = 2;
                 ATK_ready = false;
 
@@ -271,12 +276,16 @@ namespace Raid.MainCharacter
             }
             if (Keyboard.GetState().IsKeyDown(Keys.L) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak >=4)
             {
+                ATK_animation.Reset();
+                Attack_duration = 0;
                 ATK_state = 4;
                 ATK_ready = false;
                 Hitsteak -= 4;
             }
             if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space) && ATK_state != 3 && Hitsteak >= 1 && (Curt_state == 5|| Curt_state == 6 || Curt_state == 7 || Curt_state == 8))
             {
+                ATK_animation.Reset();
+                Attack_duration = 0;
                 ATK_state = 3;
                 ATK_ready = false;
                 Hitsteak -= 1;
@@ -293,7 +302,7 @@ namespace Raid.MainCharacter
                 {
                     base.Vector2.X -= Moving_Speed;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     base.Vector2.X += Moving_Speed;
                 }
@@ -305,7 +314,7 @@ namespace Raid.MainCharacter
                 {
                     base.Vector2.X -= Moving_Speed;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     base.Vector2.X += Moving_Speed;
                 }
@@ -317,7 +326,7 @@ namespace Raid.MainCharacter
                 {
                     base.Vector2.Y -= Moving_Speed;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
                     base.Vector2.Y += Moving_Speed;
                 }
@@ -329,7 +338,7 @@ namespace Raid.MainCharacter
                 {
                     base.Vector2.Y -= Moving_Speed;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
                     base.Vector2.Y += Moving_Speed;
                 }
@@ -337,6 +346,8 @@ namespace Raid.MainCharacter
            
         }
         float Fading = 1;
+       
+
         public void animate(Vector2 Position)
         {
             Vector2 Pos = new Vector2(Position.X - 144, Position.Y -144);
@@ -415,24 +426,27 @@ namespace Raid.MainCharacter
                     {
                         ATK_animation.DrawFrame(Global.spriteBatch, Pos, 8);
                     }
-                }
+                }               
                 if (ATK_state == 4)
                 {
+                    
                     if (Curt_state == 1 || Curt_state == 5)
                     {
                         ATK_animation.DrawFrame(Global.spriteBatch, Pos, 10);
+                       
                     }
                     if (Curt_state == 2 || Curt_state == 6)
                     {
                         ATK_animation.DrawFrame(Global.spriteBatch, Pos, 9);
+                       
                     }
                     if (Curt_state == 3 || Curt_state == 7)
                     {
-                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 11);
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 11);                       
                     }
                     if (Curt_state == 4 || Curt_state == 8)
                     {
-                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 12);
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 12);                        
                     }
                 }
                 if (ATK_state == 3)
@@ -477,6 +491,8 @@ namespace Raid.MainCharacter
 
             }
         }
+        
+        
         public Vector2 Get_Pos()
         {
             return base.Vector2;

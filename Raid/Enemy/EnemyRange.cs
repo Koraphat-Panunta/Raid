@@ -68,7 +68,7 @@ namespace Raid.Enemy
                 if (base.Alive == true && base.HP > 0)
                 {
 
-                    if (Enemy_is_Alert == true)
+                    if (Enemy_is_Alert == true && stunt == false && immune == false)
                     {
                        
                             if (Enemy_Distance >= Enemy_ATK_Range)
@@ -92,25 +92,25 @@ namespace Raid.Enemy
                                     base.Vector2.Y -= Moving_speed;
                                 }
                             }
-                            else if (Enemy_Distance < Global.Tile*3)
+                            else if (Enemy_Distance < Global.Tile*4.5)
                             {
                                 if (base.Vector2.X < Player_Pos.X)
                                 {
-                                    base.Vector2.X -= Moving_speed;
+                                    base.Vector2.X -= Moving_speed*0.75f;
                                     Enemy_state = 8;
                                 }
                                 else if (base.Vector2.X - 3 >= Player_Pos.X)
                                 {
-                                    base.Vector2.X += Moving_speed;
+                                    base.Vector2.X += Moving_speed * 0.75f;
                                     Enemy_state = 7;
                                 }
                                 if (base.Vector2.Y < Player_Pos.Y)
                                 {
-                                    base.Vector2.Y -= Moving_speed;
+                                    base.Vector2.Y -= Moving_speed * 0.75f;
                                 }
                                 else if (base.Vector2.Y > Player_Pos.Y)
                                 {
-                                    base.Vector2.Y += Moving_speed;
+                                    base.Vector2.Y += Moving_speed * 0.75f;
                                 }
                             }                                                 
                     }                   
@@ -129,7 +129,7 @@ namespace Raid.Enemy
                 if (base.stunt == true)
                 {
                     base.stunt_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                    if (stunt_time > 0.3f)
+                    if (stunt_time > 0.3)
                     {
                         base.stunt_time = 0;
                         base.stunt = false;
@@ -137,8 +137,8 @@ namespace Raid.Enemy
                 }
                 if (base.immune == true)
                 {
-                    base.immune_time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                    if (base.immune_time >= 0.49f)
+                    base.immune_time += 1;
+                    if (base.immune_time >= 36)
                     {
                         base.immune = false;
                         base.immune_time = 0;

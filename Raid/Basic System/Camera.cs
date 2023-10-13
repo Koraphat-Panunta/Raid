@@ -10,10 +10,6 @@ namespace Raid
         
     {
         public Vector2 Camera_Pos;
-        private Vector2 Main_Char_Pos;
-        private Texture2D World;
-        private List<Texture2D> Enviroment_Texture = new List<Texture2D>();
-        private List<Vector2> Enviroment_Pos = new List<Vector2>();
         private Random Random = new Random();
         private bool Camera_Shake = false;
         private float Camera_Shake_frame = 0;
@@ -165,7 +161,7 @@ namespace Raid
                 Camera_Shake_frame += 1;
                 int light_shake = 16;
                 int normal_shake = 22;
-                int Heavy_shake = 24;
+                int Heavy_shake = 35;
                 if (Camera_Shake_frame == 1)
                 {
                     if (Main_Char.ATK_state == 1)

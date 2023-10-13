@@ -10,7 +10,7 @@ namespace Raid.Enemy
     {
 
         Random num = new Random();                     
-        public readonly float Moving_speed = 2f;         
+        public readonly float Moving_speed = 1.75f;         
         private AnimatedTexture animated_left;
         private AnimatedTexture animated_right;       
         private Texture2D animated;
@@ -44,6 +44,7 @@ namespace Raid.Enemy
         public override void Update(Vector2 Player_Pos)
         {            
             Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y), 2));
+            Push();
             if (Enemy_Distance <= Render_Range)
             {            
                 if (base.HP <= 0)
@@ -106,8 +107,8 @@ namespace Raid.Enemy
                 }
                 if(base.immune == true) 
                 {
-                    base.immune_time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
-                    if(base.immune_time >= 0.49f)
+                    base.immune_time += 1;
+                    if(base.immune_time >= 36)
                     {
                         base.immune = false;
                         base.immune_time = 0;
@@ -130,7 +131,7 @@ namespace Raid.Enemy
                         base.Unarmed = true;
                     }
                 }
-                Push();
+               
                 
             }
             base.Update(Player_Pos);
@@ -263,7 +264,7 @@ namespace Raid.Enemy
             this.U = U;
             this.Pos = Pos;           
         }
-        private void Push()
+        public void Push()
         {
             Push_Time += (float)Global.gameTime.ElapsedGameTime.TotalSeconds;
             v = (U + (a * Push_Time));

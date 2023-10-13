@@ -13,9 +13,9 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 18;
-        int enemyRangemax = 5;
-        int enemyBossmax = 2;
+        int enemyclosemax = 12;
+        int enemyRangemax = 4;
+        int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -338,6 +338,7 @@ namespace Raid.Screen_Code
                                 }
                             }
                         }
+                        
 
                 }
                 for (int i = 0; i < enemyRanges.Count; i++)

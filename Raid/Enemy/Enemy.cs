@@ -20,7 +20,6 @@ namespace Raid.Enemy
         public float Enemy_ATK_Range;
         public float Enemy_Detection_Range;
         public int Enemt_ATK_DMG;
-        bool Enemy_Alive;
         public float Enemy_Distance;
         protected float Render_Range;
         protected float fading = 1;
@@ -28,9 +27,7 @@ namespace Raid.Enemy
         public bool Enemy_is_attack;
         public float Moving_speed;
         float a = -1.25f;
-        public float v = 0;
-        float U;
-        Vector2 Pos;
+        public float v = 0;      
 
         public Enemy()
         {
