@@ -1,13 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Raid.Basic_System;
 using Raid.Item;
+using System.Collections.Generic;
 
 namespace Raid.MainCharacter
 {
     public class Main_Char:Dynamic_Obg
     {
         public Inventory inventory;
+        private List<FrameEffect> frameEffects = new List<FrameEffect>();
+        private Texture2D texture_ATK;
         public float HP;
         public float Armor;
         private float Max_Armor;
@@ -26,7 +30,6 @@ namespace Raid.MainCharacter
         // 6:Main_Char_Moving_Down
         // 7:Main_Char_Moving_Left
         // 8:Main_Char_Moving_Right
-
         public int ATK_state;
         // ATK_state
         // 0:none
@@ -34,21 +37,9 @@ namespace Raid.MainCharacter
         // 2:Main_Char_Heavy_ATK
         // 3:Main_Char_Dodge
         // 4:Main_Char_Roll_ATK
-        //public string Main_Char_ATK_State;
-        public string Main_Char_idle_Up = "Main_Char_idle_Up";
-        public string Main_Char_idle_Down = "Main_Char_idle_Down";
-        public string Main_Char_idle_left = "Main_Char_idle_left";
-        public string Main_Char_idle_right = "Main_Char_idle_right";
+        //public string Main_Char_ATK_State;       
         //Char_Moving_State
-        public string Main_Char_Moving_Up = "Main_Char_Moving_Up";
-        public string Main_Char_Moving_Down = "Main_Char_Moving_Down";
-        public string Main_Char_Moving_Left = "Main_Char_Moving_Left";
-        public string Main_Char_Moving_Right = "Main_Char_Moving_Right";
-        public string Main_Char_Common_ATK = "Main_Char_Common_ATK";
-        public string Main_Char_Heavy_ATK = "Main_Char_Heavy_ATK";
-        public string Main_Char_Roll_ATK = "Main_Char_Roll_ATK";
-        public string Main_Char_Dodge = "Main_Char_Dodge";
-        public string Main_Char_None = "None";
+       
 
         public double Common_ATK;
         public double Heavy_ATK;
@@ -88,6 +79,7 @@ namespace Raid.MainCharacter
             ATK_animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
             ATK_animation.Load(Global.Content, "Main_Char_ATK_ani", 4, 12, 7);
             Moving_Speed = Runing_Speed;
+            texture_ATK = Global.Content.Load<Texture2D>("Main_Char_ATK_ani");
             base.Load();
         }
         public void Deploy(Vector2 Pos)
@@ -196,27 +188,6 @@ namespace Raid.MainCharacter
                     KeyIspressed = false;
                 }
             }
-            else if (ATK_state == 1 ||ATK_state == 2 || ATK_state ==4)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.W) )
-                {
-                    base.Vector2.Y -= Runing_WhileATK_Speed;                                                   
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    base.Vector2.X -= Runing_WhileATK_Speed;                                      
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.S) )
-                {
-                    base.Vector2.Y += Runing_WhileATK_Speed;                                      
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D) )
-                {
-                    base.Vector2.X += Runing_WhileATK_Speed; 
-                }               
-            }
-            
-            
         }
         private KeyboardState Old_Keys;
         public double Rate_of_attack = 0;
@@ -236,14 +207,21 @@ namespace Raid.MainCharacter
             {
                 Attack_duration += 1;
                 ATK_animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-                Moving_Speed = 0;                
+                if(ATK_state == 1 || ATK_state == 2)
+                {
+                    Moving_Speed = Runing_WhileATK_Speed;
+                }
+                if(ATK_state == 4)
+                {
+                    Moving_Speed = Runing_Speed * 0.5f;
+                }
                 if (Attack_duration >= 35) 
                 {
                     ATK_state = 0;
                     Attack_duration = 0;
                     ATK_animation.Reset();
                     Moving_Speed = Runing_Speed;
-                }
+                }              
             }
             if(ATK_state == 3)
             {
@@ -347,13 +325,20 @@ namespace Raid.MainCharacter
         }
         float Fading = 1;
        
-
+       
         public void animate(Vector2 Position)
         {
             Vector2 Pos = new Vector2(Position.X - 144, Position.Y -144);
+            if (frameEffects.Count > 0)
+            {
+                if (frameEffects[0].Trans_Time < 0)
+                {
+                    frameEffects.Remove(frameEffects[0]);
+                }
+            }
             if (Alive == true)
             {
-                Fading = 1;
+                Fading = 1;                
                 if (ATK_state == 0)
                 {
                     if (Curt_state == 5)
@@ -429,43 +414,172 @@ namespace Raid.MainCharacter
                 }               
                 if (ATK_state == 4)
                 {
-                    
+                    float trans_time = 0.008f;
                     if (Curt_state == 1 || Curt_state == 5)
                     {
                         ATK_animation.DrawFrame(Global.spriteBatch, Pos, 10);
-                       
+                        if(Attack_duration == 8*0)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 0, 288 * 9,288, 288), base.Vector2,Color.DarkRed, trans_time));
+                        }
+                        if(Attack_duration == 9 * 2)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 1, 288 * 9,288, 288), base.Vector2,Color.DarkRed, trans_time));
+                        }
+                        //if (Attack_duration == 8 * 2)
+                        //{
+                        //    frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 2, 288 * 9,288, 288), base.Vector2,Color.DarkRed));
+                        //}
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 3, 288 * 9,288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+
                     }
                     if (Curt_state == 2 || Curt_state == 6)
                     {
                         ATK_animation.DrawFrame(Global.spriteBatch, Pos, 9);
-                       
+                        if (Attack_duration == 8 * 0)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 0, 288 * 8,288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+                        if (Attack_duration == 9 * 1)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 1, 288 * 8, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+                        //if (Attack_duration == 8 * 2)
+                        //{
+                        //    frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 2, 288 * 8, 288, 288), base.Vector2, Color.DarkRed));
+                        //}
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 3, 288 * 8, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+
                     }
                     if (Curt_state == 3 || Curt_state == 7)
                     {
-                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 11);                       
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 11);
+                        if (Attack_duration == 8 * 0)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 0, 288 * 10, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+                        if (Attack_duration == 9 * 1)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 1, 288 * 10, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+                        //if (Attack_duration == 8 * 2)
+                        //{
+                        //    frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 2, 288 * 10, 288, 288), base.Vector2, Color.DarkRed));
+                        //}
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 3, 288 * 10, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
                     }
                     if (Curt_state == 4 || Curt_state == 8)
                     {
-                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 12);                        
+                        ATK_animation.DrawFrame(Global.spriteBatch, Pos, 12);
+                        if (Attack_duration == 8 * 0)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 0, 288 * 11, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+                        if (Attack_duration == 9 * 1)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 1, 288 * 11, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
+                        //if (Attack_duration == 8 * 2)
+                        //{
+                        //    frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 2, 288 * 11, 288, 288), base.Vector2, Color.DarkRed));
+                        //}
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(this.texture_ATK, new Rectangle(288 * 3, 288 * 11, 288, 288), base.Vector2, Color.DarkRed, trans_time));
+                        }
                     }
                 }
                 if (ATK_state == 3)
                 {
+                    float Trans_time = 0.005f;
                     if (Curt_state == 5)
                     {
                         base.animation.DrawFrame(Global.spriteBatch, Pos, 10);
+                        if (Attack_duration == 8 * 0)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 0, 288 * 9, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 9 * 1)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 1, 288 * 9, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 2)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 2, 288 * 9, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 3, 288 * 9, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
                     }
                     if (Curt_state == 6)
                     {
                         base.animation.DrawFrame(Global.spriteBatch, Pos, 9);
+                        if (Attack_duration == 8 * 0)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 0, 288 * 8, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 9 * 1)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 1, 288 * 8, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 2)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 2, 288 * 8, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 3, 288 * 8, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
                     }
                     if (Curt_state == 7)
                     {
                         base.animation.DrawFrame(Global.spriteBatch, Pos, 11);
+                        if (Attack_duration == 8 * 0)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 0, 288 * 10, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 9 * 1)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 1, 288 * 10, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 2)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 2, 288 * 10, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 3, 288 * 10, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
                     }
                     if (Curt_state == 8)
                     {
                         base.animation.DrawFrame(Global.spriteBatch, Pos, 12);
+                        if (Attack_duration == 8 * 0)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 0, 288 * 11, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 9 * 1)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 1, 288 * 11, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 2)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 2, 288 * 11, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
+                        if (Attack_duration == 8 * 3)
+                        {
+                            frameEffects.Add(new FrameEffect(base.texture, new Rectangle(288 * 3, 288 * 11, 288, 288), base.Vector2, Color.LightBlue, Trans_time));
+                        }
                     }
                 }
             }
@@ -532,6 +646,10 @@ namespace Raid.MainCharacter
             {
                 HP -= DMG;
             }
+        }
+        public List<FrameEffect> Get_FrameEffect()
+        {
+            return frameEffects;
         }
     }
 }

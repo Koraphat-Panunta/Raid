@@ -23,7 +23,7 @@ namespace Raid
         private float TimePerFrame;
         private int Frame;
         private int framerow = 1; // frame row
-        private int frame_r; // count frame row 
+        public int frame_r; // count frame row 
         private int startframe;
         private int endframe;
         private float TotalElapsed;

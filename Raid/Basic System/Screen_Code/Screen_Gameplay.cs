@@ -13,9 +13,9 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 12;
-        int enemyRangemax = 4;
-        int enemyBossmax = 1;
+        int enemyclosemax = 20;
+        int enemyRangemax = 5;
+        int enemyBossmax = 3;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -708,6 +708,7 @@ namespace Raid.Screen_Code
        
         private void Draw_Form_Pos_inWorld()
         {
+            
             for (int i = 0; i < 13; i++)
             {
                 if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 700 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 700 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 700 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 700)
@@ -746,7 +747,10 @@ namespace Raid.Screen_Code
 
                 }
             }
-            
+            for(int i = 0; i < Main_Char.Get_FrameEffect().Count; i++)
+            {
+                Main_Char.Get_FrameEffect()[i].Animate(Camera.Object_Vector(Main_Char.Get_FrameEffect()[i].Get_Vector()));
+            }
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
            
                 if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans))

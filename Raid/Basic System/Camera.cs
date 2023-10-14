@@ -219,7 +219,7 @@ namespace Raid
                 Camera_Shake_End = false;
             }
         }
-        public  Vector2 Object_Vector(Vector2 Object)
+        public Vector2 Object_Vector(Vector2 Object)
         {
             return new Vector2(Object.X + (Global.GraphicsDevice.PreferredBackBufferWidth/2 - Camera_Pos.X), Object.Y + (Global.GraphicsDevice.PreferredBackBufferHeight/2 -Camera_Pos.Y)); 
         }
