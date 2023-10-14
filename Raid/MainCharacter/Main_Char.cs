@@ -188,6 +188,58 @@ namespace Raid.MainCharacter
                     KeyIspressed = false;
                 }
             }
+            else if(ATK_state == 1 || ATK_state == 2 || ATK_state == 4)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.W) )
+                {
+                    if (ATK_state == 4)
+                    {
+                        base.Vector2.Y -= Runing_Speed * 0.8f;
+                    }
+                    else 
+                    {
+                        base.Vector2.Y -= Runing_WhileATK_Speed;
+                    }
+                   
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.A) )
+                {
+                    if (ATK_state == 4)
+                    {
+                        base.Vector2.X -= Runing_Speed * 0.8f;
+                    }
+                    else
+                    {
+                        base.Vector2.X -= Runing_WhileATK_Speed;
+                    }
+                  
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    if (ATK_state == 4)
+                    {
+                        base.Vector2.Y += Runing_Speed * 0.8f;
+                    }
+                    else
+                    {
+                        base.Vector2.Y += Runing_WhileATK_Speed;
+                    }
+                   
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    if (ATK_state == 4)
+                    {
+                        base.Vector2.X += Runing_Speed * 0.8f;
+                    }
+                    else
+                    {
+                        base.Vector2.X += Runing_WhileATK_Speed;
+                    }
+                   
+                }
+               
+            }
         }
         private KeyboardState Old_Keys;
         public double Rate_of_attack = 0;
@@ -207,14 +259,7 @@ namespace Raid.MainCharacter
             {
                 Attack_duration += 1;
                 ATK_animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-                if(ATK_state == 1 || ATK_state == 2)
-                {
-                    Moving_Speed = Runing_WhileATK_Speed;
-                }
-                if(ATK_state == 4)
-                {
-                    Moving_Speed = Runing_Speed * 0.5f;
-                }
+                Moving_Speed = 0;
                 if (Attack_duration >= 35) 
                 {
                     ATK_state = 0;

@@ -40,7 +40,7 @@ namespace Raid.Screen_Code
             grace_texture = Global.Content.Load<Texture2D>("Grace");
             stash.add_rune_time();
             stash.add_rune_ATK();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 15; i++)
             {
                 stash.add_grace();
             }
@@ -356,7 +356,7 @@ namespace Raid.Screen_Code
                 }
             }
             //Buy Item
-            if (stash.Graces.Count > inventory.weight_Rune_ATK.Get_Value())
+            if (stash.Graces.Count >= inventory.weight_Rune_ATK.Get_Value())
             {
                 if (mouse.Intersects(map.BuyItem_Box[0]) && Mouse.GetState().LeftButton == ButtonState.Pressed && Oldmouse.LeftButton == ButtonState.Released&&stash.Graces.Count>=inventory.weight_Rune_ATK.Get_Value())
                 {
@@ -367,7 +367,7 @@ namespace Raid.Screen_Code
                     }
                 }
             }
-            if (stash.Graces.Count > inventory.weight_Rune_Armor.Get_Value())
+            if (stash.Graces.Count >= inventory.weight_Rune_Armor.Get_Value())
             {
                 if (mouse.Intersects(map.BuyItem_Box[1]) && Mouse.GetState().LeftButton == ButtonState.Pressed && Oldmouse.LeftButton == ButtonState.Released && stash.Graces.Count >= inventory.weight_Rune_Armor.Get_Value())
                 {
@@ -378,7 +378,7 @@ namespace Raid.Screen_Code
                     }
                 }
             }
-            if (stash.Graces.Count > inventory.weight_Rune_Life.Get_Value())
+            if (stash.Graces.Count >= inventory.weight_Rune_Life.Get_Value())
             {
                 if (mouse.Intersects(map.BuyItem_Box[3]) && Mouse.GetState().LeftButton == ButtonState.Pressed && Oldmouse.LeftButton == ButtonState.Released && stash.Graces.Count >= inventory.weight_Rune_Life.Get_Value())
                 {
@@ -389,7 +389,7 @@ namespace Raid.Screen_Code
                     }
                 }
             }
-            if (stash.Graces.Count > inventory.weight_Rune_Time.Get_Value())
+            if (stash.Graces.Count >= inventory.weight_Rune_Time.Get_Value())
             {
                 if (mouse.Intersects(map.BuyItem_Box[2]) && Mouse.GetState().LeftButton == ButtonState.Pressed && Oldmouse.LeftButton == ButtonState.Released && stash.Graces.Count >= inventory.weight_Rune_Time.Get_Value())
                 {
