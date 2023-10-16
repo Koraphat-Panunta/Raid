@@ -229,6 +229,12 @@
 /processorParam:TextureFormat=Color
 /build:Dash_icon.png
 
+#begin Dash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Dash.wav
+
 #begin Deploy_button.png
 /importer:TextureImporter
 /processor:TextureProcessor

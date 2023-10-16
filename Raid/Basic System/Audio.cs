@@ -23,6 +23,7 @@ namespace Raid.Basic_System
             soundEffects.Add(Global.Content.Load<SoundEffect>("Sword Hit Enemy3"));//4
             soundEffects.Add(Global.Content.Load<SoundEffect>("Feed back effect"));//5
             soundEffects.Add(Global.Content.Load<SoundEffect>("footsteps"));//6
+            soundEffects.Add(Global.Content.Load<SoundEffect>("Dash"));//7
         }
     }
 }

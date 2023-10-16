@@ -16,7 +16,7 @@ namespace Raid.Screen_Code
     {
         int enemyclosemax = 20;
         int enemyRangemax = 5;
-        int enemyBossmax = 3;
+        int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -99,7 +99,7 @@ namespace Raid.Screen_Code
             extract_Gate[2] = new Extract_gate(new Vector2(2001, 4145));
             Main_Char.Deploy(Deploy_Pos);
             Camera = new Camera(Main_Char.Get_Pos());
-            
+            Camera.Load();
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
@@ -672,7 +672,6 @@ namespace Raid.Screen_Code
         }
         public override void Debuging()
         {
-                        
             base.Debuging();
         }
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       

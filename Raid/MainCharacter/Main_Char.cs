@@ -320,6 +320,7 @@ namespace Raid.MainCharacter
                 ATK_state = 3;
                 ATK_ready = false;
                 Hitsteak -= 1;
+                Audio.soundEffects[7].CreateInstance().Play();
             }            
             Old_Keys = Keyboard.GetState();
         }
@@ -388,7 +389,7 @@ namespace Raid.MainCharacter
             }
             if(Curt_state == 1 || Curt_state == 2 || Curt_state == 3 || Curt_state == 4)
             {
-                Foot_step = 0;
+                
                 Audio.soundEffects[6].CreateInstance().Stop();
             }
             

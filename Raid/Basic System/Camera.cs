@@ -18,6 +18,7 @@ namespace Raid
         public Camera(Vector2 Tracking_Object)
         {
             Camera_Pos = Tracking_Object;
+           
         }
         public void Load()
         {
@@ -204,7 +205,7 @@ namespace Raid
                     Camera_Shake_frame = 0;
                     Camera_Pos = Old_Vector;
                 }
-            }
+            }           
             if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 2 || Main_Char.Curt_state == 3 || Main_Char.Curt_state == 4)
             {
                 Camera_Time = 0;
@@ -219,9 +220,10 @@ namespace Raid
                 Camera_Shake_End = false;
             }
         }
+             
         public Vector2 Object_Vector(Vector2 Object)
         {
-            return new Vector2(Object.X + (Global.GraphicsDevice.PreferredBackBufferWidth/2 - Camera_Pos.X), Object.Y + (Global.GraphicsDevice.PreferredBackBufferHeight/2 -Camera_Pos.Y)); 
+            return new Vector2(Object.X + (Global.GraphicsDevice.PreferredBackBufferWidth/2 - Camera_Pos.X), Object.Y + (Global.GraphicsDevice.PreferredBackBufferHeight/2 - Camera_Pos.Y)); 
         }
     }
 }
