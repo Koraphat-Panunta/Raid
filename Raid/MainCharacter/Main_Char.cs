@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Raid.Basic_System;
 using Raid.Item;
 using System.Collections.Generic;
@@ -109,7 +110,7 @@ namespace Raid.MainCharacter
                 Main_Character_Action();
                 base.Box = new Rectangle((int)base.Vector2.X-24, (int)base.Vector2.Y-48, 48, 96);
                 base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
-                if(Armor_is_regening == true&&Armor<Max_Armor)
+                if(Armor_is_regening == true && Armor<Max_Armor)
                 {
                     Armor += 0.13f;
                     if (Armor > Max_Armor)
@@ -286,7 +287,9 @@ namespace Raid.MainCharacter
                 Attack_duration = 0;
                 ATK_state = 1;
                 ATK_ready = false;
-               
+                Audio.soundEffects[0].CreateInstance().Play();
+                Audio.soundEffects[1].CreateInstance().Play();
+                
             }
             if (Keyboard.GetState().IsKeyDown(Keys.K) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak>=2)
             {
@@ -294,7 +297,9 @@ namespace Raid.MainCharacter
                 Attack_duration = 0;
                 ATK_state = 2;
                 ATK_ready = false;
-
+                Audio.soundEffects[0].CreateInstance().Play();
+                Audio.soundEffects[1].CreateInstance().Play();
+                Audio.soundEffects[5].CreateInstance().Play();
                 Hitsteak = Hitsteak - 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.L) && Old_Keys.IsKeyUp(Keys.J) && ATK_ready == true && Hitsteak >=4)
@@ -304,6 +309,9 @@ namespace Raid.MainCharacter
                 ATK_state = 4;
                 ATK_ready = false;
                 Hitsteak -= 4;
+                Audio.soundEffects[0].CreateInstance().Play();
+                Audio.soundEffects[1].CreateInstance().Play();
+                Audio.soundEffects[5].CreateInstance().Play();
             }
             if(Keyboard.GetState().IsKeyDown(Keys.Space)&& Old_Keys.IsKeyUp(Keys.Space) && ATK_state != 3 && Hitsteak >= 1 && (Curt_state == 5|| Curt_state == 6 || Curt_state == 7 || Curt_state == 8))
             {
@@ -315,7 +323,7 @@ namespace Raid.MainCharacter
             }            
             Old_Keys = Keyboard.GetState();
         }
-        
+        int Foot_step = 0;
         public void Main_Character_Action()
         {
             if (Curt_state == 5)
@@ -330,8 +338,9 @@ namespace Raid.MainCharacter
                     base.Vector2.X += Moving_Speed;
                 }
             }
-            if (Curt_state == 6)
+            else if (Curt_state == 6)
             {
+
                 base.Vector2.Y += Moving_Speed;
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
@@ -342,8 +351,9 @@ namespace Raid.MainCharacter
                     base.Vector2.X += Moving_Speed;
                 }
             }
-            if (Curt_state == 7)
+            else if (Curt_state == 7)
             {
+
                 base.Vector2.X -= Moving_Speed;
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
@@ -354,8 +364,9 @@ namespace Raid.MainCharacter
                     base.Vector2.Y += Moving_Speed;
                 }
             }
-            if (Curt_state == 8)
+            else if (Curt_state == 8)
             {
+
                 base.Vector2.X += Moving_Speed;
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
@@ -366,6 +377,21 @@ namespace Raid.MainCharacter
                     base.Vector2.Y += Moving_Speed;
                 }
             }
+            if(Curt_state == 5|| Curt_state == 6 || Curt_state == 7 || Curt_state == 8 && ATK_state == 0)
+            {
+                Foot_step += 1;
+                if(Foot_step == 28)
+                {
+                    Audio.soundEffects[6].CreateInstance().Play();
+                    Foot_step = 0;
+                }
+            }
+            if(Curt_state == 1 || Curt_state == 2 || Curt_state == 3 || Curt_state == 4)
+            {
+                Foot_step = 0;
+                Audio.soundEffects[6].CreateInstance().Stop();
+            }
+            
            
         }
         float Fading = 1;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Raid.Basic_System;
 using Raid.Content;
 using Raid.MainCharacter;
 using Raid.Screen_Code;
@@ -54,6 +55,7 @@ namespace Raid
             Menu_Screen = new Screen_Menu();
             Management_Screen = new Screen_Inventory_and_Mission();                       
             Menu_Screen.load( Vector2.Zero);
+            Audio.Audio_Load();
             /////////////////////////////////////// Set Variable ///////////////////////////////////////
             Debug_Update = 0;
             DebugCheck = true;

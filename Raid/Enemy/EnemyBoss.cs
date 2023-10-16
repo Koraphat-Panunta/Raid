@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Raid.Basic_System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -242,6 +244,7 @@ namespace Raid.Enemy
         Vector2 Pos;
         public override void Get_Push(float U, Vector2 Pos)
         {
+            Audio.soundEffects[4].CreateInstance().Play();
             this.U = U*0.5f;
             this.Pos = Pos;
         }

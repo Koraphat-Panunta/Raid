@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Raid.Basic_System;
 using Raid.Core;
 using Raid.Enemy;
 using Raid.Enviroment;
@@ -229,6 +230,7 @@ namespace Raid.Screen_Code
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         Main_Char.Hitstreak_Plus();
+                                        
                                         break;
                                     }
                                 }
@@ -242,6 +244,7 @@ namespace Raid.Screen_Code
                                         enemyClose[i].stunt = true;
                                         enemyClose[i].immune = true;
                                         Main_Char.Hitstreak_Plus();
+                                        
                                         break;
                                     }
                                 }

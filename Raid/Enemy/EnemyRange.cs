@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Raid.Basic_System;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -231,6 +232,7 @@ namespace Raid.Enemy
         {
             this.U = 0.5f;
             this.Pos = Pos;
+            Audio.soundEffects[3].CreateInstance().Play();
         }
         private void Push()
         {

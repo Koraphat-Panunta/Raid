@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Raid.Basic_System;
 using Raid.MainCharacter;
 using System;
 
@@ -262,7 +263,8 @@ namespace Raid.Enemy
         public override void Get_Push(float U, Vector2 Pos)
         {
             this.U = U;
-            this.Pos = Pos;           
+            this.Pos = Pos;
+            Audio.soundEffects[2].CreateInstance().Play();
         }
         public void Push()
         {

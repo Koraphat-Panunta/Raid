@@ -40,7 +40,7 @@ namespace Raid.Screen_Code
             grace_texture = Global.Content.Load<Texture2D>("Grace");
             stash.add_rune_time();
             stash.add_rune_ATK();
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 stash.add_grace();
             }

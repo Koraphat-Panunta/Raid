@@ -361,6 +361,18 @@
 /processorParam:TextureFormat=Color
 /build:Extraction.png
 
+#begin Feed back effect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Feed back effect.wav
+
+#begin footsteps.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:footsteps.wav
+
 #begin Gameplay_test2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -681,6 +693,36 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:store-item.png
+
+#begin Sword Hit Enemy1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sword Hit Enemy1.wav
+
+#begin Sword Hit Enemy2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sword Hit Enemy2.wav
+
+#begin Sword Hit Enemy3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sword Hit Enemy3.wav
+
+#begin Sword Swing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sword Swing.wav
+
+#begin Sword woosh.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sword woosh.wav
 
 #begin Time_Icon.png
 /importer:TextureImporter
