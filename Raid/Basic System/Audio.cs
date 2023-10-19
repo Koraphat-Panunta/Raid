@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace Raid.Basic_System
 {
     public static class Audio
     {
-        public static List<SoundEffect> soundEffects = new List<SoundEffect>(); 
+        public static List<SoundEffect> soundEffects = new List<SoundEffect>();
+        public static Song Wind_ambient;
         public static bool SoundEffect_6 = false;
         //0:woosh
         //1:Swing
@@ -24,6 +26,8 @@ namespace Raid.Basic_System
             soundEffects.Add(Global.Content.Load<SoundEffect>("Feed back effect"));//5
             soundEffects.Add(Global.Content.Load<SoundEffect>("footsteps"));//6
             soundEffects.Add(Global.Content.Load<SoundEffect>("Dash"));//7
+
+            Wind_ambient = Global.Content.Load<Song>("Wind-BGM");
         }
     }
 }

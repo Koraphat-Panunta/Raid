@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Raid.Basic_System;
 using Raid.Core;
 using Raid.Enemy;
@@ -14,8 +15,8 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 20;
-        int enemyRangemax = 5;
+        int enemyclosemax = 10;
+        int enemyRangemax = 3;
         int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
@@ -100,6 +101,8 @@ namespace Raid.Screen_Code
             Main_Char.Deploy(Deploy_Pos);
             Camera = new Camera(Main_Char.Get_Pos());
             Camera.Load();
+            MediaPlayer.Play(Audio.Wind_ambient);
+            MediaPlayer.IsRepeating = true;
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
             this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
@@ -173,7 +176,7 @@ namespace Raid.Screen_Code
                 Extractionsystem();
                 lootingsystem();
                 Time.Time_Count();
-                if(House_Contryside_Font.Trans_Check == false)
+                if (House_Contryside_Font.Trans_Check == false)
                 {
                     if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans))
                     {
@@ -804,8 +807,8 @@ namespace Raid.Screen_Code
         }
         public void Reset()
         {
+            MediaPlayer.Stop();
              SceneEnd_time = 0;
-
             enemyClose.Clear();
             enemyRanges.Clear();
             enemyBosses.Clear();

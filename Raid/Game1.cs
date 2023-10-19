@@ -46,8 +46,8 @@ namespace Raid
             Global.spriteBatch = _spriteBatch;
             Global.GraphicsDevice = _graphics;           
             /////////////////////////////////////// Set Resolution /////////////////////////////////////
-            Global.GraphicsDevice.PreferredBackBufferHeight = 720;
-            Global.GraphicsDevice.PreferredBackBufferWidth = 1280;
+            Global.GraphicsDevice.PreferredBackBufferHeight = 1080;
+            Global.GraphicsDevice.PreferredBackBufferWidth = 1920;
             Global.GraphicsDevice.ApplyChanges();
             /////////////////////////////////////// Set Screen /////////////////////////////////////////  
             Curent_Screen = Title;
@@ -100,6 +100,7 @@ namespace Raid
                 if (Management_Screen.Deploy_Confirm == true)
                 {
                     Curent_Screen = Gameplay;
+                    Management_Screen.Reset();
                     Gameplay_Screen.load(Management_Screen.Deploy_Pos,Management_Screen.inventory,Management_Screen.quest);                    
                     Management_Screen.Deploy_Confirm = false;
                     //Gameplay_Screen.Main_Char.inventory = Management_Screen.inventory;

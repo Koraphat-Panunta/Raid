@@ -61,38 +61,38 @@ namespace Raid.Core
             BuyItem_Texture = Global.Content.Load<Texture2D>("store-item");
             Upgrade_Inventory_Texture = Global.Content.Load<Texture2D>("Upgrade_inventory");
 
-            Upgrade_Inventory_Box = new Rectangle(399,426,64,32);
-            Rune_ATK_Pos = new Vector2(64,480);
-            Rune_Armor_Pos = new Vector2(64, 528);
-            Rune_Time_Pos = new Vector2(64,576);
-            Rune_Life_Pos = new Vector2(64, 624);
+            Upgrade_Inventory_Box = new Rectangle(639,636,128,64);
+            Rune_ATK_Pos = new Vector2(120, 704);
+            Rune_Armor_Pos = new Vector2(120,775);
+            Rune_Time_Pos = new Vector2(120, 846);
+            Rune_Life_Pos = new Vector2(120,917);
 
             for(int i = 0; i < 4; i++)
             {
-                InputItem_Pos[i] = new Vector2(32,480+(48*i));                
-                StoreItem_Pos[i] = new Vector2(263,480+(48*i));
-                SellButton_Pos[i] = new Vector2(295,480+(48*i));
-                BuyItem_Pos[i] = new Vector2(399, 480 + (48 * i));
+                InputItem_Pos[i] = new Vector2(56, 704+(71*i));                
+                StoreItem_Pos[i] = new Vector2(391,704+(71*i));
+                SellButton_Pos[i] = new Vector2(455,704+(71*i));
+                BuyItem_Pos[i] = new Vector2(590, 704 + (71*i));
 
-                InputItem_Box[i] = new Rectangle((int)InputItem_Pos[i].X, (int)InputItem_Pos[i].Y,32,32);
-                StoreItem_Box[i] = new Rectangle((int)StoreItem_Pos[i].X, (int)StoreItem_Pos[i].Y,32,32);
-                SellButton_Box[i] = new Rectangle((int)SellButton_Pos[i].X, (int)SellButton_Pos[i].Y,32,32);
-                BuyItem_Box[i] = new Rectangle((int)BuyItem_Pos[i].X, (int)BuyItem_Pos[i].Y, 32, 32);
+                InputItem_Box[i] = new Rectangle((int)InputItem_Pos[i].X, (int)InputItem_Pos[i].Y,64,64);
+                StoreItem_Box[i] = new Rectangle((int)StoreItem_Pos[i].X, (int)StoreItem_Pos[i].Y,64,64);
+                SellButton_Box[i] = new Rectangle((int)SellButton_Pos[i].X, (int)SellButton_Pos[i].Y,64,64);
+                BuyItem_Box[i] = new Rectangle((int)BuyItem_Pos[i].X, (int)BuyItem_Pos[i].Y,64, 64);
             }                                 
             Set_ALL();
         }
         private void Set_ALL()
         {
-            Map_Pos = new Vector2(817, 75);
-            Deploy_select_pos[0] = new Vector2(937, 371);
-            Deploy_select_pos[1] = new Vector2(1100, 294);
-            Deploy_select_pos[2] = new Vector2(924, 271);
+            Map_Pos = new Vector2(1230, 125);
+            Deploy_select_pos[0] = new Vector2(1398,545);
+            Deploy_select_pos[1] = new Vector2(1641, 430);
+            Deploy_select_pos[2] = new Vector2(1389, 398);
             Deploy_select_pos[3] = new Vector2(1803,520);
-            Deploy_Button_pos = new Vector2(1088, 608);
-            Deploy_Button_Box = new Rectangle((int)Deploy_Button_pos.X,(int)Deploy_Button_pos.Y,90,48);
+            Deploy_Button_pos = new Vector2(1624, 880);
+            Deploy_Button_Box = new Rectangle((int)Deploy_Button_pos.X,(int)Deploy_Button_pos.Y,192,96);
             for (int i = 0;i<=Deploy_select_Box.Length-1;i++) 
             {
-                Deploy_select_Box[i] = new Rectangle((int)Deploy_select_pos[i].X,(int)Deploy_select_pos[i].Y, 16, 16);
+                Deploy_select_Box[i] = new Rectangle((int)Deploy_select_pos[i].X,(int)Deploy_select_pos[i].Y,64,64);
             }
         }
         public Vector2 Get_Map_Pos()

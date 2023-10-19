@@ -19,6 +19,11 @@ namespace Raid.Screen_Code
         public Prepare_Page map;
         public Inventory inventory = new Inventory(50f);
         private Inventory stash = new Inventory(8000f);
+        private Texture2D Face_Icon;
+        private Texture2D ATK_icon_menu;
+        private Texture2D Armor_icon_menu;
+        private Texture2D Time_icon_menu;
+        private Texture2D Life_icon_menu;
        
         public Texture2D Deploy_select;
         public Rectangle mouse;
@@ -38,6 +43,11 @@ namespace Raid.Screen_Code
             base.load(Pos);
             font = Global.Content.Load<SpriteFont>("Inventory");
             grace_texture = Global.Content.Load<Texture2D>("Grace");
+            Face_Icon = Global.Content.Load<Texture2D>("Face_icon");
+            ATK_icon_menu = Global.Content.Load<Texture2D>("ATK icon Menu");
+            Armor_icon_menu = Global.Content.Load<Texture2D>("Armor icon menu");
+            Time_icon_menu =  Global.Content.Load<Texture2D>("Time icon menu");
+            Life_icon_menu = Global.Content.Load<Texture2D>("Life icon menu");
             stash.add_rune_time();
             stash.add_rune_ATK();
             for (int i = 0; i < 1000; i++)
@@ -81,9 +91,14 @@ namespace Raid.Screen_Code
         public override void Draw(GameTime gameTime)
         {
 
-            Global.spriteBatch.Draw(map.BG, new Vector2(0, 0),null, Color.White,0f, Vector2.Zero, 0.67f, SpriteEffects.None, 0.5f);
+            Global.spriteBatch.Draw(map.BG,Vector2.Zero,Color.White);
             Global.spriteBatch.Draw(map.Map, map.Get_Map_Pos(), Color.White);
-            for(int i = 0; i < 3; i++)
+            Global.spriteBatch.Draw(Face_Icon, new Vector2(111,107), Color.White);
+            Global.spriteBatch.Draw(ATK_icon_menu, new Vector2(50, 505), Color.White);
+            Global.spriteBatch.Draw(Armor_icon_menu, new Vector2(184, 510), Color.White);
+            Global.spriteBatch.Draw(Time_icon_menu, new Vector2(309, 510), Color.White);
+            Global.spriteBatch.Draw(Life_icon_menu, new Vector2(445, 508), Color.White);
+            for (int i = 0; i < 3; i++)
             {
                 if (Deploy_Pos == map.Get_Deploy_select_pos(i))
                 {
@@ -107,10 +122,10 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(map.Rune_Time_Texture, map.Rune_Time_Pos, Color.White);
             Global.spriteBatch.Draw(map.Rune_Life_Texture, map.Rune_Life_Pos, Color.White);
             //
-            Global.spriteBatch.Draw(map.Rune_ATK_Texture, new Vector2(431,480), Color.White);
-            Global.spriteBatch.Draw(map.Rune_Armor_Texture, new Vector2(431,528), Color.White);
-            Global.spriteBatch.Draw(map.Rune_Time_Texture, new Vector2(431,576), Color.White);
-            Global.spriteBatch.Draw(map.Rune_Life_Texture, new Vector2(431,624), Color.White);
+            Global.spriteBatch.Draw(map.Rune_ATK_Texture, new Vector2(654,704), Color.White);
+            Global.spriteBatch.Draw(map.Rune_Armor_Texture, new Vector2(654,775), Color.White);
+            Global.spriteBatch.Draw(map.Rune_Time_Texture, new Vector2(654,846), Color.White);
+            Global.spriteBatch.Draw(map.Rune_Life_Texture, new Vector2(654,917), Color.White);
             for (int i = 0; i < 4; i++)
             {
                 if (mouse.Intersects(map.InputItem_Box[i]))
@@ -148,11 +163,11 @@ namespace Raid.Screen_Code
             }
             if (mouse.Intersects(map.Upgrade_Inventory_Box))
             {
-                Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(399, 426), Color.SkyBlue * 0.5f);
+                Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(639, 636), Color.SkyBlue * 0.5f);
             }
             else
             {
-                Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(399, 426), Color.White);
+                Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(639, 636), Color.White);
             }
             if (mouse.Intersects(Quest_I.Quest_Select_Box)&&Quest_I.Quest_Done == false||Quest_I.Quest_Selected == true)
             {
@@ -166,26 +181,28 @@ namespace Raid.Screen_Code
             {
                 Global.spriteBatch.Draw(Quest_I.Quest_Select_Texture, Quest_I.Quest_Select_Position, Color.White );
             }
-            Global.spriteBatch.Draw(grace_texture, new Vector2(542, 423),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
-            Global.spriteBatch.DrawString(font," : "+stash.Graces.Count+"  $", new Vector2(576, 423 + 10), Color.White);
-            Global.spriteBatch.DrawString(font,""+ inventory.Rune_ATK.Count + " / " + stash.Rune_ATK.Count, new Vector2(96, 480+10), Color.White);
-            Global.spriteBatch.DrawString(font,""+ inventory.Rune_Armor.Count + " / " + stash.Rune_Armor.Count, new Vector2(96, 528 + 10), Color.White);
-            Global.spriteBatch.DrawString(font,"" + inventory.Rune_Times.Count + " / " + stash.Rune_Times.Count, new Vector2(96, 576 + 10), Color.White);
-            Global.spriteBatch.DrawString(font,"" + inventory.Rune_Lives.Count + " / " + stash.Rune_Lives.Count, new Vector2(96, 624 + 10), Color.White);
-            Global.spriteBatch.DrawString(font,"" + inventory.carry_weight + " / " + inventory.Max_weight+" Wt",new Vector2(200,430),Color.White);
-            Global.spriteBatch.DrawString(font, "Wt", new Vector2(168, 455),Color.White);
-            //Global.spriteBatch.DrawString(font, "Val", new Vector2(212, 455), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_ATK.Get_Weight(), new Vector2(168, 480 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Armor.Get_Weight() , new Vector2(168, 528 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Weight() , new Vector2(168, 576 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Weight() , new Vector2(168, 624 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.carry_weight + " / " + inventory.Max_weight + " Wt", new Vector2(200, 430), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_ATK.Get_Value() + " $", new Vector2(480,480+10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Armor.Get_Value() + " $", new Vector2(480,528 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Value() + " $", new Vector2(480 , 576 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Value() + " $", new Vector2(480 , 624 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + 75 + " $", new Vector2(480,426 + 10), Color.White);
-            if(quest == Quest_I)
+            Global.spriteBatch.Draw(grace_texture, new Vector2(832, 636),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
+            Global.spriteBatch.DrawString(font," : "+stash.Graces.Count+"  $", new Vector2(896, 644 ), Color.White);
+            Global.spriteBatch.DrawString(font,""+ inventory.Rune_ATK.Count + " / " + stash.Rune_ATK.Count, new Vector2(192, 709+10), Color.White);
+            Global.spriteBatch.DrawString(font,""+ inventory.Rune_Armor.Count + " / " + stash.Rune_Armor.Count, new Vector2(192, 782 + 10), Color.White);
+            Global.spriteBatch.DrawString(font,"" + inventory.Rune_Times.Count + " / " + stash.Rune_Times.Count, new Vector2(192, 854 + 10), Color.White);
+            Global.spriteBatch.DrawString(font,"" + inventory.Rune_Lives.Count + " / " + stash.Rune_Lives.Count, new Vector2(192, 927 + 10), Color.White);
+            Global.spriteBatch.DrawString(font,"" + inventory.carry_weight + " / " + inventory.Max_weight+" Wt",new Vector2(416, 640),Color.White);
+            Global.spriteBatch.DrawString(font, "Wt", new Vector2(282, 634),Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_ATK.Get_Weight(), new Vector2(282, 709 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Armor.Get_Weight() , new Vector2(282, 782 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Weight() , new Vector2(282, 854 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Weight() , new Vector2(282, 927 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_ATK.Get_Value() + " $", new Vector2(731, 709 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Armor.Get_Value() + " $", new Vector2(731, 782 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Value() + " $", new Vector2(731, 854 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Value() + " $", new Vector2(731, 927 + 10), Color.White);
+            Global.spriteBatch.DrawString(font, "" + 75 + " $", new Vector2(774, 640), Color.White);
+            Global.spriteBatch.DrawString(font, "" + (8.5f + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus)), new Vector2(96,516), Color.White);
+            Global.spriteBatch.DrawString(font, "" +  (inventory.Rune_Armor.Count * Rune_Armor.HP_plus), new Vector2(244, 516), Color.White);
+            Global.spriteBatch.DrawString(font, "" +(60+ (inventory.Rune_Times.Count * Rune_Time.time_plus)), new Vector2(373, 516), Color.White);
+            Global.spriteBatch.DrawString(font, "" + inventory.Rune_Lives.Count, new Vector2(502, 516), Color.White);
+            if (quest == Quest_I)
             {
                 quest.Show_Detail();
             }                        
@@ -409,6 +426,10 @@ namespace Raid.Screen_Code
                 quest = Quest_I;
                 quest.Quest_Selected = true;
             }            
+        }
+        public void Reset()
+        {
+
         }
     }
 }
