@@ -45,6 +45,7 @@ namespace Raid.Enemy
 
         public override void Update(Vector2 Player_Pos)
         {
+            base.Box = new Rectangle((int)base.Vector2.X - 240, (int)base.Vector2.Y - 240,480,480);
             if (base.Enemy_state == 1 || base.Enemy_state == 7)
             {
                 Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X + 31), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y + 58), 2));

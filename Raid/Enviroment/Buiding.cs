@@ -15,6 +15,7 @@ namespace Raid.Enviroment
         public bool Trans;
         public bool Trans_Check;
         public int Layer;
+        public Texture2D Shadow;
       
 
         public Buiding(Vector2 Pos) 
@@ -32,8 +33,12 @@ namespace Raid.Enviroment
             }
             if(Trans == true)
             {
-                Global.spriteBatch.Draw(base.texture,Pos, Color.White*0.5f);
+                Global.spriteBatch.Draw(base.texture,Pos, Color.White*0.7f);
             }
+        }
+        public virtual void Draw_Shadow(Vector2 Pos)
+        {
+            Global.spriteBatch.Draw(Shadow, Pos, Color.White);
         }
         public Vector2 Get_Pos()
         {

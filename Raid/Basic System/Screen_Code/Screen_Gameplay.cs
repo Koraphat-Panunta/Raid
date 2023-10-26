@@ -11,13 +11,14 @@ using Raid.MainCharacter;
 using System;
 using System.Collections.Generic;
 
+
 namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
         int enemyclosemax = 0;
         int enemyRangemax = 0;
-        int enemyBossmax = 0;
+        int enemyBossmax = 1;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -38,7 +39,7 @@ namespace Raid.Screen_Code
         private HP_BAR HP_BAR;
         private Hitstrak_Bar Hitstreak_bar;
         private Weight_UI Weight_UI;
-        private Buiding[] Buidings = new Buiding[1];
+        private Buiding[] Buidings = new Buiding[9];
         public Screen_Gameplay() 
         {
             
@@ -80,16 +81,16 @@ namespace Raid.Screen_Code
             
             for (int i = 0; i < enemyclosemax; i++)
             {
-                enemyClose.Add(new EnemyClose(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+                enemyClose.Add(new EnemyClose(new Vector2(random.Next(5300, 5400), random.Next(8450, 8600))));
 
             }
             for (int i = 0; i < enemyRangemax; i++)
             {
-                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(5300, 5400), random.Next(8450, 8600))));
             }   
             for (int i = 0; i < enemyBossmax; i++)
             {
-                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
+                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(5300, 5400), random.Next(8450, 8600))));
             }
             Extract_fail = false;
             Extract_success = false;
@@ -110,7 +111,17 @@ namespace Raid.Screen_Code
             HP_BAR = new HP_BAR();
             Hitstreak_bar = new Hitstrak_Bar();
             Weight_UI = new Weight_UI();
-            Buidings[0] = new House_Contryside_font(new Vector2(2688, 5897));
+
+            //ADD BUIDING
+            Buidings[0] = new House_Contryside_font(new Vector2(4848, 7573));
+            Buidings[1] = new House_Countryside_back(new Vector2(4981, 9040));
+            Buidings[2] = new House_Countryside_side(new Vector2(4271, 8149));
+            Buidings[3] = new House_Countryside_back(new Vector2(6121,8081));
+            Buidings[4] = new House_Countryside_side(new Vector2(6016, 9016));
+            Buidings[5] = new House_Countryside_back(new Vector2(6133, 6672));
+            Buidings[6] = new House_Contryside_font(new Vector2(6958, 5780));
+            Buidings[7] = new House_Countryside_side(new Vector2(7788, 6227));
+            Buidings[8] = new House_Contryside_font(new Vector2(8055,7252));
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -161,7 +172,7 @@ namespace Raid.Screen_Code
                 Extractionsystem();
                 lootingsystem();
                 Time.Time_Count();
-                
+
                 for (int i = 0; i < enemyClose.Count; i++)
                 {                                      
                     if (enemyClose[i].Alive == false)
@@ -174,20 +185,14 @@ namespace Raid.Screen_Code
 
                     //ENEMY Trans building vheck
                     for (int n = 0; n < Buidings.Length; n++)
-                    {
-                        if (Buidings[n].Layer == 3)
-                        {
-                            if (enemyClose[n].Box.Intersects(Buidings[n].Box_Trans))
+                    {                       
+                            if (enemyClose[i].Box.Intersects(Buidings[n].Box_Trans))
                             {
                                 Buidings[n].Layer = 2;
                                 Buidings[n].Trans = true;
-                            }
-                            else
-                            {
-                                Buidings[n].Layer = 3;
-                            }
-                        }
+                            }                                               
                     }
+                    Collision(enemyClose[i]);
                     enemyClose[i].Last_Pos = enemyClose[i].Get_Pos();
                         if (enemyClose[i].Enemy_is_attack == true)
                         {
@@ -335,7 +340,7 @@ namespace Raid.Screen_Code
                     }
                     enemyRanges[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
                     enemyRanges[i].Last_Pos = enemyRanges[i].Get_Pos();
-
+                    Collision(enemyRanges[i]);
                     //ENEMY Trans building vheck
                     for (int n = 0; n < Buidings.Length; n++)
                     {
@@ -503,6 +508,7 @@ namespace Raid.Screen_Code
                     }
                     enemyBosses[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
                     enemyBosses[i].Last_Pos = enemyBosses[i].Get_Pos();
+                    Collision(enemyBosses[i]);
                     //ENEMY Trans building vheck
                     for (int n = 0; n < Buidings.Length; n++)
                     {
@@ -655,14 +661,11 @@ namespace Raid.Screen_Code
                 }
                 //Player check trans building
                 for (int i = 0; i < Buidings.Length; i++)
-                {
-                    if (Main_Char.Box.Intersects(Buidings[i].Box_Trans) == false)
-                    {
-                        Buidings[i].Layer = 3;
-                    }
+                {                   
                     if (Main_Char.Box.Intersects(Buidings[i].Box_Trans))
                     {
                         Buidings[i].Layer = 1;
+                        Buidings[i].Trans = true;
                     }
                    
                 }
@@ -740,7 +743,7 @@ namespace Raid.Screen_Code
         private void Draw_Form_Pos_inWorld()
         {
             //MAP
-            for (int i = 0; i < map.num_zone; i++)
+            for (int i = 0; i < map.Area_Texture.Length; i++)
             {
                 if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
                 {
@@ -752,7 +755,7 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
-
+           
             //BUILDING LAYER 3
             foreach(var buidling in Buidings)
             {
@@ -763,13 +766,7 @@ namespace Raid.Screen_Code
             }
 
             //TREES LAYER2
-            foreach (var buidling in Buidings)
-            {
-                if (buidling.Layer == 2)
-                {
-                    buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
-                }
-            }
+           
             //GRACE
             for (int i = 0; i < graces.Count; i++)
             {
@@ -801,18 +798,34 @@ namespace Raid.Screen_Code
             }
 
             //BUILDING LAYER 2
-
+            foreach (var buidling in Buidings)
+            {
+                if (buidling.Layer == 2)
+                {
+                    buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
+                }
+            }
             //PLAYER
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
 
             //MAP SHADOW
-            for (int i = 0; i < map.num_zone; i++)
+            for (int i = 0; i < map.Area_Shadow.Length; i++)
             {
                 if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
                 {
                     Global.spriteBatch.Draw(map.Get_Map_Shadow(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
-
                 }
+            }
+
+            //TREE GROUP2
+            foreach(var tree in map.Trees2)
+            {
+                tree.Draw(Camera.Object_Vector(tree.Get_Pos()));
+            }
+            //WALL_MARIA
+            for (int i = 0; i < 6; i++)
+            {
+                Global.spriteBatch.Draw(map.Wallmaria[i], Camera.Object_Vector(map.Get_Map_Pos(15 + i)), Color.White);
             }
             //TREES LAYER1
 
@@ -823,8 +836,12 @@ namespace Raid.Screen_Code
                 {
                     buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
                 }
+                buidling.Draw_Shadow(Camera.Object_Vector(buidling.Get_Pos()));
             }
-
+            foreach(var tree in map.Trees)
+            {
+                tree.Draw(Camera.Object_Vector(tree.Get_Pos()));
+            }
 
 
 
@@ -901,7 +918,172 @@ namespace Raid.Screen_Code
                     }
                 }
             }
-            
+            foreach (var Mapbox in map.mapBox)
+            {
+                if (Main_Char.Box.Intersects(Mapbox))
+                {
+                    if (Main_Char.Get_Box().Top < Mapbox.Bottom && Main_Char.Get_Box().Top > Mapbox.Bottom - 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, Mapbox.Bottom + Global.Tile));
+                    }
+                    if (Main_Char.Get_Box().Bottom > Mapbox.Top && Main_Char.Get_Box().Bottom < Mapbox.Top + 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, Mapbox.Top - Global.Tile));
+                    }
+                    if (Main_Char.Get_Box().Right > Mapbox.Left && Main_Char.Get_Box().Right < Mapbox.Left + 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(Mapbox.Left - Global.Tile / 2, Main_Char.Get_Pos().Y));
+                    }
+                    if (Main_Char.Get_Box().Left < Mapbox.Right && Main_Char.Get_Box().Left > Mapbox.Right - 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(Mapbox.Right + Global.Tile / 2, Main_Char.Get_Pos().Y));
+                    }
+                }
+            }
+
+        }        
+        private void Collision(EnemyClose enemy)
+        {
+            foreach (var buiding in Buidings)
+            {
+                if (enemy.Box.Intersects(buiding.Box_Colli))
+                {
+                    if (enemy.Box.Top < buiding.Box_Colli.Bottom && enemy.Box.Top > buiding.Box_Colli.Bottom - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Right > buiding.Box_Colli.Left && enemy.Get_Box().Right < buiding.Box_Colli.Left + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                    if (enemy.Get_Box().Left < buiding.Box_Colli.Right && enemy.Get_Box().Left > buiding.Box_Colli.Right - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                }
+            }
+            foreach (var Mapbox in map.mapBox)
+            {
+                if (enemy.Box.Intersects(Mapbox))
+                {
+                    if (enemy.Box.Top < Mapbox.Bottom && enemy.Box.Top > Mapbox.Bottom - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Bottom > Mapbox.Top && enemy.Box.Bottom < Mapbox.Top + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Right > Mapbox.Left && enemy.Get_Box().Right < Mapbox.Left + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(Mapbox.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                    if (enemy.Get_Box().Left < Mapbox.Right && enemy.Get_Box().Left > Mapbox.Right - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(Mapbox.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                }
+            }
+        }
+        private void Collision(EnemyRange enemy)
+        {
+            foreach (var buiding in Buidings)
+            {
+                if (enemy.Box.Intersects(buiding.Box_Colli))
+                {
+                    if (enemy.Box.Top < buiding.Box_Colli.Bottom && enemy.Box.Top > buiding.Box_Colli.Bottom - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Right > buiding.Box_Colli.Left && enemy.Get_Box().Right < buiding.Box_Colli.Left + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                    if (enemy.Get_Box().Left < buiding.Box_Colli.Right && enemy.Get_Box().Left > buiding.Box_Colli.Right - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                }
+            }
+            foreach (var Mapbox in map.mapBox)
+            {
+                if (enemy.Box.Intersects(Mapbox))
+                {
+                    if (enemy.Box.Top < Mapbox.Bottom && enemy.Box.Top > Mapbox.Bottom - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Bottom > Mapbox.Top && enemy.Box.Bottom < Mapbox.Top + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - Global.Tile * 1.8f));
+                    }
+                    if (enemy.Box.Right > Mapbox.Left && enemy.Get_Box().Right < Mapbox.Left + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(Mapbox.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                    if (enemy.Get_Box().Left < Mapbox.Right && enemy.Get_Box().Left > Mapbox.Right - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(Mapbox.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                    }
+                }
+            }
+
+        }
+        private void Collision(EnemyBoss enemy)
+        {
+            foreach (var buiding in Buidings)
+            {
+                if (enemy.Box.Intersects(buiding.Box_Colli))
+                {
+                    if (enemy.Box.Top < buiding.Box_Colli.Bottom && enemy.Box.Top > buiding.Box_Colli.Bottom - 40)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile * 4f));
+                    }
+                    if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 40)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile * 4f));
+                    }
+                    if (enemy.Box.Right > buiding.Box_Colli.Left && enemy.Get_Box().Right < buiding.Box_Colli.Left + 40)
+                    {
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile * 4f, enemy.Get_Pos().Y));
+                    }
+                    if (enemy.Get_Box().Left < buiding.Box_Colli.Right && enemy.Get_Box().Left > buiding.Box_Colli.Right - 40)
+                    {
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile * 4, enemy.Get_Pos().Y));
+                    }
+                }
+            }
+            foreach (var Mapbox in map.mapBox)
+            {
+                if (enemy.Box.Intersects(Mapbox))
+                {
+                    if (enemy.Box.Top < Mapbox.Bottom && enemy.Box.Top > Mapbox.Bottom - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + Global.Tile * 4));
+                    }
+                    if (enemy.Box.Bottom > Mapbox.Top && enemy.Box.Bottom < Mapbox.Top + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - Global.Tile * 4));
+                    }
+                    if (enemy.Box.Right > Mapbox.Left && enemy.Get_Box().Right < Mapbox.Left + 20)
+                    {
+                        enemy.Set_Pos(new Vector2(Mapbox.Left - Global.Tile * 4, enemy.Get_Pos().Y));
+                    }
+                    if (enemy.Get_Box().Left < Mapbox.Right && enemy.Get_Box().Left > Mapbox.Right - 20)
+                    {
+                        enemy.Set_Pos(new Vector2(Mapbox.Right + Global.Tile * 4, enemy.Get_Pos().Y));
+                    }
+                }
+            }
+
         }
     }
 }

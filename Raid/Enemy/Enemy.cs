@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Raid.Enemy
 {
-    abstract public class Enemy:Dynamic_Obg
+     public class Enemy:Dynamic_Obg
     {
         public double HP;       
         public int Enemy_state;
@@ -74,6 +74,10 @@ namespace Raid.Enemy
         public virtual void Get_Push(float U,Vector2 Pos)
         {  
            
+        }
+        public Rectangle Get_Box()
+        {
+            return Box;
         }
     }
 }
