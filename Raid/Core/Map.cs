@@ -14,11 +14,15 @@ namespace Raid.Core
         private Rectangle[] Area_Box = new Rectangle[21];
         public Texture2D[] Wallmaria = new Texture2D[6];
 
-        public Rectangle[] mapBox = new Rectangle[0];
+        public Rectangle[] mapBox = new Rectangle[58];
 
         public Tree_Group[] Trees = new Tree_Group[9];
 
         public Tree_Group[] Trees2 = new Tree_Group[2];
+
+        public Buiding[] Buidings = new Buiding[17];
+
+        public Texture2D[] Landmark = new Texture2D[4];
         public Map() 
         {
             Load();
@@ -26,6 +30,33 @@ namespace Raid.Core
         }
         private void Load()
         {
+            //Landmark
+            Landmark[0] = Global.Content.Load<Texture2D>("Fence_Temple_Shadow");
+            Landmark[1] = Global.Content.Load<Texture2D>("Fence_Temple");
+            Landmark[2] = Global.Content.Load<Texture2D>("PrasingOriginal");
+            Landmark[3] = Global.Content.Load<Texture2D>("3King.");
+
+            //Building
+            Buidings[0] = new JapHouse_Single_Back(new Vector2(7393, 4623));
+            Buidings[1] = new JapHouse_Single_Back(new Vector2(9735, 4322));
+            Buidings[2] = new JapHouse_Single_Back(new Vector2(10439, 4322));
+            Buidings[3] = new JapHouse_Single_Back(new Vector2(7415, 2280));
+            Buidings[4] = new JapHouse_Single_Back(new Vector2(8103, 2280));
+            Buidings[5] = new JapHouse_Single_Back(new Vector2(8791, 2280));
+
+            Buidings[6] = new JapHouse_Single_Front(new Vector2(8392, 3235));
+            Buidings[7] = new JapHouse_Single_Front(new Vector2(9101, 3235));
+            Buidings[8] = new JapHouse_Single_Front(new Vector2(9723, 3616));
+            Buidings[9] = new JapHouse_Single_Front(new Vector2(7210, 1616));
+
+            Buidings[10]= new JapHouse_Single_Side(new Vector2(6672, 3712));
+            Buidings[11] = new JapHouse_Single_Side(new Vector2(10106, 2826));
+            Buidings[12] = new JapHouse_Single_Side(new Vector2(11265, 2767));
+
+            Buidings[13] = new JapHouse_Double_Front(new Vector2(7331, 6737));
+            Buidings[14] = new JapHouse_Double_Side(new Vector2(7355, 2944));
+            Buidings[15] = new JapHouse_Double_Side(new Vector2(6700, 1351));
+            Buidings[16] = new JapHouse_Double_Side(new Vector2(9379, 1704));
             //Tree Group
             Trees[0] = new Tree_Group(new Vector2(5016, 4711), "Trees Green PNG 1");
             Trees[1] = new Tree_Group(new Vector2(8727, 7893), "Trees Green PNG 3");
@@ -155,8 +186,8 @@ namespace Raid.Core
             Wallmaria[5] = Global.Content.Load<Texture2D>("A14_2_Wall");
             Area_Pos[20] = new Vector2(9792, 1216);
             Area_Box[20] = new Rectangle((int)Area_Pos[20].X, (int)Area_Pos[20].Y, 2048, 2368);
-            
 
+            //ADD Tree
             addBox();
 
         }
@@ -179,16 +210,64 @@ namespace Raid.Core
         private void addBox()
         {
             //Zoneท่าเรือ              
-            //mapBox[0] = new Rectangle(5226, 1977,22,1117);
-            //mapBox[1] = new Rectangle(1770, 1977, 3459, 22);
-            //mapBox[2] = new Rectangle(2986, 3731, 2240, 659);
-            //mapBox[3] = new Rectangle(4714, 3731, 1366, 1604);
-            //mapBox[4] = new Rectangle(1770, 1977, 22, 3869);
-            //mapBox[5] = new Rectangle(1792, 6720, 896, 2752);
-            //mapBox[6] = new Rectangle(4970, 5824, 576, 896);
-            //mapBox[7] = new Rectangle(6720, 1408, 1152, 3927);
-            //mapBox[8] = new Rectangle(5401, 5846, 167, 2304);
-            //mapBox[9] = new Rectangle(6080, 6550, 640, 1215);
+            mapBox[0] = new Rectangle(4736, 9216, 323, 22);
+            mapBox[1] = new Rectangle(6058, 8320, 2966, 975);
+            mapBox[2] = new Rectangle(10304, 11122, 22, 3278);
+            mapBox[3] = new Rectangle(6528, 10212, 3798, 908);
+            mapBox[4] = new Rectangle(6058, 9856, 790, 335);
+            mapBox[5] = new Rectangle(5956, 10190, 572, 28);
+            mapBox[6] = new Rectangle(5874, 14400, 4430, 50);
+            mapBox[7] = new Rectangle(5056, 12352, 818, 2048);
+            mapBox[8] = new Rectangle(5120, 10190, 508, 28);
+            mapBox[9] = new Rectangle(8042, 12608, 1046, 852);
+            mapBox[10] = new Rectangle(5098, 10212, 22, 2162);
+            mapBox[11] = new Rectangle(4266, 9856, 1238, 334);
+            mapBox[12] = new Rectangle(4381, 9472, 22, 384);
+            mapBox[13] = new Rectangle(4381, 8832, 355, 640);
+            mapBox[14] = new Rectangle(4664, 8150, 72, 253);
+            mapBox[15] = new Rectangle(9706, 6631, 22, 409);
+            mapBox[16] = new Rectangle(11074, 2560, 360, 448);
+            mapBox[17] = new Rectangle(9808, 2560, 816, 448);
+            mapBox[18] = new Rectangle(6080, 1408, 640, 3935);
+            mapBox[19] = new Rectangle(6592, 5504, 2304, 128);
+            mapBox[20] = new Rectangle(9344, 5504, 2480, 128);
+            mapBox[21] = new Rectangle(6720, 1664, 3088, 128);
+            mapBox[22] = new Rectangle(10304, 1642, 1066, 22);
+            mapBox[23] = new Rectangle(9808, 1664, 496, 896);
+            mapBox[24] = new Rectangle(11712, 1344, 128, 4160);
+            mapBox[25] = new Rectangle(11370, 1664, 342, 896);
+            mapBox[26] = new Rectangle(11306, 3840, 342, 1152);
+            mapBox[27] = new Rectangle(9386, 5632, 338, 999);
+            mapBox[28] = new Rectangle(9514, 7040, 222, 2048);
+            mapBox[29] = new Rectangle(9834, 4992, 1878, 512);
+            mapBox[30] = new Rectangle(7848, 1790, 1944, 340);
+            mapBox[31] = new Rectangle(7530, 2880, 2262, 466);
+            mapBox[32] = new Rectangle(6720, 2304, 320, 1364);
+            mapBox[33] = new Rectangle(8106, 3477, 278, 831);
+            mapBox[34] = new Rectangle(8704, 4159, 704, 577);
+            mapBox[35] = new Rectangle(8106, 4800, 278, 704);
+            mapBox[36] = new Rectangle(8622, 5632, 274, 2197);
+            mapBox[37] = new Rectangle(5401, 5846, 167, 2304);
+            mapBox[38] = new Rectangle(4970, 5824, 576, 896);
+            mapBox[39] = new Rectangle(5226, 6742, 22, 576);
+            mapBox[40] = new Rectangle(4330, 6720, 22, 576);
+            mapBox[41] = new Rectangle(4330, 7296, 918, 29);
+            mapBox[42] = new Rectangle(5398, 8020, 22, 108);
+            mapBox[43] = new Rectangle(4736, 7994, 253, 156);
+            mapBox[44] = new Rectangle(7525, 6109, 347, 247);
+            mapBox[45] = new Rectangle(6720, 6133, 379, 223);
+            mapBox[46] = new Rectangle(6058, 5343, 662, 1207);
+            mapBox[47] = new Rectangle(9024, 9088, 490, 192);
+            mapBox[48] = new Rectangle(6058, 7104, 2138, 724);
+            mapBox[49] = new Rectangle(1770, 5824, 2774, 913);
+            mapBox[50] = new Rectangle(2985, 3072, 2269, 640);
+            mapBox[51] = new Rectangle(1770, 1959, 3456, 25);
+            mapBox[52] = new Rectangle(6057, 7040, 154, 64);
+            mapBox[53] = new Rectangle(7786, 6976, 89, 128);
+            mapBox[54] = new Rectangle(6720, 6358, 67, 192);
+            mapBox[55] = new Rectangle(4714, 3731, 1366, 1604);
+            mapBox[56] = new Rectangle(1770, 1984, 22, 3862);
+            mapBox[57] = new Rectangle(5226, 1984, 22, 1110);
 
         }
     }

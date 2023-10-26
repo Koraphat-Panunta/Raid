@@ -18,7 +18,7 @@ namespace Raid.Screen_Code
     {
         int enemyclosemax = 0;
         int enemyRangemax = 0;
-        int enemyBossmax = 1;
+        int enemyBossmax = 0;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -39,7 +39,7 @@ namespace Raid.Screen_Code
         private HP_BAR HP_BAR;
         private Hitstrak_Bar Hitstreak_bar;
         private Weight_UI Weight_UI;
-        private Buiding[] Buidings = new Buiding[9];
+        private Buiding[] Buidings = new Buiding[72];
         public Screen_Gameplay() 
         {
             
@@ -111,17 +111,123 @@ namespace Raid.Screen_Code
             HP_BAR = new HP_BAR();
             Hitstreak_bar = new Hitstrak_Bar();
             Weight_UI = new Weight_UI();
-
+            Add_buidling();
+            Add_Enemy();
+           
+        }
+        private void Add_buidling()
+        {
             //ADD BUIDING
             Buidings[0] = new House_Contryside_font(new Vector2(4848, 7573));
             Buidings[1] = new House_Countryside_back(new Vector2(4981, 9040));
             Buidings[2] = new House_Countryside_side(new Vector2(4271, 8149));
-            Buidings[3] = new House_Countryside_back(new Vector2(6121,8081));
+            Buidings[3] = new House_Countryside_back(new Vector2(6121, 8081));
             Buidings[4] = new House_Countryside_side(new Vector2(6016, 9016));
             Buidings[5] = new House_Countryside_back(new Vector2(6133, 6672));
             Buidings[6] = new House_Contryside_font(new Vector2(6958, 5780));
             Buidings[7] = new House_Countryside_side(new Vector2(7788, 6227));
-            Buidings[8] = new House_Contryside_font(new Vector2(8055,7252));
+            Buidings[8] = new House_Contryside_font(new Vector2(8055, 7252));
+            Buidings[9] = new JapHouse_Single_Back(new Vector2(7393, 4623));
+            Buidings[10] = new JapHouse_Single_Back(new Vector2(9735, 4322));
+            Buidings[11] = new JapHouse_Single_Back(new Vector2(10439, 4322));
+            Buidings[12] = new JapHouse_Single_Back(new Vector2(7415, 2280));
+            Buidings[13] = new JapHouse_Single_Back(new Vector2(8103, 2280));
+            Buidings[14] = new JapHouse_Single_Back(new Vector2(8791, 2280));
+
+            Buidings[15] = new JapHouse_Single_Front(new Vector2(8392, 3235));
+            Buidings[16] = new JapHouse_Single_Front(new Vector2(9101, 3235));
+            Buidings[17] = new JapHouse_Single_Front(new Vector2(9723, 3616));
+            Buidings[18] = new JapHouse_Single_Front(new Vector2(7210, 1616));
+
+            Buidings[19] = new JapHouse_Single_Side(new Vector2(6672, 3712));
+            Buidings[20] = new JapHouse_Single_Side(new Vector2(10106, 2826));
+            Buidings[21] = new JapHouse_Single_Side(new Vector2(11265, 2767));
+
+            Buidings[22] = new JapHouse_Double_Front(new Vector2(7331, 6737));
+            Buidings[23] = new JapHouse_Double_Side(new Vector2(7355, 2944));
+            Buidings[24] = new JapHouse_Double_Side(new Vector2(6700, 1351));
+            Buidings[25] = new JapHouse_Double_Side(new Vector2(9379, 1704));
+
+            Buidings[26] = new JapHouse_Single_Front(new Vector2(3533, 3363));
+            Buidings[27] = new JapHouse_Single_Front(new Vector2(6048, 11093));
+            Buidings[28] = new JapHouse_Single_Front(new Vector2(6784, 11093));
+            Buidings[29] = new JapHouse_Single_Front(new Vector2(7530, 11093));
+            Buidings[30] = new JapHouse_Single_Front(new Vector2(8281, 11093));
+            Buidings[31] = new JapHouse_Single_Front(new Vector2(8989, 11093));
+
+            Buidings[32] = new JapHouse_Single_Side(new Vector2(1856, 2240));
+            Buidings[33] = new JapHouse_Single_Side(new Vector2(5110, 10219));
+            Buidings[34] = new JapHouse_Single_Side(new Vector2(6016, 10219));
+            Buidings[35] = new JapHouse_Single_Side(new Vector2(5098, 11008));
+            Buidings[36] = new JapHouse_Single_Side(new Vector2(6195, 12416));
+            Buidings[37] = new JapHouse_Single_Side(new Vector2(6195, 13291));
+
+            Buidings[38] = new JapHouse_Double_Front(new Vector2(2893, 1495));
+            Buidings[39] = new JapHouse_Double_Front(new Vector2(7445, 11703));
+            Buidings[40] = new JapHouse_Double_Front(new Vector2(8805, 11703));
+            Buidings[41] = new JapHouse_Double_Front(new Vector2(7525, 13333));
+            Buidings[42] = new JapHouse_Double_Front(new Vector2(8790, 13342));
+
+            Buidings[43] = new JapHouse_Double_Side(new Vector2(1905, 4262));
+            Buidings[44] = new JapHouse_Double_Side(new Vector2(7048, 11660));
+            Buidings[45] = new JapHouse_Double_Side(new Vector2(7057, 12160));
+            Buidings[46] = new JapHouse_Double_Side(new Vector2(7051, 12729));
+            Buidings[47] = new JapHouse_Double_Side(new Vector2(7057, 13149));
+
+            Buidings[48] = new JapHouse_Double_Side(new Vector2(9489, 11638));
+            Buidings[49] = new JapHouse_Double_Side(new Vector2(9498, 12133));
+            Buidings[50] = new JapHouse_Double_Side(new Vector2(9506, 12655));
+            Buidings[51] = new JapHouse_Double_Side(new Vector2(9506, 13094));
+            //Tree
+            Buidings[52] = new Tree_Red(new Vector2(3872, 1990));
+            Buidings[53] = new Tree_Red(new Vector2(2385, 1936));
+            Buidings[54] = new Tree_Red(new Vector2(3045, 2616));
+            Buidings[55] = new Tree_Red(new Vector2(3695, 2616));
+            Buidings[56] = new Tree_Red(new Vector2(3281, 3152));
+            Buidings[57] = new Tree_Red(new Vector2(4163, 3128));
+            Buidings[58] = new Tree_Red(new Vector2(1937, 3468));
+            Buidings[59] = new Tree_Red(new Vector2(4842, 3591));
+            Buidings[60] = new Tree_Red(new Vector2(1904, 3806));
+            Buidings[61] = new Tree_Red(new Vector2(2024, 5358));
+            Buidings[62] = new Tree_Red(new Vector2(3331, 5200));
+
+            Buidings[63] = new Tree_Red(new Vector2(5137, 11920));
+            Buidings[64] = new Tree_Red(new Vector2(5443, 11975));
+            Buidings[65] = new Tree_Red(new Vector2(5851, 12432));
+            Buidings[66] = new Tree_Red(new Vector2(5854, 12792));
+            Buidings[67] = new Tree_Red(new Vector2(5857, 13168));
+            Buidings[68] = new Tree_Red(new Vector2(5857, 13562));
+            Buidings[69] = new Tree_Red(new Vector2(5881, 13922));
+            Buidings[70] = new Tree_Red(new Vector2(9719, 11243));
+            Buidings[71] = new Tree_Red(new Vector2(10012, 11280));
+        }
+        private void Add_Enemy()
+        {
+            //Japan CIty
+                //Close Enemy
+            enemyClose.Add(new EnemyClose(new Vector2(5754,10496)));
+            enemyClose.Add(new EnemyClose(new Vector2(5760,11234)));
+            enemyClose.Add(new EnemyClose(new Vector2(5766, 11349)));
+            enemyClose.Add(new EnemyClose(new Vector2(6819, 11802)));
+            enemyClose.Add(new EnemyClose(new Vector2(6870, 11989)));
+            enemyClose.Add(new EnemyClose(new Vector2(8448, 11886)));
+            enemyClose.Add(new EnemyClose(new Vector2(10097,11937)));
+            enemyClose.Add(new EnemyClose(new Vector2(10080, 13003)));
+            enemyClose.Add(new EnemyClose(new Vector2(10065, 13224)));
+            enemyClose.Add(new EnemyClose(new Vector2(9003, 14192)));
+            enemyClose.Add(new EnemyClose(new Vector2(8522, 14128)));
+            enemyClose.Add(new EnemyClose(new Vector2(8089, 14160)));
+            enemyClose.Add(new EnemyClose(new Vector2(7794, 12847)));
+            enemyClose.Add(new EnemyClose(new Vector2(9289, 12560)));
+                //Range Enemy
+            enemyRanges.Add(new EnemyRange(new Vector2(5760, 11466)));
+            enemyRanges.Add(new EnemyRange(new Vector2(6870, 12226)));
+            enemyRanges.Add(new EnemyRange(new Vector2(10112, 13342)));
+            enemyRanges.Add(new EnemyRange(new Vector2(8662, 13852)));
+            enemyRanges.Add(new EnemyRange(new Vector2(8412, 13922)));
+                //Boss Enemy
+            enemyBosses.Add(new EnemyBoss(new Vector2(8505, 13699)));
+
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -755,18 +861,35 @@ namespace Raid.Screen_Code
             Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
-           
+            //Wallmaria
+            for (int i = 0; i < 6; i++)
+            {
+                if (i == 0 || i == 1 || i == 5)
+                {
+                    Global.spriteBatch.Draw(map.Wallmaria[i], Camera.Object_Vector(map.Get_Map_Pos(15 + i)), Color.White);
+                }
+            }
             //BUILDING LAYER 3
-            foreach(var buidling in Buidings)
+            Global.spriteBatch.Draw(map.Landmark[0], Camera.Object_Vector(new Vector2(8000, 12608)), Color.White);
+            Global.spriteBatch.Draw(map.Landmark[1], Camera.Object_Vector(new Vector2(8000, 12608)), Color.White);
+            foreach (var buidling in Buidings)
             {
                 if (buidling.Layer ==3)
                 {
                     buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
                 }
             }
-
-            //TREES LAYER2
            
+            //MAP SHADOW
+            for (int i = 0; i < map.Area_Shadow.Length; i++)
+            {
+                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
+                {
+                    Global.spriteBatch.Draw(map.Get_Map_Shadow(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
+                }
+            }
+            //TREES LAYER2
+
             //GRACE
             for (int i = 0; i < graces.Count; i++)
             {
@@ -805,30 +928,15 @@ namespace Raid.Screen_Code
                     buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
                 }
             }
+
             //PLAYER
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
 
-            //MAP SHADOW
-            for (int i = 0; i < map.Area_Shadow.Length; i++)
-            {
-                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
-                {
-                    Global.spriteBatch.Draw(map.Get_Map_Shadow(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
-                }
-            }
-
             //TREE GROUP2
-            foreach(var tree in map.Trees2)
+            foreach (var tree in map.Trees2)
             {
                 tree.Draw(Camera.Object_Vector(tree.Get_Pos()));
-            }
-            //WALL_MARIA
-            for (int i = 0; i < 6; i++)
-            {
-                Global.spriteBatch.Draw(map.Wallmaria[i], Camera.Object_Vector(map.Get_Map_Pos(15 + i)), Color.White);
-            }
-            //TREES LAYER1
-
+            }                            
             //BUILDING LAYER 1
             foreach (var buidling in Buidings)
             {
@@ -838,7 +946,23 @@ namespace Raid.Screen_Code
                 }
                 buidling.Draw_Shadow(Camera.Object_Vector(buidling.Get_Pos()));
             }
-            foreach(var tree in map.Trees)
+            Global.spriteBatch.Draw(map.Landmark[2], Camera.Object_Vector(new Vector2(8025,12482)),Color.White);
+            Global.spriteBatch.Draw(map.Landmark[3], Camera.Object_Vector(new Vector2(8704,4159)), Color.White);
+            //TREE GROUP2
+            foreach (var tree in map.Trees2)
+            {
+                tree.Draw(Camera.Object_Vector(tree.Get_Pos()));
+            }
+            //WALL_MARIA
+            for (int i = 0; i < 6; i++)
+            {
+                if (i == 2 || i == 3 || i == 4)
+                {
+                    Global.spriteBatch.Draw(map.Wallmaria[i], Camera.Object_Vector(map.Get_Map_Pos(15 + i)), Color.White);
+                }
+            }
+            //TREES LAYER1
+            foreach (var tree in map.Trees)
             {
                 tree.Draw(Camera.Object_Vector(tree.Get_Pos()));
             }
