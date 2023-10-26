@@ -17,7 +17,7 @@ namespace Raid.Basic_System
         { 
             this.texture = texture;
             this.Rectangle = rectangle;
-            this.Pos = new Vector2(Pos.X-144,Pos.Y-144);            
+            this.Pos = new Vector2(Pos.X-192,Pos.Y-192);            
             Trans_Time = 0.6f;
             this.Color = color;
             this.Time = time;

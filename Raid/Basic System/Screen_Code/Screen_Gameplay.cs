@@ -15,9 +15,9 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 10;
-        int enemyRangemax = 3;
-        int enemyBossmax = 1;
+        int enemyclosemax = 0;
+        int enemyRangemax = 0;
+        int enemyBossmax = 0;
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -38,7 +38,7 @@ namespace Raid.Screen_Code
         private HP_BAR HP_BAR;
         private Hitstrak_Bar Hitstreak_bar;
         private Weight_UI Weight_UI;
-        private House_Contryside_font House_Contryside_Font;
+        private Buiding[] Buidings = new Buiding[1];
         public Screen_Gameplay() 
         {
             
@@ -95,9 +95,9 @@ namespace Raid.Screen_Code
             Extract_success = false;
             map = new Map();
             extract_Gate = new Extract_gate[3];
-            extract_Gate[0] = new Extract_gate(new Vector2(2433, 6017));
-            extract_Gate[1] = new Extract_gate(new Vector2(5547, 4563));
-            extract_Gate[2] = new Extract_gate(new Vector2(2001, 4145));
+            extract_Gate[0] = new Extract_gate(new Vector2(4573, 9479));
+            extract_Gate[1] = new Extract_gate(new Vector2(4618, 6774));
+            extract_Gate[2] = new Extract_gate(new Vector2(9317, 6618));
             Main_Char.Deploy(Deploy_Pos);
             Camera = new Camera(Main_Char.Get_Pos());
             Camera.Load();
@@ -110,7 +110,7 @@ namespace Raid.Screen_Code
             HP_BAR = new HP_BAR();
             Hitstreak_bar = new Hitstrak_Bar();
             Weight_UI = new Weight_UI();
-            House_Contryside_Font = new House_Contryside_font(new Vector2(2688, 5897));
+            Buidings[0] = new House_Contryside_font(new Vector2(2688, 5897));
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -147,28 +147,13 @@ namespace Raid.Screen_Code
         float SceneEnd_time = 0;
         public override void Update(GameTime gameTime)
         {
-            House_Contryside_Font.Trans_Check = false;
-            Main_Char.Update();
-            if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Colli))
+            foreach(var buiding in Buidings)
             {
-                if (Main_Char.Get_Box().Top < House_Contryside_Font.Box_Colli.Bottom && Main_Char.Get_Box().Top > House_Contryside_Font.Box_Colli.Bottom - 7)
-                {
-                    Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, House_Contryside_Font.Box_Colli.Bottom+48));
-                }
-                 if (Main_Char.Get_Box().Bottom > House_Contryside_Font.Box_Colli.Top && Main_Char.Get_Box().Bottom < House_Contryside_Font.Box_Colli.Top + 7)
-                {
-                    Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, House_Contryside_Font.Box_Colli.Top-48));
-                }
-                 if(Main_Char.Get_Box().Right>House_Contryside_Font.Box_Colli.Left&& Main_Char.Get_Box().Right< House_Contryside_Font.Box_Colli.Left + 7)
-                {
-                    Main_Char.Set_Pos(new Vector2(House_Contryside_Font.Box_Colli.Left-24,Main_Char.Get_Pos().Y));
-                }
-                 if (Main_Char.Get_Box().Left < House_Contryside_Font.Box_Colli.Right && Main_Char.Get_Box().Left > House_Contryside_Font.Box_Colli.Right - 7)
-                {
-                    Main_Char.Set_Pos(new Vector2(House_Contryside_Font.Box_Colli.Right + 24, Main_Char.Get_Pos().Y));
-                }
-
-            }
+                buiding.Layer = 3;
+                buiding.Trans = false;
+            }           
+            Main_Char.Update();
+            Collision();
             Main_Char.Last_Pos = Main_Char.Get_Pos();
             Camera.Camera_Movement(Main_Char);            
             if (Main_Char.Alive == true)
@@ -176,18 +161,7 @@ namespace Raid.Screen_Code
                 Extractionsystem();
                 lootingsystem();
                 Time.Time_Count();
-                if (House_Contryside_Font.Trans_Check == false)
-                {
-                    if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans))
-                    {
-                        House_Contryside_Font.Trans = true;
-                        House_Contryside_Font.Trans_Check = true;
-                    }
-                    else
-                    {
-                        House_Contryside_Font.Trans = false;
-                    }
-                }
+                
                 for (int i = 0; i < enemyClose.Count; i++)
                 {                                      
                     if (enemyClose[i].Alive == false)
@@ -197,16 +171,21 @@ namespace Raid.Screen_Code
                         break;
                     }
                     enemyClose[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
-                    if (House_Contryside_Font.Trans_Check == false)
+
+                    //ENEMY Trans building vheck
+                    for (int n = 0; n < Buidings.Length; n++)
                     {
-                        if (enemyClose[i].Box.Intersects(House_Contryside_Font.Box_Trans))
+                        if (Buidings[n].Layer == 3)
                         {
-                            House_Contryside_Font.Trans = true;
-                            House_Contryside_Font.Trans_Check = true;
-                        }
-                        else
-                        {
-                            House_Contryside_Font.Trans = false;
+                            if (enemyClose[n].Box.Intersects(Buidings[n].Box_Trans))
+                            {
+                                Buidings[n].Layer = 2;
+                                Buidings[n].Trans = true;
+                            }
+                            else
+                            {
+                                Buidings[n].Layer = 3;
+                            }
                         }
                     }
                     enemyClose[i].Last_Pos = enemyClose[i].Get_Pos();
@@ -225,7 +204,7 @@ namespace Raid.Screen_Code
                             {
                                 if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 5)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y+48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 90 && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y+96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
                                         Camera.CameraShake();
@@ -239,7 +218,7 @@ namespace Raid.Screen_Code
                                 }
                                 if (Main_Char.Curt_state == 2 || Main_Char.Curt_state == 6)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y- 48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 90 && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y- 96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
                                         Camera.CameraShake();
@@ -253,7 +232,7 @@ namespace Raid.Screen_Code
                                 }
                                 if (Main_Char.Curt_state == 3 || Main_Char.Curt_state == 7)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X+ 48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 90 && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X+ 96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
                                         enemyClose[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -266,7 +245,7 @@ namespace Raid.Screen_Code
                                 }
                                 if (Main_Char.Curt_state == 4 || Main_Char.Curt_state == 8)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X- 48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_common_Range + 90 && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X- 96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Common_ATK);
                                         Camera.CameraShake(); 
@@ -283,7 +262,7 @@ namespace Raid.Screen_Code
                             {
                                 if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 5)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 90 && enemyClose[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                         Camera.CameraShake();
@@ -296,7 +275,7 @@ namespace Raid.Screen_Code
                                 }
                                 if (Main_Char.Curt_state == 2 || Main_Char.Curt_state == 6)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 90 && enemyClose[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                         Camera.CameraShake();
@@ -308,7 +287,7 @@ namespace Raid.Screen_Code
                                 }
                                 if (Main_Char.Curt_state == 3 || Main_Char.Curt_state == 7)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 90 && enemyClose[i].Get_Pos().X <= Main_Char.Get_Pos().X + 96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                         Camera.CameraShake();
@@ -320,7 +299,7 @@ namespace Raid.Screen_Code
                                 }
                                 if (Main_Char.Curt_state == 4 || Main_Char.Curt_state == 8)
                                 {
-                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 && enemyClose[i].immune == false)
+                                    if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 90 && enemyClose[i].Get_Pos().X >= Main_Char.Get_Pos().X - 96 && enemyClose[i].immune == false)
                                     {
                                         enemyClose[i].Get_DMG(Main_Char.Heavy_ATK);
                                         enemyClose[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
@@ -333,7 +312,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.ATK_state == 4)
                             {
-                                if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 45 && enemyClose[i].immune == false)
+                                if (enemyClose[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 90 && enemyClose[i].immune == false)
                                 {
                                     enemyClose[i].Get_DMG(Main_Char.Roll_ATK);
                                     enemyClose[i].Get_Push(Main_Char.Roll_ATK_Push, Main_Char.Get_Pos());
@@ -345,7 +324,6 @@ namespace Raid.Screen_Code
                             }
                         }
                         
-
                 }
                 for (int i = 0; i < enemyRanges.Count; i++)
                 {
@@ -357,6 +335,23 @@ namespace Raid.Screen_Code
                     }
                     enemyRanges[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
                     enemyRanges[i].Last_Pos = enemyRanges[i].Get_Pos();
+
+                    //ENEMY Trans building vheck
+                    for (int n = 0; n < Buidings.Length; n++)
+                    {
+                        if (Buidings[n].Layer == 3)
+                        {
+                            if (enemyRanges[i].Box.Intersects(Buidings[n].Box_Trans))
+                            {
+                                Buidings[n].Layer = 2;
+                                Buidings[n].Trans = true;
+                            }
+                            else
+                            {
+                                Buidings[n].Layer = 3;
+                            }
+                        }
+                    }
                     if (enemyRanges[i].fire_ball.Count > 0)
                     {
                         if (enemyRanges[i].fire_ball[enemyRanges[i].fire_ball.Count-1].Return_box().Intersects(Main_Char.Get_Box()))
@@ -376,7 +371,7 @@ namespace Raid.Screen_Code
                         {
                             if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 5)
                             {
-                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 && enemyRanges[i].immune == false)
+                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 35 && enemyRanges[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 35 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -389,7 +384,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 2 || Main_Char.Curt_state == 6)
                             {
-                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 && enemyRanges[i].immune == false)
+                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 35 && enemyRanges[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 35 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -402,7 +397,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 3 || Main_Char.Curt_state == 7)
                             {
-                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 && enemyRanges[i].immune == false)
+                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 35 && enemyRanges[i].Get_Pos().X <= Main_Char.Get_Pos().X + 35 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -415,7 +410,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 4 || Main_Char.Curt_state == 8)
                             {
-                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 && enemyRanges[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 && enemyRanges[i].immune == false)
+                                if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_common_Range + 35 && enemyRanges[i].Get_Pos().X >= Main_Char.Get_Pos().X - 35 && enemyRanges[i].immune == false)
                                 {
                                     enemyRanges[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyRanges[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -482,7 +477,7 @@ namespace Raid.Screen_Code
                         }
                         if (Main_Char.ATK_state == 4)
                         {
-                            if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 45 && enemyRanges[i].immune == false)
+                            if (enemyRanges[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 48 && enemyRanges[i].immune == false)
                             {
                                 enemyRanges[i].Get_DMG(Main_Char.Roll_ATK);
                                 enemyRanges[i].Get_Push(Main_Char.Roll_ATK_Push, Main_Char.Get_Pos());
@@ -508,6 +503,22 @@ namespace Raid.Screen_Code
                     }
                     enemyBosses[i].Update(new Vector2(Main_Char.Get_Pos().X, Main_Char.Get_Pos().Y));
                     enemyBosses[i].Last_Pos = enemyBosses[i].Get_Pos();
+                    //ENEMY Trans building vheck
+                    for (int n = 0; n < Buidings.Length; n++)
+                    {
+                        if (Buidings[n].Layer == 3)
+                        {
+                            if (enemyBosses[i].Box.Intersects(Buidings[n].Box_Trans))
+                            {
+                                Buidings[n].Layer = 2;
+                                Buidings[n].Trans = true;
+                            }
+                            else
+                            {
+                                Buidings[n].Layer = 3;
+                            }
+                        }
+                    }
                     if (enemyBosses[i].Enemy_is_attack == true)
                     {
                         if (Main_Char.ATK_state != 3)
@@ -523,7 +534,7 @@ namespace Raid.Screen_Code
                         {
                             if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 5)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 164 && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -536,7 +547,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 2 || Main_Char.Curt_state == 6)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 164 && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -549,7 +560,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 3 || Main_Char.Curt_state == 7)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 164 && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -562,7 +573,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 4 || Main_Char.Curt_state == 8)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_common_Range + 164 && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Common_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Commom_ATK_Push, Main_Char.Get_Pos());
@@ -579,7 +590,7 @@ namespace Raid.Screen_Code
                         {
                             if (Main_Char.Curt_state == 1 || Main_Char.Curt_state == 5)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 164 && enemyBosses[i].Get_Pos().Y <= Main_Char.Get_Pos().Y + 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
@@ -592,7 +603,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 2 || Main_Char.Curt_state == 6)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 164 && enemyBosses[i].Get_Pos().Y >= Main_Char.Get_Pos().Y - 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
@@ -604,7 +615,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 3 || Main_Char.Curt_state == 7)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 164 && enemyBosses[i].Get_Pos().X <= Main_Char.Get_Pos().X + 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
@@ -616,7 +627,7 @@ namespace Raid.Screen_Code
                             }
                             if (Main_Char.Curt_state == 4 || Main_Char.Curt_state == 8)
                             {
-                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 45 * 1.2f && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 48 * 1.2f && enemyBosses[i].immune == false)
+                                if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Heavy_Range + 164 && enemyBosses[i].Get_Pos().X >= Main_Char.Get_Pos().X - 164 && enemyBosses[i].immune == false)
                                 {
                                     enemyBosses[i].Get_DMG(Main_Char.Heavy_ATK);
                                     enemyBosses[i].Get_Push(Main_Char.Heavy_ATK_Push, Main_Char.Get_Pos());
@@ -629,7 +640,7 @@ namespace Raid.Screen_Code
                         }
                         if (Main_Char.ATK_state == 4)
                         {
-                            if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 45*1.2f && enemyBosses[i].immune == false)
+                            if (enemyBosses[i].Enemy_Distance <= Main_Char.ATK_Roll_Range + 164 && enemyBosses[i].immune == false)
                             {
                                 enemyBosses[i].Get_DMG(Main_Char.Roll_ATK);
                                 enemyBosses[i].Get_Push(Main_Char.Roll_ATK_Push, Main_Char.Get_Pos());
@@ -641,6 +652,19 @@ namespace Raid.Screen_Code
                         }
                     }
 
+                }
+                //Player check trans building
+                for (int i = 0; i < Buidings.Length; i++)
+                {
+                    if (Main_Char.Box.Intersects(Buidings[i].Box_Trans) == false)
+                    {
+                        Buidings[i].Layer = 3;
+                    }
+                    if (Main_Char.Box.Intersects(Buidings[i].Box_Trans))
+                    {
+                        Buidings[i].Layer = 1;
+                    }
+                   
                 }
                 if (Time.Get_Time_Count() <= 0)
                 {
@@ -666,9 +690,10 @@ namespace Raid.Screen_Code
         public override void Draw(GameTime gameTime)
         {
             Draw_Form_Pos_inWorld();
-            Draw_UI();            
+            Draw_UI();
             base.Draw(gameTime);
-        }    
+        }
+            
         public override void Unload()
         {                               
             base.Unload();
@@ -676,6 +701,7 @@ namespace Raid.Screen_Code
         public override void Debuging()
         {
             base.Debuging();
+            
         }
         ///////////////////////////////////////////////////////////////////////// Main-method /////////////////////////////////////////////////////       
         public void lootingsystem()
@@ -713,32 +739,49 @@ namespace Raid.Screen_Code
        
         private void Draw_Form_Pos_inWorld()
         {
-            
-            for (int i = 0; i < 13; i++)
+            //MAP
+            for (int i = 0; i < map.num_zone; i++)
             {
-                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 700 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 700 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 700 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 700)
+                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
                 {
                     Global.spriteBatch.Draw(map.Get_Map_Texture(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
                     
                 }
             }
-            if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans) == false)
-            {
-                House_Contryside_Font.Show(Camera.Object_Vector(House_Contryside_Font.Get_Pos()));
-            }
+            //EXTRACT GATE
             Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
             Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
+
+            //BUILDING LAYER 3
+            foreach(var buidling in Buidings)
+            {
+                if (buidling.Layer ==3)
+                {
+                    buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
+                }
+            }
+
+            //TREES LAYER2
+            foreach (var buidling in Buidings)
+            {
+                if (buidling.Layer == 2)
+                {
+                    buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
+                }
+            }
+            //GRACE
             for (int i = 0; i < graces.Count; i++)
             {
                 Global.spriteBatch.Draw(graces[i].Get_Grace_Texture(), Camera.Object_Vector(graces[i].Get_GracePosition()), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
             }
+
+            //ENEMY
             for (int i = 0; i < enemyClose.Count; i++)
             {
                 enemyClose[i].animate(Camera.Object_Vector(enemyClose[i].Get_Pos()));
                 
-            }
-            
+            }            
             for(int i = 0;i<enemyBosses.Count;i++)
             {
                 enemyBosses[i].animate(Camera.Object_Vector(enemyBosses[i].Get_Pos()));
@@ -756,13 +799,33 @@ namespace Raid.Screen_Code
             {
                 Main_Char.Get_FrameEffect()[i].Animate(Camera.Object_Vector(Main_Char.Get_FrameEffect()[i].Get_Vector()));
             }
+
+            //BUILDING LAYER 2
+
+            //PLAYER
             Main_Char.animate(Camera.Object_Vector(Main_Char.Get_Pos()));
-           
-                if (Main_Char.Box.Intersects(House_Contryside_Font.Box_Trans))
+
+            //MAP SHADOW
+            for (int i = 0; i < map.num_zone; i++)
+            {
+                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
                 {
-                    House_Contryside_Font.Show(Camera.Object_Vector(House_Contryside_Font.Get_Pos()));
+                    Global.spriteBatch.Draw(map.Get_Map_Shadow(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
+
                 }
-            
+            }
+            //TREES LAYER1
+
+            //BUILDING LAYER 1
+            foreach (var buidling in Buidings)
+            {
+                if (buidling.Layer == 1)
+                {
+                    buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
+                }
+            }
+
+
 
 
 
@@ -814,5 +877,31 @@ namespace Raid.Screen_Code
             enemyBosses.Clear();
             graces.Clear();
         }              
+        private void Collision()
+        {
+            foreach (var buiding in Buidings)
+            {
+                if (Main_Char.Box.Intersects(buiding.Box_Colli))
+                {
+                    if (Main_Char.Get_Box().Top < buiding.Box_Colli.Bottom && Main_Char.Get_Box().Top > buiding.Box_Colli.Bottom - 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile));
+                    }
+                    if (Main_Char.Get_Box().Bottom > buiding.Box_Colli.Top && Main_Char.Get_Box().Bottom < buiding.Box_Colli.Top + 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile));
+                    }
+                    if (Main_Char.Get_Box().Right > buiding.Box_Colli.Left && Main_Char.Get_Box().Right < buiding.Box_Colli.Left + 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile / 2, Main_Char.Get_Pos().Y));
+                    }
+                    if (Main_Char.Get_Box().Left < buiding.Box_Colli.Right && Main_Char.Get_Box().Left > buiding.Box_Colli.Right - 7)
+                    {
+                        Main_Char.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile / 2, Main_Char.Get_Pos().Y));
+                    }
+                }
+            }
+            
+        }
     }
 }

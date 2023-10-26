@@ -31,10 +31,10 @@ namespace Raid.Enemy
             animated_right.Load(Global.Content, "boss-sheet_96_Right", 4, 3, 4);
             base.HP = num.Next(450,500);
             base.Alive = true;
-            base.Enemy_ATK_Range = Global.Tile * 1.5f;
+            base.Enemy_ATK_Range = Global.Tile * 2.5f;
             base.Enemy_state = 1;
             base.Enemy_Detection_Range = Global.Tile * 8.5f;
-            Render_Range = Global.Tile * 14;
+            Render_Range = Global.Tile * 17;
             Enemy_is_Alert = false;
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = 14;
@@ -45,7 +45,14 @@ namespace Raid.Enemy
 
         public override void Update(Vector2 Player_Pos)
         {
-            Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y), 2));
+            if (base.Enemy_state == 1 || base.Enemy_state == 7)
+            {
+                Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X + 31), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y + 58), 2));
+            }
+            else if(base.Enemy_state == 2 || base.Enemy_state == 8)
+            {
+                Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X - 36), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y + 51), 2));
+            }
             Push();
             if (Enemy_Distance <= Render_Range)
             {
@@ -141,8 +148,8 @@ namespace Raid.Enemy
         {
             if (Enemy_Distance <= Render_Range)
             {
-                Pos.X -= 96;
-                Pos.Y -= 102;
+                Pos.X -= 240;
+                Pos.Y -= 240;
                 animated_left.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 animated_right.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 if (base.Alive == true && base.HP > 0)
@@ -210,11 +217,11 @@ namespace Raid.Enemy
                     {
                         if (base.Enemy_state == 8)
                         {
-                            Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 192, 192), Color.Red);
+                            Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 480, 480), Color.Red);
                         }
                         if (base.Enemy_state == 7)
                         {
-                            Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 192, 192), Color.Red);
+                            Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 480, 480), Color.Red);
                         }
                     }
                 }
@@ -223,11 +230,11 @@ namespace Raid.Enemy
 
                     if (base.Enemy_state == 8)
                     {
-                        Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 192, 192), Color.Red * fading);
+                        Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 480, 480), Color.Red * fading);
                     }
                     if (base.Enemy_state == 7)
                     {
-                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 192, 192), Color.Red * fading);
+                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 480, 480), Color.Red * fading);
                     }
                     if (fading > 0)
                     {
@@ -245,7 +252,14 @@ namespace Raid.Enemy
         public override void Get_Push(float U, Vector2 Pos)
         {
             Audio.soundEffects[4].CreateInstance().Play();
-            this.U = U*0.5f;
+            if (stunt == false || immune == false)
+            {
+                this.U = U * 0.5f;
+            }
+            else
+            {
+                this.U = U*0.3f;
+            }
             this.Pos = Pos;
         }
         public void Push()

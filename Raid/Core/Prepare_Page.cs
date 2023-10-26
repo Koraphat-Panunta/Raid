@@ -107,11 +107,11 @@ namespace Raid.Core
         {
             switch (i)
             {
-                case 0: return new Vector2(2572, 6212);
+                case 0: return new Vector2(4573+(Global.Tile*2),9479 + (Global.Tile * 2));
                     break;
-                case 1: return new Vector2(5782, 4538);
+                case 1: return new Vector2(9317+(Global.Tile * 2),6618 + (Global.Tile * 2));
                     break;
-                case 2: return new Vector2(2227, 4115);
+                case 2: return new Vector2(4618 + (Global.Tile * 2),6774 + (Global.Tile * 2));
                     break;
                 case 3: return new Vector2(1600 * 2,800*2);
                     break;

@@ -34,7 +34,7 @@ namespace Raid.Enemy
             base.Enemy_state = 1;
             base.Enemy_Detection_Range = Global.Tile * 7;
             
-            Render_Range = Global.Tile * 14;
+            Render_Range = Global.Tile * 17;
             Enemy_is_Alert = false;
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = num.Next(4,8);
@@ -58,7 +58,7 @@ namespace Raid.Enemy
                 }
                 if (base.Alive == true && base.HP > 0)
                 {
-                    base.Box = new Rectangle((int)base.Vector2.X-80+16, (int)base.Vector2.Y-80+48, 142, 104);
+                    base.Box = new Rectangle((int)base.Vector2.X-149, (int)base.Vector2.Y-120, 250, 200);
                     if (Enemy_is_Alert == true)
                     {
                         if (stunt == false && Unarmed == false)
@@ -143,8 +143,8 @@ namespace Raid.Enemy
         {
             if (Enemy_Distance <= Render_Range)
             {
-                Pos.X -= 80;
-                Pos.Y -= 80;
+                Pos.X -= 160;
+                Pos.Y -= 160;
                 animated_left.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 animated_right.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 if (base.Alive == true && base.HP > 0)
@@ -215,22 +215,22 @@ namespace Raid.Enemy
                         {
                             if (base.Enemy_state == 8)
                             {
-                                Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 160, 160), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0.5f);
+                                Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 320, 320), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0.5f);
                             }
                             if (base.Enemy_state == 7)
                             {
-                                Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 160, 160), Color.White);
+                                Global.spriteBatch.Draw(base.texture, Pos, new Rectangle(0, 0, 320, 320), Color.White);
                             }
                         }
                         else
                         {
                             if (base.Enemy_state == 8)
                             {
-                                Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0.5f);
+                                Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 320, 320), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0.5f);
                             }
                             if (base.Enemy_state == 7)
                             {
-                                Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.White);
+                                Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 320, 320), Color.White);
                             }
                         }
                         
@@ -241,11 +241,11 @@ namespace Raid.Enemy
 
                     if (base.Enemy_state == 8)
                     {
-                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.Red * fading,0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0.5f);
+                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 320, 320), Color.Red * fading,0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0.5f);
                     }
                     if (base.Enemy_state == 7)
                     {
-                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 160, 160), Color.Red * fading);
+                        Global.spriteBatch.Draw(animated, Pos, new Rectangle(0, 0, 320, 320), Color.Red * fading);
                     }
                     if (fading > 0)
                     {

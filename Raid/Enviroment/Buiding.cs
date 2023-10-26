@@ -14,6 +14,7 @@ namespace Raid.Enviroment
         public Rectangle Box_Trans;
         public bool Trans;
         public bool Trans_Check;
+        public int Layer;
       
 
         public Buiding(Vector2 Pos) 
@@ -21,6 +22,7 @@ namespace Raid.Enviroment
             base.Vector2 = Pos;
             Trans = false;
             Trans_Check = false;
+            Layer = 3;
         }        
         public virtual void Show(Vector2 Pos)
         {

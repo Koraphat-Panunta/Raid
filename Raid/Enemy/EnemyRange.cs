@@ -20,8 +20,8 @@ namespace Raid.Enemy
         {
             base.animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
             this.animation = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
-            base.animation.Load(Global.Content, "enemy_range_left", 4, 2, 4);
-            this.animation.Load(Global.Content, "enemy_range_Right", 4, 2, 4);
+            base.animation.Load(Global.Content, "enemy_range_left", 4, 1, 4);
+            this.animation.Load(Global.Content, "enemy_range_Right", 4, 1, 4);
             base.texture = Global.Content.Load<Texture2D>("enemy_range_Right");
             this.texture = Global.Content.Load<Texture2D>("enemy_range_left");
             base.Vector2 = Spawn_Pos;
@@ -31,7 +31,7 @@ namespace Raid.Enemy
             base.Enemy_Detection_Range = Global.Tile * 8;
             base.Enemy_ATK_Range = Global.Tile * 6.7f;
             base.Enemy_state = 7;
-            base.Render_Range = Global.Tile * 14;
+            base.Render_Range = Global.Tile * 17;
             base.Enemy_is_Alert = false;
             base.Enemy_is_attack = false;            
             //1:left

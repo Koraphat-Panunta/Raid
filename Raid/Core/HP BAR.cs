@@ -13,11 +13,11 @@ namespace Raid.Core
         public HP_BAR() 
         {
             base.Texture = Global.Content.Load<Texture2D>("HP bar");
-            base.Vector2 = new Vector2 (48,48);
+            base.Vector2 = new Vector2 (64,64);
             HP_Bar = Global.Content.Load<Texture2D>("HP");
-            HP_pos = new Vector2(96,49);
+            HP_pos = new Vector2(190, 98);
             Armmor_Bar = Global.Content.Load<Texture2D>("ARMMOR");
-            Armmor_Pos = new Vector2(240, 49);
+            Armmor_Pos = new Vector2(382,98);
             
         }
     }

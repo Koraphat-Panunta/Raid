@@ -6,7 +6,7 @@ namespace Raid
 {
     public static class Global
     {
-        static public int Tile = 48;
+        static public int Tile = 64;
         public static SpriteBatch spriteBatch {  get; set; }
         public static GraphicsDeviceManager GraphicsDevice { get; set; }
         public static ContentManager Content {  get; set; }
