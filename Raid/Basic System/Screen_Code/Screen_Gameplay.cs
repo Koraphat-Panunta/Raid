@@ -1063,7 +1063,7 @@ namespace Raid.Screen_Code
             if(feedback_time_start == true)
             {
                 feedback_time += (double)Global.gameTime.ElapsedGameTime.TotalSeconds;                
-                Global.spriteBatch.Draw(Blood_Feedback, Vector2.Zero,null, Color.White*0.7f,0f,Vector2.Zero,1.35f,SpriteEffects.None,0.5f);
+                Global.spriteBatch.Draw(Blood_Feedback, Vector2.Zero,null, Color.White*0.7f,0f,Vector2.Zero,1f,SpriteEffects.None,0.5f);
                 if (feedback_time >= 0.5)
                 {
                     feedback_time = 0;

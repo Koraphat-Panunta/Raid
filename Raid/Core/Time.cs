@@ -32,8 +32,8 @@ namespace Raid.Core
         {
             //Global.spriteBatch.Draw(TimeUI, new Vector2(528+424, 64),new Rectangle(0,0,64,64), Color.White * 0.89f);
             Animated.DrawFrame(Global.spriteBatch, new Vector2(528 + 424, 64));
-            Global.spriteBatch.DrawString(Time_font, ":" + TimeCount, new Vector2(576+424,64), Color.DarkBlue*0.89f);
-            Global.spriteBatch.DrawString(Time_font, "Sec", new Vector2(635 + 424,88), Color.DarkBlue * 0.89f,0f,Vector2.Zero,0.4f,SpriteEffects.None,0.5f);
+            Global.spriteBatch.DrawString(Time_font, ":" + TimeCount, new Vector2(576+424+35,64), Color.DarkBlue*0.89f);
+            Global.spriteBatch.DrawString(Time_font, "Sec", new Vector2(635 + 424+80,88), Color.DarkBlue * 0.89f,0f,Vector2.Zero,0.4f,SpriteEffects.None,0.5f);
         }
         public void Set_Time() { }
         public int Get_Time_Count() { return TimeCount; }
