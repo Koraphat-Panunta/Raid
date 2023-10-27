@@ -39,7 +39,7 @@ namespace Raid.Screen_Code
         private HP_BAR HP_BAR;
         private Hitstrak_Bar Hitstreak_bar;
         private Weight_UI Weight_UI;
-        private Buiding[] Buidings = new Buiding[72];
+        private Buiding[] Buidings = new Buiding[77];
         public Screen_Gameplay() 
         {
             
@@ -79,19 +79,7 @@ namespace Raid.Screen_Code
             Main_Char.inventory = inventory;
    
             
-            for (int i = 0; i < enemyclosemax; i++)
-            {
-                enemyClose.Add(new EnemyClose(new Vector2(random.Next(5300, 5400), random.Next(8450, 8600))));
-
-            }
-            for (int i = 0; i < enemyRangemax; i++)
-            {
-                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(5300, 5400), random.Next(8450, 8600))));
-            }   
-            for (int i = 0; i < enemyBossmax; i++)
-            {
-                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(5300, 5400), random.Next(8450, 8600))));
-            }
+           
             Extract_fail = false;
             Extract_success = false;
             map = new Map();
@@ -99,21 +87,100 @@ namespace Raid.Screen_Code
             extract_Gate[0] = new Extract_gate(new Vector2(4573, 9479));
             extract_Gate[1] = new Extract_gate(new Vector2(4618, 6774));
             extract_Gate[2] = new Extract_gate(new Vector2(9317, 6618));
+            for(int i = 0; i < extract_Gate.Length; i++)
+            {
+                if (Deploy_Pos.X >= extract_Gate[i].Get_Box().Left&& Deploy_Pos.X <= extract_Gate[i].Get_Box().Right)
+                {
+                    if(Deploy_Pos.Y >= extract_Gate[i].Get_Box().Top && Deploy_Pos.Y <= extract_Gate[i].Get_Box().Bottom)
+                    {
+                        extract_Gate[i].Extract_gate_enable = false;
+                        break;
+                    }
+                }
+            }
             Main_Char.Deploy(Deploy_Pos);
             Camera = new Camera(Main_Char.Get_Pos());
             Camera.Load();
             MediaPlayer.Play(Audio.Wind_ambient);
             MediaPlayer.IsRepeating = true;
             Pos = Global.Content.Load<Texture2D>("Rectangle 159");
-            this.Time = new Time(60 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
+            this.Time = new Time(200 + (Main_Char.inventory.Rune_Times.Count * Rune_Time.time_plus));
             Blood_Feedback = Global.Content.Load<Texture2D>("Blood-Feedback");
             this.Quest = quest;
             HP_BAR = new HP_BAR();
             Hitstreak_bar = new Hitstrak_Bar();
             Weight_UI = new Weight_UI();
             Add_buidling();
-            Add_Enemy();
-           
+            //Add_Enemy
+
+            //1
+            Add_Enemy(3, 1, 7849, 7849 + 1495, 14060, 14060 + 234);
+            //2
+            Add_Enemy(3, 1, 6736, 6736 + 267, 13184, 13184 + 1048);
+            //3
+            Add_Enemy(3, 1, 10026, 10026 + 172, 13354, 13354 + 876);
+            //4
+            Add_Enemy(3, 1, 10043, 10043 + 172, 11810, 11810 + 876);
+            //5
+            Add_Enemy(2, 0, 9177, 9177 + 272, 12517, 12517 + 916);
+            //6
+            Add_Enemy(2, 0, 8301, 8301 + 448, 11776, 11776 + 719);
+            //7
+            Add_Enemy(2, 1, 7616, 7616 + 320, 12569, 12569 + 916);
+            //8
+            Add_Enemy(1, 2, 8064, 8064 + 919, 13568, 13568 + 82);
+            //9
+            Add_Enemy(3, 1, 6736, 6736 + 267, 11781, 11781 + 748);
+            //10
+            Add_Enemy(4, 0, 5677, 5677 + 267, 10432, 10432 + 1353);
+            //11
+            Add_Enemy(5, 2, 4959, 4959 + 1021, 8288, 8288 + 715);
+            //12 
+            Add_Enemy(4, 2, 5669, 5669 + 292, 6842, 6842 + 1350);
+            //13
+            Add_Enemy(7, 4, 6464, 6464 + 2460, 7954, 7954 + 283);
+            //14
+            Add_Enemy(5, 2, 9102, 9102 + 289, 7648, 7648 + 1291);
+            //15
+            Add_Enemy(5, 2, 6904, 6904 + 712, 6470, 6470 + 506);
+            //16
+            Add_Enemy(4, 1, 5634, 5634 + 303, 5824, 5824 + 896);
+            //17
+            Add_Enemy(3, 1, 4608, 4608 + 1280, 5440, 5440 + 320);
+            //18
+            Add_Enemy(9, 4, 2624, 2624 + 1945, 4262, 4262 + 922);
+            //19
+            Add_Enemy(3, 0, 2454, 2454 + 380, 2797, 2797 + 1299);
+            //20
+            Add_Enemy(2, 0, 2560, 2560 + 1404, 2410, 2410 + 263);
+            //21
+            Add_Enemy(4, 2, 4239, 4239 + 753, 2104, 2104 + 911);
+            //22
+            Add_Enemy(3, 1, 8979, 8979 + 264, 4826, 4826 + 999);
+            //23
+            Add_Enemy(4, 1, 7140, 7140 + 1529, 4414, 4414 + 296);
+            //24
+            Add_Enemy(3, 0, 8527, 8527 + 1058, 3928, 3928 + 223);
+            //25 
+            Add_Enemy(6, 2, 7168, 7168 + 163, 2222, 2222 + 2066);
+            //26
+            Add_Enemy(5, 2, 7348, 7348 + 2011, 2230, 2230 + 243);
+            //27
+            Add_Enemy(3, 1, 9639, 9639 + 937, 4186, 4186 + 223);
+            //28
+            Add_Enemy(5, 2, 10688, 10688 + 494, 3124, 3124 + 1139);
+            //29
+            Add_Enemy(4, 3, 10415, 10415 + 850, 1800, 1800 + 663);
+
+            //Boss1
+            enemyBosses.Add(new EnemyBoss( new Vector2(10840, 2085)));
+
+            //Boss2
+            enemyBosses.Add(new EnemyBoss(new Vector2(4650, 2496)));
+
+            //Boss3
+            enemyBosses.Add(new EnemyBoss(new Vector2(8505, 13699)));
+
         }
         private void Add_buidling()
         {
@@ -140,13 +207,16 @@ namespace Raid.Screen_Code
             Buidings[18] = new JapHouse_Single_Front(new Vector2(7210, 1616));
 
             Buidings[19] = new JapHouse_Single_Side(new Vector2(6672, 3712));
-            Buidings[20] = new JapHouse_Single_Side(new Vector2(10106, 2826));
+            Buidings[20] = new JapHouse_Single_Side(new Vector2(10096, 2782));
             Buidings[21] = new JapHouse_Single_Side(new Vector2(11265, 2767));
 
-            Buidings[22] = new JapHouse_Double_Front(new Vector2(7331, 6737));
+           
+
+            Buidings[22] = new JapHouse_Double_Front(new Vector2(7331, 6737));          
             Buidings[23] = new JapHouse_Double_Side(new Vector2(7355, 2944));
             Buidings[24] = new JapHouse_Double_Side(new Vector2(6700, 1351));
             Buidings[25] = new JapHouse_Double_Side(new Vector2(9379, 1704));
+           
 
             Buidings[26] = new JapHouse_Single_Front(new Vector2(3533, 3363));
             Buidings[27] = new JapHouse_Single_Front(new Vector2(6048, 11093));
@@ -162,7 +232,7 @@ namespace Raid.Screen_Code
             Buidings[36] = new JapHouse_Single_Side(new Vector2(6195, 12416));
             Buidings[37] = new JapHouse_Single_Side(new Vector2(6195, 13291));
 
-            Buidings[38] = new JapHouse_Double_Front(new Vector2(2893, 1495));
+            Buidings[38] = new JapHouse_Double_Front(new Vector2(2908, 1644));
             Buidings[39] = new JapHouse_Double_Front(new Vector2(7445, 11703));
             Buidings[40] = new JapHouse_Double_Front(new Vector2(8805, 11703));
             Buidings[41] = new JapHouse_Double_Front(new Vector2(7525, 13333));
@@ -191,6 +261,7 @@ namespace Raid.Screen_Code
             Buidings[61] = new Tree_Red(new Vector2(2024, 5358));
             Buidings[62] = new Tree_Red(new Vector2(3331, 5200));
 
+
             Buidings[63] = new Tree_Red(new Vector2(5137, 11920));
             Buidings[64] = new Tree_Red(new Vector2(5443, 11975));
             Buidings[65] = new Tree_Red(new Vector2(5851, 12432));
@@ -200,34 +271,30 @@ namespace Raid.Screen_Code
             Buidings[69] = new Tree_Red(new Vector2(5881, 13922));
             Buidings[70] = new Tree_Red(new Vector2(9719, 11243));
             Buidings[71] = new Tree_Red(new Vector2(10012, 11280));
-        }
-        private void Add_Enemy()
-        {
-            //Japan CIty
-                //Close Enemy
-            enemyClose.Add(new EnemyClose(new Vector2(5754,10496)));
-            enemyClose.Add(new EnemyClose(new Vector2(5760,11234)));
-            enemyClose.Add(new EnemyClose(new Vector2(5766, 11349)));
-            enemyClose.Add(new EnemyClose(new Vector2(6819, 11802)));
-            enemyClose.Add(new EnemyClose(new Vector2(6870, 11989)));
-            enemyClose.Add(new EnemyClose(new Vector2(8448, 11886)));
-            enemyClose.Add(new EnemyClose(new Vector2(10097,11937)));
-            enemyClose.Add(new EnemyClose(new Vector2(10080, 13003)));
-            enemyClose.Add(new EnemyClose(new Vector2(10065, 13224)));
-            enemyClose.Add(new EnemyClose(new Vector2(9003, 14192)));
-            enemyClose.Add(new EnemyClose(new Vector2(8522, 14128)));
-            enemyClose.Add(new EnemyClose(new Vector2(8089, 14160)));
-            enemyClose.Add(new EnemyClose(new Vector2(7794, 12847)));
-            enemyClose.Add(new EnemyClose(new Vector2(9289, 12560)));
-                //Range Enemy
-            enemyRanges.Add(new EnemyRange(new Vector2(5760, 11466)));
-            enemyRanges.Add(new EnemyRange(new Vector2(6870, 12226)));
-            enemyRanges.Add(new EnemyRange(new Vector2(10112, 13342)));
-            enemyRanges.Add(new EnemyRange(new Vector2(8662, 13852)));
-            enemyRanges.Add(new EnemyRange(new Vector2(8412, 13922)));
-                //Boss Enemy
-            enemyBosses.Add(new EnemyBoss(new Vector2(8505, 13699)));
 
+            //EXTENDED
+            Buidings[72] = new JapHouse_Double_Front(new Vector2(7331, 3676));
+            Buidings[74] = new Tree_Red(new Vector2(2958, 3676));
+            Buidings[75] = new Tree_Red(new Vector2(4415, 3836));
+            Buidings[76] = new Tree_Red(new Vector2(3366, 2624));
+
+
+
+            //landMark
+            Buidings[73] = new _3Kings(new Vector2(8704, 4034));
+        }
+        private void Add_Enemy(int close_num,int range_num,int PosX_min,int PosX_max,int PosY_min,int PosY_max)
+        {
+            //Close_Enemy
+           for(int i = 0; i < close_num; i++)
+            {
+                enemyClose.Add(new EnemyClose(new Vector2(random.Next(PosX_min, PosX_max), random.Next(PosY_min, PosY_max))));
+            }
+           //Range_Enemy
+           for(int i = 0; i < range_num; i++)
+            {
+                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(PosX_min, PosX_max), random.Next(PosY_min, PosY_max))));
+            }
         }
         public void load(Vector2 Deploy_Pos, Inventory inventory)
         {
@@ -606,7 +673,15 @@ namespace Raid.Screen_Code
                     {
                         graces.Add(new Grace(enemyBosses[i].Get_Pos()));
                         enemyBosses.Remove(enemyBosses[i]);
-                        if(Quest.Quest_Code == 1)
+                        if(Quest.Quest_Code == 1 && i==0)
+                        {
+                            Quest.Quest_Done = true;
+                        }
+                        if (Quest.Quest_Code == 2 && i == 1)
+                        {
+                            Quest.Quest_Done = true;
+                        }
+                        if (Quest.Quest_Code == 3 && i == 2)
                         {
                             Quest.Quest_Done = true;
                         }
@@ -831,7 +906,7 @@ namespace Raid.Screen_Code
         {
             for (int i = 0; i < extract_Gate.Length; i++)
             {
-                if (extract_Gate[i].Get_Box().Intersects(Main_Char.Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E))
+                if (extract_Gate[i].Get_Box().Intersects(Main_Char.Get_Box()) && Keyboard.GetState().IsKeyDown(Keys.E) && extract_Gate[i].Extract_gate_enable==true)
                 {
                     Extract_success = true;
                     if (Quest.Quest_Code != 0)
@@ -858,9 +933,28 @@ namespace Raid.Screen_Code
                 }
             }
             //EXTRACT GATE
-            Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
-            Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
-            Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
+            for(int i = 0; i < extract_Gate.Length; i++)
+            {
+                if (extract_Gate[i].Extract_gate_enable == true)
+                {
+                    Global.spriteBatch.Draw(extract_Gate[i].Get_Texture(), Camera.Object_Vector(extract_Gate[i].Get_Position()), Color.White);
+                }
+                if (extract_Gate[i].Extract_gate_enable == false)
+                {
+                    Global.spriteBatch.Draw(extract_Gate[i].Get_Texture(), Camera.Object_Vector(extract_Gate[i].Get_Position()), Color.DeepSkyBlue);
+                }
+            }
+            //Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
+            //Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
+            //Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
+            //MAP SHADOW
+            for (int i = 0; i < map.Area_Shadow.Length; i++)
+            {
+                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
+                {
+                    Global.spriteBatch.Draw(map.Get_Map_Shadow(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
+                }
+            }
             //Wallmaria
             for (int i = 0; i < 6; i++)
             {
@@ -878,16 +972,7 @@ namespace Raid.Screen_Code
                 {
                     buidling.Show(Camera.Object_Vector(buidling.Get_Pos()));
                 }
-            }
-           
-            //MAP SHADOW
-            for (int i = 0; i < map.Area_Shadow.Length; i++)
-            {
-                if (Main_Char.Get_Pos().Y > map.Get_Map_Pos(i).Y - 1400 && Main_Char.Get_Pos().Y < map.Get_Map_Pos(i).Y + map.Get_Map_Texture(i).Height + 1400 && Main_Char.Get_Pos().X > map.Get_Map_Pos(i).X - 1400 && Main_Char.Get_Pos().X < map.Get_Map_Pos(i).X + map.Get_Map_Texture(i).Width + 1400)
-                {
-                    Global.spriteBatch.Draw(map.Get_Map_Shadow(i), Camera.Object_Vector(map.Get_Map_Pos(i)), Color.White);
-                }
-            }
+            }                    
             //TREES LAYER2
 
             //GRACE
@@ -947,7 +1032,7 @@ namespace Raid.Screen_Code
                 buidling.Draw_Shadow(Camera.Object_Vector(buidling.Get_Pos()));
             }
             Global.spriteBatch.Draw(map.Landmark[2], Camera.Object_Vector(new Vector2(8025,12482)),Color.White);
-            Global.spriteBatch.Draw(map.Landmark[3], Camera.Object_Vector(new Vector2(8704,4159)), Color.White);
+            //Global.spriteBatch.Draw(map.Landmark[3], Camera.Object_Vector(new Vector2(8704,4159)), Color.White);
             //TREE GROUP2
             foreach (var tree in map.Trees2)
             {
@@ -990,11 +1075,11 @@ namespace Raid.Screen_Code
             {
                 if (Quest.Quest_Done == false)
                 {
-                    Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(862,48), Color.WhiteSmoke,0f,Vector2.Zero,1.5f,SpriteEffects.None,0.5f);
+                    Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(1312, 64), Color.WhiteSmoke,0f,Vector2.Zero,1.5f,SpriteEffects.None,0.5f);
                 }
                 else if(Quest.Quest_Done == true) 
                 {
-                    Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(862,48), Color.WhiteSmoke * 0.4f,0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.5f);
+                    Global.spriteBatch.DrawString(Quest.Quest_Detail_font, Quest.Quest_Detail_string, new Vector2(1312, 64), Color.WhiteSmoke * 0.4f,0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.5f);
                 }
             }
             

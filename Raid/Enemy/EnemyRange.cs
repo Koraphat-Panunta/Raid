@@ -29,7 +29,7 @@ namespace Raid.Enemy
             base.Alive = true;
             base.Enemt_ATK_DMG = random.Next(4,6);
             base.Enemy_Detection_Range = Global.Tile * 8;
-            base.Enemy_ATK_Range = Global.Tile * 6.7f;
+            base.Enemy_ATK_Range = Global.Tile * 7.5f;
             base.Enemy_state = 7;
             base.Render_Range = Global.Tile * 17;
             base.Enemy_is_Alert = false;

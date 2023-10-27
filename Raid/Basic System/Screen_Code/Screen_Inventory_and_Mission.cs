@@ -6,6 +6,7 @@ using Raid.Core;
 using Raid.Item;
 using Raid.MainCharacter;
 using System;
+using System.Collections.Generic;
 
 namespace Raid.Screen_Code
 {
@@ -13,7 +14,9 @@ namespace Raid.Screen_Code
 
     {
         public Quest quest = new Quest();
+        List<Quest> quest_selection = new List<Quest>();
         public Quest_I Quest_I;
+        public Quest_II Quest_II;
         private Texture2D grace_texture;
         private SpriteFont font;
         public Prepare_Page map;
@@ -54,7 +57,11 @@ namespace Raid.Screen_Code
             {
                 stash.add_grace();
             }
-            Quest_I = new Quest_I();
+            
+            quest_selection.Add(new Quest_I());
+            quest_selection.Add(new Quest_II());
+            quest_selection.Add(new Quest_III());
+            
         }
         public void load(Inventory inventory,Quest quest)
         {
@@ -169,18 +176,27 @@ namespace Raid.Screen_Code
             {
                 Global.spriteBatch.Draw(map.Upgrade_Inventory_Texture, new Vector2(639, 636), Color.White);
             }
-            if (mouse.Intersects(Quest_I.Quest_Select_Box)&&Quest_I.Quest_Done == false||Quest_I.Quest_Selected == true)
+            foreach(var Quest in quest_selection)
             {
-                Global.spriteBatch.Draw(Quest_I.Quest_Select_Texture, Quest_I.Quest_Select_Position, Color.Yellow);
+                if (mouse.Intersects(Quest.Quest_Select_Box) && Quest.Quest_Done == false || Quest.Quest_Selected == true)
+                {
+                    Global.spriteBatch.Draw(Quest.Quest_Select_Texture, Quest.Quest_Select_Position, Color.White);
+                }
+                else if (Quest.Quest_Completed == true)
+                {
+                    Global.spriteBatch.Draw(Quest.Quest_Select_Texture, Quest.Quest_Select_Position, Color.Black * 0.6f);
+                }
+                else
+                {
+                    Global.spriteBatch.Draw(Quest.Quest_Select_Texture, Quest.Quest_Select_Position, Color.White * 0.6f);
+                }
+                if (quest == Quest)
+                {
+                    quest.Show_Detail();
+                }
             }
-            else if(Quest_I.Quest_Completed == true)
-            {
-                Global.spriteBatch.Draw(Quest_I.Quest_Select_Texture, Quest_I.Quest_Select_Position, Color.Black*0.6f);
-            }
-            else
-            {
-                Global.spriteBatch.Draw(Quest_I.Quest_Select_Texture, Quest_I.Quest_Select_Position, Color.White );
-            }
+           
+            
             Global.spriteBatch.Draw(grace_texture, new Vector2(832, 636),null, Color.White,0f,Vector2.Zero,0.5f,SpriteEffects.None,0.5f);
             Global.spriteBatch.DrawString(font," : "+stash.Graces.Count+"  $", new Vector2(896, 644 ), Color.White);
             Global.spriteBatch.DrawString(font,""+ inventory.Rune_ATK.Count + " / " + stash.Rune_ATK.Count, new Vector2(192, 709+10), Color.White);
@@ -200,12 +216,9 @@ namespace Raid.Screen_Code
             Global.spriteBatch.DrawString(font, "" + 75 + " $", new Vector2(774, 640), Color.White);
             Global.spriteBatch.DrawString(font, "" + (8.5f + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus)), new Vector2(96,516), Color.White);
             Global.spriteBatch.DrawString(font, "" +  (inventory.Rune_Armor.Count * Rune_Armor.HP_plus), new Vector2(244, 516), Color.White);
-            Global.spriteBatch.DrawString(font, "" +(60+ (inventory.Rune_Times.Count * Rune_Time.time_plus)), new Vector2(373, 516), Color.White);
+            Global.spriteBatch.DrawString(font, "" +(200+ (inventory.Rune_Times.Count * Rune_Time.time_plus)), new Vector2(373, 516), Color.White);
             Global.spriteBatch.DrawString(font, "" + inventory.Rune_Lives.Count, new Vector2(502, 516), Color.White);
-            if (quest == Quest_I)
-            {
-                quest.Show_Detail();
-            }                        
+                                  
             base.Draw(gameTime);
         }
         public override void Unload()
@@ -421,11 +434,16 @@ namespace Raid.Screen_Code
         }
         private void Mission_Select()
         {
-            if (mouse.Intersects(Quest_I.Quest_Select_Box)&&Mouse.GetState().LeftButton == ButtonState.Pressed&&Quest_I.Quest_Completed == false)
+            foreach(var Quest in quest_selection)
             {
-                quest = Quest_I;
-                quest.Quest_Selected = true;
-            }            
+                if (mouse.Intersects(Quest.Quest_Select_Box) && Mouse.GetState().LeftButton == ButtonState.Pressed && Quest.Quest_Completed == false)
+                {
+                    quest.Quest_Selected = false;
+                    quest = Quest;
+                    quest.Quest_Selected = true;
+                }
+            }
+           
         }
         public void Reset()
         {
