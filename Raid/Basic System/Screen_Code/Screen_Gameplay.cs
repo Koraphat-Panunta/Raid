@@ -16,9 +16,7 @@ namespace Raid.Screen_Code
 {
     public class Screen_Gameplay:Screen
     {
-        int enemyclosemax = 0;
-        int enemyRangemax = 0;
-        int enemyBossmax = 0;
+        
         Random random = new Random();
         public Main_Char Main_Char;
         List<EnemyClose> enemyClose = new List<EnemyClose>();
@@ -47,18 +45,7 @@ namespace Raid.Screen_Code
         public override void load(Vector2 Deploy_Pos)
         {                      
             Main_Char = new Main_Char();
-            for(int i = 0; i < enemyclosemax; i++)
-            {
-                enemyClose.Add(new EnemyClose(new Vector2(random.Next(2400,3000),random.Next(5000,6000))));                
-            }
-            for (int i = 0; i < enemyRangemax; i++)
-            {           
-                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
-            }
-            for(int i = 0; i < enemyBossmax; i++)
-            {
-                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(2400, 3000), random.Next(5000,6000))));
-            }
+           
             Extract_fail = false;
             Extract_success = false;
             map = new Map();                                 
@@ -113,73 +100,7 @@ namespace Raid.Screen_Code
             Add_buidling();
             //Add_Enemy
 
-            //1
-            Add_Enemy(3, 1, 7849, 7849 + 1495, 14060, 14060 + 234);
-            //2
-            Add_Enemy(3, 1, 6736, 6736 + 267, 13184, 13184 + 1048);
-            //3
-            Add_Enemy(3, 1, 10026, 10026 + 172, 13354, 13354 + 876);
-            //4
-            Add_Enemy(3, 1, 10043, 10043 + 172, 11810, 11810 + 876);
-            //5
-            Add_Enemy(2, 0, 9177, 9177 + 272, 12517, 12517 + 916);
-            //6
-            Add_Enemy(2, 0, 8301, 8301 + 448, 11776, 11776 + 719);
-            //7
-            Add_Enemy(2, 1, 7616, 7616 + 320, 12569, 12569 + 916);
-            //8
-            Add_Enemy(1, 2, 8064, 8064 + 919, 13568, 13568 + 82);
-            //9
-            Add_Enemy(3, 1, 6736, 6736 + 267, 11781, 11781 + 748);
-            //10
-            Add_Enemy(4, 0, 5677, 5677 + 267, 10432, 10432 + 1353);
-            //11
-            Add_Enemy(5, 2, 4959, 4959 + 1021, 8288, 8288 + 715);
-            //12 
-            Add_Enemy(4, 2, 5669, 5669 + 292, 6842, 6842 + 1350);
-            //13
-            Add_Enemy(7, 4, 6464, 6464 + 2460, 7954, 7954 + 283);
-            //14
-            Add_Enemy(5, 2, 9102, 9102 + 289, 7648, 7648 + 1291);
-            //15
-            Add_Enemy(5, 2, 6904, 6904 + 712, 6470, 6470 + 506);
-            //16
-            Add_Enemy(4, 1, 5634, 5634 + 303, 5824, 5824 + 896);
-            //17
-            Add_Enemy(3, 1, 4608, 4608 + 1280, 5440, 5440 + 320);
-            //18
-            Add_Enemy(9, 4, 2624, 2624 + 1945, 4262, 4262 + 922);
-            //19
-            Add_Enemy(3, 0, 2454, 2454 + 380, 2797, 2797 + 1299);
-            //20
-            Add_Enemy(2, 0, 2560, 2560 + 1404, 2410, 2410 + 263);
-            //21
-            Add_Enemy(4, 2, 4239, 4239 + 753, 2104, 2104 + 911);
-            //22
-            Add_Enemy(3, 1, 8979, 8979 + 264, 4826, 4826 + 999);
-            //23
-            Add_Enemy(4, 1, 7140, 7140 + 1529, 4414, 4414 + 296);
-            //24
-            Add_Enemy(3, 0, 8527, 8527 + 1058, 3928, 3928 + 223);
-            //25 
-            Add_Enemy(6, 2, 7168, 7168 + 163, 2222, 2222 + 2066);
-            //26
-            Add_Enemy(5, 2, 7348, 7348 + 2011, 2230, 2230 + 243);
-            //27
-            Add_Enemy(3, 1, 9639, 9639 + 937, 4186, 4186 + 223);
-            //28
-            Add_Enemy(5, 2, 10688, 10688 + 494, 3124, 3124 + 1139);
-            //29
-            Add_Enemy(4, 3, 10415, 10415 + 850, 1800, 1800 + 663);
-
-            //Boss1
-            enemyBosses.Add(new EnemyBoss( new Vector2(10840, 2085)));
-
-            //Boss2
-            enemyBosses.Add(new EnemyBoss(new Vector2(4650, 2496)));
-
-            //Boss3
-            enemyBosses.Add(new EnemyBoss(new Vector2(8505, 13699)));
+            Add_Enemy();
 
         }
         private void Add_buidling()
@@ -283,6 +204,76 @@ namespace Raid.Screen_Code
             //landMark
             Buidings[73] = new _3Kings(new Vector2(8704, 4034));
         }
+        private void Add_Enemy() 
+        {
+            //1
+            Add_Enemy(random.Next(2, 4), random.Next(2, 3), 7849, 7849 + 1495, 14060, 14060 + 208);
+            //2
+            Add_Enemy(random.Next(2, 4), random.Next(2, 3), 6773, 6773 + 184, 13168, 13168 + 1048);
+            //3
+            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 10026, 10026 + 172, 13354, 13354 + 876);
+            //4
+            Add_Enemy(random.Next(2, 4), random.Next(2, 3), 10026, 10026 + 172, 11810, 11810 + 876);
+            //5
+            Add_Enemy(random.Next(3, 4), random.Next(1, 2), 9192, 9192 + 272, 12524, 12524 + 916);
+            //6
+            Add_Enemy(random.Next(2, 3), random.Next(2, 2), 8329, 8329 + 312, 11776, 11776 + 719);
+            //7
+            Add_Enemy(random.Next(2, 3), random.Next(2, 2), 7645, 7645 + 183, 12569, 12569 + 916);
+            //8
+            Add_Enemy(random.Next(2, 2), random.Next(2, 3), 8064, 8064 + 919, 13568, 13568 + 82);
+            //9
+            Add_Enemy(random.Next(2, 4), random.Next(1, 2), 6749, 6749 + 239, 11781, 11781 + 748);
+            //10
+            Add_Enemy(random.Next(3, 5), random.Next(2, 2), 5663, 5677 + 267, 10432, 10432 + 1353);
+            //11
+            Add_Enemy(random.Next(4, 6), random.Next(2, 3), 4959, 4959 + 1021, 8288, 8288 + 715);
+            //12 
+            Add_Enemy(random.Next(3, 5), random.Next(1, 2), 5709, 5709 + 243, 6842, 6842 + 1350);
+            //13
+            Add_Enemy(random.Next(6, 8), random.Next(1, 5), 6464, 6464 + 2460, 7954, 7954 + 283);
+            //14
+            Add_Enemy(random.Next(4, 6), random.Next(2, 3), 9127, 9127 + 258, 7645, 7645 + 1291);
+            //15
+            Add_Enemy(random.Next(4, 6), random.Next(2, 3), 6976, 6976 + 712, 6470, 6470 + 506);
+            //16
+            Add_Enemy(random.Next(3, 5), random.Next(1, 2), 5696, 5696 + 260, 5836, 5836 + 896);
+            //17
+            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 4608, 4608 + 1280, 5440, 5440 + 273);
+            //18
+            Add_Enemy(random.Next(9, 11), random.Next(3, 4), 2624, 2624 + 1945, 4262, 4262 + 922);
+            //19
+            Add_Enemy(random.Next(2, 4), random.Next(1, 2), 2496, 2496 + 380, 2801, 2801 + 1299);
+            //20
+            Add_Enemy(random.Next(2, 3), random.Next(2, 2), 2501, 2501 + 1355, 2414, 2414 + 263);
+            //21
+            Add_Enemy(random.Next(3, 5), random.Next(3, 3), 4352, 4352 + 532, 2112, 2112 + 864);
+            //22
+            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 8992, 8992 + 264, 4826, 4826 + 999);
+            //23
+            Add_Enemy(random.Next(3, 5), random.Next(2, 2), 7257, 7257 + 1304, 4418, 4418 + 254);
+            //24
+            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 8527, 8527 + 1058, 3928, 3928 + 223);
+            //25 
+            Add_Enemy(random.Next(5, 7), random.Next(2, 3), 7199, 7199 + 97, 2222, 2222 + 2066);
+            //26
+            Add_Enemy(random.Next(4, 6), random.Next(1, 2), 7360, 7360 + 1950, 2234, 2234 + 243);
+            //27
+            Add_Enemy(random.Next(2, 4), random.Next(2, 4), 9639, 9639 + 937, 4186, 4186 + 223);
+            //28
+            Add_Enemy(random.Next(4, 6), random.Next(1, 2), 10642, 10642 + 494, 3072, 3072 + 1139);
+            //29
+            Add_Enemy(random.Next(3, 5), random.Next(1, 3), 10434, 10434 + 850, 1792, 1792 + 663);
+
+            //Boss1
+            enemyBosses.Add(new EnemyBoss(new Vector2(10840, 2085)));
+
+            //Boss2
+            enemyBosses.Add(new EnemyBoss(new Vector2(4650, 2496)));
+
+            //Boss3
+            enemyBosses.Add(new EnemyBoss(new Vector2(8505, 13699)));
+        }
         private void Add_Enemy(int close_num,int range_num,int PosX_min,int PosX_max,int PosY_min,int PosY_max)
         {
             //Close_Enemy
@@ -301,18 +292,7 @@ namespace Raid.Screen_Code
 
             Main_Char = new Main_Char();
             Main_Char.inventory = inventory;
-            for (int i = 0; i < enemyclosemax; i++)
-            {
-                enemyClose.Add(new EnemyClose(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
-            }
-            for (int i = 0; i < enemyRangemax; i++)
-            {
-                enemyRanges.Add(new EnemyRange(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
-            }
-            for (int i = 0; i < enemyBossmax; i++)
-            {
-                enemyBosses.Add(new EnemyBoss(new Vector2(random.Next(2400, 3000), random.Next(5000, 6000))));
-            }
+            
             Extract_fail = false;
             Extract_success = false;
             map = new Map();
@@ -923,6 +903,11 @@ namespace Raid.Screen_Code
        
         private void Draw_Form_Pos_inWorld()
         {
+            //Map0
+            for(int i = 0; i < map.Extend.Length; i++)
+            {
+                Global.spriteBatch.Draw(map.Extend[i],Camera.Object_Vector(map.Extend_Pos[i]), Color.White);
+            }
             //MAP
             for (int i = 0; i < map.Area_Texture.Length; i++)
             {
@@ -944,9 +929,7 @@ namespace Raid.Screen_Code
                     Global.spriteBatch.Draw(extract_Gate[i].Get_Texture(), Camera.Object_Vector(extract_Gate[i].Get_Position()), Color.DeepSkyBlue);
                 }
             }
-            //Global.spriteBatch.Draw(extract_Gate[0].Get_Texture(), Camera.Object_Vector(extract_Gate[0].Get_Position()), Color.White);
-            //Global.spriteBatch.Draw(extract_Gate[1].Get_Texture(), Camera.Object_Vector(extract_Gate[1].Get_Position()), Color.White);
-            //Global.spriteBatch.Draw(extract_Gate[2].Get_Texture(), Camera.Object_Vector(extract_Gate[2].Get_Position()), Color.White);
+           
             //MAP SHADOW
             for (int i = 0; i < map.Area_Shadow.Length; i++)
             {
@@ -1159,20 +1142,21 @@ namespace Raid.Screen_Code
                 {
                     if (enemy.Box.Top < buiding.Box_Colli.Bottom && enemy.Box.Top > buiding.Box_Colli.Bottom - 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + enemy.Box.Height/2));
                     }
-                    if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 20)
+                    else if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - enemy.Box.Height / 2));
                     }
                     if (enemy.Box.Right > buiding.Box_Colli.Left && enemy.Get_Box().Right < buiding.Box_Colli.Left + 20)
                     {
-                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                     if (enemy.Get_Box().Left < buiding.Box_Colli.Right && enemy.Get_Box().Left > buiding.Box_Colli.Right - 20)
                     {
-                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
+
                 }
             }
             foreach (var Mapbox in map.mapBox)
@@ -1181,19 +1165,19 @@ namespace Raid.Screen_Code
                 {
                     if (enemy.Box.Top < Mapbox.Bottom && enemy.Box.Top > Mapbox.Bottom - 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + enemy.Box.Height/2));
                     }
                     if (enemy.Box.Bottom > Mapbox.Top && enemy.Box.Bottom < Mapbox.Top + 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - enemy.Box.Height/2));
                     }
                     if (enemy.Box.Right > Mapbox.Left && enemy.Get_Box().Right < Mapbox.Left + 20)
                     {
-                        enemy.Set_Pos(new Vector2(Mapbox.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(Mapbox.Left - enemy.Box.Width/2, enemy.Get_Pos().Y));
                     }
                     if (enemy.Get_Box().Left < Mapbox.Right && enemy.Get_Box().Left > Mapbox.Right - 20)
                     {
-                        enemy.Set_Pos(new Vector2(Mapbox.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(Mapbox.Right + enemy.Box.Width/2, enemy.Get_Pos().Y));
                     }
                 }
             }
@@ -1206,19 +1190,19 @@ namespace Raid.Screen_Code
                 {
                     if (enemy.Box.Top < buiding.Box_Colli.Bottom && enemy.Box.Top > buiding.Box_Colli.Bottom - 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + enemy.Box.Height / 2));
                     }
-                    if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 20)
+                    else if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - enemy.Box.Height / 2));
                     }
                     if (enemy.Box.Right > buiding.Box_Colli.Left && enemy.Get_Box().Right < buiding.Box_Colli.Left + 20)
                     {
-                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                     if (enemy.Get_Box().Left < buiding.Box_Colli.Right && enemy.Get_Box().Left > buiding.Box_Colli.Right - 20)
                     {
-                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                 }
             }
@@ -1228,19 +1212,19 @@ namespace Raid.Screen_Code
                 {
                     if (enemy.Box.Top < Mapbox.Bottom && enemy.Box.Top > Mapbox.Bottom - 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + enemy.Box.Height / 2));
                     }
                     if (enemy.Box.Bottom > Mapbox.Top && enemy.Box.Bottom < Mapbox.Top + 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - Global.Tile * 1.8f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - enemy.Box.Height / 2));
                     }
                     if (enemy.Box.Right > Mapbox.Left && enemy.Get_Box().Right < Mapbox.Left + 20)
                     {
-                        enemy.Set_Pos(new Vector2(Mapbox.Left - Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(Mapbox.Left - enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                     if (enemy.Get_Box().Left < Mapbox.Right && enemy.Get_Box().Left > Mapbox.Right - 20)
                     {
-                        enemy.Set_Pos(new Vector2(Mapbox.Right + Global.Tile * 1.8f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(Mapbox.Right + enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                 }
             }
@@ -1252,21 +1236,21 @@ namespace Raid.Screen_Code
             {
                 if (enemy.Box.Intersects(buiding.Box_Colli))
                 {
-                    if (enemy.Box.Top < buiding.Box_Colli.Bottom && enemy.Box.Top > buiding.Box_Colli.Bottom - 40)
+                    if (enemy.Box.Top < buiding.Box_Colli.Bottom && enemy.Box.Top > buiding.Box_Colli.Bottom - 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile * 4f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Bottom + enemy.Box.Height / 2));
                     }
-                    if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 40)
+                    else if (enemy.Box.Bottom > buiding.Box_Colli.Top && enemy.Box.Bottom < buiding.Box_Colli.Top + 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile * 4f));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, buiding.Box_Colli.Top - enemy.Box.Height / 2));
                     }
-                    if (enemy.Box.Right > buiding.Box_Colli.Left && enemy.Get_Box().Right < buiding.Box_Colli.Left + 40)
+                    if (enemy.Box.Right > buiding.Box_Colli.Left && enemy.Get_Box().Right < buiding.Box_Colli.Left + 20)
                     {
-                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile * 4f, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Left - enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
-                    if (enemy.Get_Box().Left < buiding.Box_Colli.Right && enemy.Get_Box().Left > buiding.Box_Colli.Right - 40)
+                    if (enemy.Get_Box().Left < buiding.Box_Colli.Right && enemy.Get_Box().Left > buiding.Box_Colli.Right - 20)
                     {
-                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile * 4, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(buiding.Box_Colli.Right + enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                 }
             }
@@ -1276,19 +1260,19 @@ namespace Raid.Screen_Code
                 {
                     if (enemy.Box.Top < Mapbox.Bottom && enemy.Box.Top > Mapbox.Bottom - 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + Global.Tile * 4));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Bottom + enemy.Box.Height / 2));
                     }
                     if (enemy.Box.Bottom > Mapbox.Top && enemy.Box.Bottom < Mapbox.Top + 20)
                     {
-                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - Global.Tile * 4));
+                        enemy.Set_Pos(new Vector2(enemy.Get_Pos().X, Mapbox.Top - enemy.Box.Height / 2));
                     }
                     if (enemy.Box.Right > Mapbox.Left && enemy.Get_Box().Right < Mapbox.Left + 20)
                     {
-                        enemy.Set_Pos(new Vector2(Mapbox.Left - Global.Tile * 4, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(Mapbox.Left - enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                     if (enemy.Get_Box().Left < Mapbox.Right && enemy.Get_Box().Left > Mapbox.Right - 20)
                     {
-                        enemy.Set_Pos(new Vector2(Mapbox.Right + Global.Tile * 4, enemy.Get_Pos().Y));
+                        enemy.Set_Pos(new Vector2(Mapbox.Right + enemy.Box.Width / 2, enemy.Get_Pos().Y));
                     }
                 }
             }

@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Raid.Core.Hitstrak_Bar" Collapsed="true">
+    <Position X="8.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAgAAQAAAABAAAAAAAAAAAoAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Hitstrak_Bar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.HP_BAR" Collapsed="true">
+    <Position X="11" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAiAAQ=</HashCode>
+      <FileName>Core\HP BAR.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Map" Collapsed="true">
+    <Position X="66.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAgAAAAAEAAAAAAAEgAgIAAAQAAAAABAAAgAAQEgg=</HashCode>
+      <FileName>Core\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Prepare_Page" Collapsed="true">
+    <Position X="63" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIBGAAAEWFkAIAEaACFAmgCCAIEICAEgJAQBAACQBAI=</HashCode>
+      <FileName>Core\Prepare_Page.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Quest_III" Collapsed="true">
+    <Position X="13.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Quest III.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Quest" Collapsed="true">
+    <Position X="12" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEwAAEAAAAAAAAAAEgAAIAQAIAAAAAAAAAAQAAADA=</HashCode>
+      <FileName>Core\Quest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Quest_I" Collapsed="true">
+    <Position X="15.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Quest_I.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Quest_II" Collapsed="true">
+    <Position X="8.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Quest_II.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Quest_IV" Collapsed="true">
+    <Position X="11" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Quest_IV.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Time" Collapsed="true">
+    <Position X="64.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAIAAAABAAAAAIAAAAAAAAAAAQEgAAAAAAAAAAEAII=</HashCode>
+      <FileName>Core\Time.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.UI" Collapsed="true">
+    <Position X="11" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Core\UI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Core.Weight_UI" Collapsed="true">
+    <Position X="13.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Weight_UI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment._3Kings" Collapsed="true">
+    <Position X="47" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\3Kings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Buiding" Collapsed="true">
+    <Position X="45.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiAAAAAAAAEAAAAAQAAAAEAAAEBAAAAAAgAAI=</HashCode>
+      <FileName>Enviroment\Buiding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Extract_gate" Collapsed="true">
+    <Position X="64.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAABIAAAAAAAACAQAAABAAAAAgAAAAAAA=</HashCode>
+      <FileName>Enviroment\Extract gate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.House_Contryside_font" Collapsed="true">
+    <Position X="35.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\House_Contryside_font.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.House_Countryside_back" Collapsed="true">
+    <Position X="40.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\House_Countryside_back.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.House_Countryside_side" Collapsed="true">
+    <Position X="42.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\House_Countryside_side.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.JapHouse_Double_Front" Collapsed="true">
+    <Position X="44.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\JapHouse_Double_Front.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.JapHouse_Double_Side" Collapsed="true">
+    <Position X="49.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\JapHouse_Double_Side.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.JapHouse_Single_Back" Collapsed="true">
+    <Position X="58.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\JapHouse_Single_Back.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.JapHouse_Single_Front" Collapsed="true">
+    <Position X="33.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\JapHouse_Single_Front.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.JapHouse_Single_Side" Collapsed="true">
+    <Position X="38" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\JapHouse_Single_Side.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Tree_Blue" Collapsed="true">
+    <Position X="51.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enviroment\Tree Blue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Tree_Green" Collapsed="true">
+    <Position X="53.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enviroment\Tree Green.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Tree_Red" Collapsed="true">
+    <Position X="56" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enviroment\Tree Red.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Tree" Collapsed="true">
+    <Position X="53.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enviroment\Tree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enviroment.Tree_Group" Collapsed="true">
+    <Position X="60.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Enviroment\Tree_Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Grace" Collapsed="true">
+    <Position X="22.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAICAAAAAAAAAACAAAAAQAAQABAAAAAAA=</HashCode>
+      <FileName>Item\Grace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.item" Collapsed="true">
+    <Position X="26.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAARAhAgAAAAA=</HashCode>
+      <FileName>Item\item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_Armor" Collapsed="true">
+    <Position X="24.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAIAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item\Rune_Armor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_ATK" Collapsed="true">
+    <Position X="26.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Item\Rune_ATK.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_Life" Collapsed="true">
+    <Position X="29" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item\Rune_Life.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Item.Rune_Time" Collapsed="true">
+    <Position X="31.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Item\Rune_Time.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.Enemy" Collapsed="true">
+    <Position X="17.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAgFACAABQAAICIEACAABAYBAEAMTkhBAAAAAQqAI=</HashCode>
+      <FileName>Enemy\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.EnemyBoss" Collapsed="true">
+    <Position X="15.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEgLAAIABAAAAAAAAAAAAAAACEAAAgABAAAAACCAA=</HashCode>
+      <FileName>Enemy\EnemyBoss.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.EnemyClose" Collapsed="true">
+    <Position X="17.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEgLAAIABAAAAAAAAAAAAAAACEEAAgABAAAAACKAA=</HashCode>
+      <FileName>Enemy\EnemyClose.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.EnemyRange" Collapsed="true">
+    <Position X="20" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAADIAAAAAAAAAIAAAACEAgAgABQQAAACKAA=</HashCode>
+      <FileName>Enemy\EnemyRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Enemy.Weapon_range" Collapsed="true">
+    <Position X="11" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGgAAIAAAAAABAAAAAAAAAAAAAAEAAAAAAAAAAAFAAA=</HashCode>
+      <FileName>Enemy\Weapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.MainCharacter.Inventory" Collapsed="true">
+    <Position X="64.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAQEEAAAAIUIJCQIACAIgAAAAgAQAAgIAAAACABAAA=</HashCode>
+      <FileName>MainCharacter\Item_management.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.MainCharacter.Main_Char" Collapsed="true">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UhQAiAAgiAAwICKABDEoAgBBRAgEEESqVAQgIIAAQAI=</HashCode>
+      <FileName>MainCharacter\Main_Char.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.AnimatedTexture" Collapsed="true">
+    <Position X="63" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAKggAABAAAABIEAAQMAEIAAAAhABAAg4AAgAEkAAgE=</HashCode>
+      <FileName>AnimatedTexture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Dynamic_Obg" Collapsed="true">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAAAAAAAAQAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dynamic_Obg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Game1" Collapsed="true">
+    <Position X="66.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQSAAAAAAAAA0CAAAAAAEAAQAEAAAACAIAAAgBCEAQ=</HashCode>
+      <FileName>Game1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.GameObg" Collapsed="true">
+    <Position X="35.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAIAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Global" Collapsed="true">
+    <Position X="63" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAgAAAAgAAAAAAAAACAAAAAAAAAAEAAAAAQA=</HashCode>
+      <FileName>Global.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Raid.Stactic_Obg" Collapsed="true">
+    <Position X="41.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stactic_Obg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

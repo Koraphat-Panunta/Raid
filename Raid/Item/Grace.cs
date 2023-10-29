@@ -24,7 +24,7 @@ namespace Raid.Item
         }
         public Grace()
         {
-            base.Weight = 0.5f;            
+            base.Weight = 1f;            
         }
         public override float Get_Weight()
         {

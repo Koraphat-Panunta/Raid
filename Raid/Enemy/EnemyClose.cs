@@ -11,7 +11,7 @@ namespace Raid.Enemy
     {
 
         Random num = new Random();                     
-        public readonly float Moving_speed = 1.75f;         
+        public readonly float Moving_speed = 2.3f;         
         private AnimatedTexture animated_left;
         private AnimatedTexture animated_right;       
         private Texture2D animated;
@@ -28,13 +28,13 @@ namespace Raid.Enemy
             animated_right = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
             animated_left.Load(Global.Content, "enemy_Close_Left",4,3,4);
             animated_right.Load(Global.Content, "enemy_Close_Right", 4, 3,4);
-            base.HP = num.Next(140,210);
+            base.HP = num.Next(160,260);
             base.Alive = true;
             base.Enemy_ATK_Range = Global.Tile*1.5f;
             base.Enemy_state = 1;
-            base.Enemy_Detection_Range = Global.Tile * 7;
+            base.Enemy_Detection_Range = Global.Tile * 10;
             
-            Render_Range = Global.Tile * 17;
+            Render_Range = Global.GraphicsDevice.PreferredBackBufferWidth;
             Enemy_is_Alert = false;
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = num.Next(4,8);
@@ -58,7 +58,7 @@ namespace Raid.Enemy
                 }
                 if (base.Alive == true && base.HP > 0)
                 {
-                    base.Box = new Rectangle((int)base.Vector2.X-149, (int)base.Vector2.Y-120, 250, 200);
+                    base.Box = new Rectangle((int)base.Vector2.X-120, (int)base.Vector2.Y-120,240,240);
                     if (Enemy_is_Alert == true)
                     {
                         if (stunt == false && Unarmed == false)

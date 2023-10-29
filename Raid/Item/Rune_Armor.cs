@@ -13,7 +13,7 @@ namespace Raid.Item
         public static float Value_static;
         public Rune_Armor() 
         {
-            base.Value = 15;
+            base.Value = 5;
             base.Weight = 5;
             Weight_static = Weight;
             Value_static = Value;

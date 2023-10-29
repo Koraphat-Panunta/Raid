@@ -28,10 +28,10 @@ namespace Raid.Enemy
             base.HP = random.Next(35,50);
             base.Alive = true;
             base.Enemt_ATK_DMG = random.Next(4,6);
-            base.Enemy_Detection_Range = Global.Tile * 8;
+            base.Enemy_Detection_Range = Global.Tile * 10;
             base.Enemy_ATK_Range = Global.Tile * 7.5f;
             base.Enemy_state = 7;
-            base.Render_Range = Global.Tile * 17;
+            base.Render_Range = Global.GraphicsDevice.PreferredBackBufferWidth;
             base.Enemy_is_Alert = false;
             base.Enemy_is_attack = false;            
             //1:left
@@ -167,7 +167,7 @@ namespace Raid.Enemy
             }
             if (base.Alive == true)
             {
-                base.Box = new Rectangle((int)base.Vector2.X, (int)base.Vector2.Y, 128, 129);
+                base.Box = new Rectangle((int)base.Vector2.X-60, (int)base.Vector2.Y-60, 120, 120);
             }
             base.Update(Player_Pos);
             

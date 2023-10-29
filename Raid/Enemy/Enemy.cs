@@ -27,7 +27,8 @@ namespace Raid.Enemy
         public bool Enemy_is_attack;
         public float Moving_speed;
         float a = -1.25f;
-        public float v = 0;      
+        public float v = 0;
+
 
         public Enemy()
         {

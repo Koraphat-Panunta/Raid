@@ -27,6 +27,7 @@ namespace Raid.Screen_Code
         private Texture2D Armor_icon_menu;
         private Texture2D Time_icon_menu;
         private Texture2D Life_icon_menu;
+        private int Invectory_Upgrade_Cost = 35;
        
         public Texture2D Deploy_select;
         public Rectangle mouse;
@@ -53,7 +54,7 @@ namespace Raid.Screen_Code
             Life_icon_menu = Global.Content.Load<Texture2D>("Life icon menu");
             stash.add_rune_time();
             stash.add_rune_ATK();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 150; i++)
             {
                 stash.add_grace();
             }
@@ -80,10 +81,28 @@ namespace Raid.Screen_Code
             this.quest = quest;
             if(this.quest.Quest_Completed == true)
             {
-                for (int i = 0; i < 200; i++)
+                if (quest.Quest_Code == 1)
                 {
-                    stash.add_grace();
+                    for (int i = 0; i < 200; i++)
+                    {
+                        stash.add_grace();
+                    }
                 }
+                if (quest.Quest_Code == 2)
+                {
+                    for (int i = 0; i < 200; i++)
+                    {
+                        stash.add_grace();
+                    }
+                }
+                if (quest.Quest_Code == 3)
+                {
+                    for (int i = 0; i < 200; i++)
+                    {
+                        stash.add_grace();
+                    }
+                }
+
             }
             this.quest = new Quest();
         }
@@ -213,7 +232,7 @@ namespace Raid.Screen_Code
             Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Armor.Get_Value() + " $", new Vector2(731, 782 + 10), Color.White);
             Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Time.Get_Value() + " $", new Vector2(731, 854 + 10), Color.White);
             Global.spriteBatch.DrawString(font, "" + inventory.weight_Rune_Life.Get_Value() + " $", new Vector2(731, 927 + 10), Color.White);
-            Global.spriteBatch.DrawString(font, "" + 75 + " $", new Vector2(774, 640), Color.White);
+            Global.spriteBatch.DrawString(font, "" + Invectory_Upgrade_Cost + " $", new Vector2(774, 640), Color.White);
             Global.spriteBatch.DrawString(font, "" + (8.5f + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus)), new Vector2(96,516), Color.White);
             Global.spriteBatch.DrawString(font, "" +  (inventory.Rune_Armor.Count * Rune_Armor.HP_plus), new Vector2(244, 516), Color.White);
             Global.spriteBatch.DrawString(font, "" +(200+ (inventory.Rune_Times.Count * Rune_Time.time_plus)), new Vector2(373, 516), Color.White);
@@ -260,12 +279,12 @@ namespace Raid.Screen_Code
         private void Item_management()
         {
             inventory.Cal_Weight();
-            if (stash.Graces.Count >= 75)
+            if (stash.Graces.Count >= Invectory_Upgrade_Cost)
             {
                 if (mouse.Intersects(map.Upgrade_Inventory_Box) && Mouse.GetState().LeftButton == ButtonState.Pressed && Oldmouse.LeftButton == ButtonState.Released)
                 {
-                    inventory.Max_weight += 15;
-                    for(int i = 0; i < 75; i++)
+                    inventory.Max_weight += 20;
+                    for(int i = 0; i < Invectory_Upgrade_Cost; i++)
                     {
                         stash.Graces.Remove(stash.Graces[0]);
                     }
@@ -395,6 +414,7 @@ namespace Raid.Screen_Code
                     {
                         stash.Graces.Remove(stash.Graces[0]);
                     }
+                    inventory.weight_Rune_ATK.Set_Value(8);
                 }
             }
             if (stash.Graces.Count >= inventory.weight_Rune_Armor.Get_Value())
@@ -406,6 +426,7 @@ namespace Raid.Screen_Code
                     {
                         stash.Graces.Remove(stash.Graces[0]);
                     }
+                    inventory.weight_Rune_Armor.Set_Value(5);
                 }
             }
             if (stash.Graces.Count >= inventory.weight_Rune_Life.Get_Value())
@@ -417,6 +438,7 @@ namespace Raid.Screen_Code
                     {
                         stash.Graces.Remove(stash.Graces[0]);
                     }
+                    
                 }
             }
             if (stash.Graces.Count >= inventory.weight_Rune_Time.Get_Value())
@@ -428,6 +450,7 @@ namespace Raid.Screen_Code
                     {
                         stash.Graces.Remove(stash.Graces[0]);
                     }
+                    inventory.weight_Rune_Time.Set_Value(5);
                 }
             }
             Oldmouse = Mouse.GetState();

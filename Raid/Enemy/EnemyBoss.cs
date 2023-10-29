@@ -29,12 +29,12 @@ namespace Raid.Enemy
             animated_right = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
             animated_left.Load(Global.Content, "enemy_boss_sheet_96_Left_2", 4, 3, 4);
             animated_right.Load(Global.Content, "boss-sheet_96_Right", 4, 3, 4);
-            base.HP = num.Next(450,500);
+            base.HP = num.Next(800,850);
             base.Alive = true;
             base.Enemy_ATK_Range = Global.Tile * 2.5f;
             base.Enemy_state = 1;
             base.Enemy_Detection_Range = Global.Tile * 8.5f;
-            Render_Range = Global.Tile * 17;
+            Render_Range = Global.GraphicsDevice.PreferredBackBufferWidth;
             Enemy_is_Alert = false;
             Enemy_is_attack = false;
             base.Enemt_ATK_DMG = 14;
@@ -45,7 +45,7 @@ namespace Raid.Enemy
 
         public override void Update(Vector2 Player_Pos)
         {
-            base.Box = new Rectangle((int)base.Vector2.X - 240, (int)base.Vector2.Y - 240,480,480);
+            base.Box = new Rectangle((int)base.Vector2.X - 160, (int)base.Vector2.Y - 160, 320,320);
             if (base.Enemy_state == 1 || base.Enemy_state == 7)
             {
                 Enemy_Distance = (float)Math.Sqrt(Math.Pow(Player_Pos.X - (base.Vector2.X + 31), 2) + Math.Pow(Player_Pos.Y - (base.Vector2.Y + 58), 2));

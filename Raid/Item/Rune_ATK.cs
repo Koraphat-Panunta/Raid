@@ -8,14 +8,14 @@ namespace Raid.Item
 {
     public class Rune_ATK:item
     {
-        public static readonly int Damage_plus = 7;
+        public static readonly int Damage_plus = 5;
         public static float Weight_static;
         public static float Value_static;
 
         public Rune_ATK() 
         {
-            base.Weight = 10;
-            base.Value = 15;           
+            base.Weight = 3;
+            base.Value = 5;           
             Weight_static = Weight;
             Value_static = Value;   
         }

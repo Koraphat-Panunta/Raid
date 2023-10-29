@@ -5,7 +5,7 @@ namespace Raid.Enemy
 {
     public class Weapon_range:Dynamic_Obg
     {        
-        private float Velocity = 3.75f;
+        private float Velocity = 5f;
         private float velocity_x;
         private float velocity_y;
         public Weapon_range() 

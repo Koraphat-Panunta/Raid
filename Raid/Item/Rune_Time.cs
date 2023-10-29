@@ -8,13 +8,13 @@ namespace Raid.Item
 {
     public class Rune_Time:item
     {
-        static public readonly int time_plus = 20;
+        static public readonly int time_plus = 40;
         public static float Weight_static;
         public static float Value_static;
         public Rune_Time() 
         {
             base.Value = 5;
-            base.Weight = 5.75f;
+            base.Weight = 5;
             Weight_static = Weight;
             Value_static = Value;
         }

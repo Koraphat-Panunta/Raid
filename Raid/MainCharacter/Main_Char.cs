@@ -45,7 +45,7 @@ namespace Raid.MainCharacter
         public double Common_ATK;
         public double Heavy_ATK;
         public double Roll_ATK;
-        public float Commom_ATK_Push = 3f;
+        public float Commom_ATK_Push = 3.5f;
         public float Heavy_ATK_Push = 4f;
         public float Roll_ATK_Push = 4.5f;
 
@@ -60,8 +60,8 @@ namespace Raid.MainCharacter
         Texture2D ATK_Texture2;
         bool KeyIspressed = false;
         float Moving_Speed;
-        float Runing_Speed = 2.7f;
-        float Dashing_Speed = 6f;
+        float Runing_Speed = 3.3f;
+        float Dashing_Speed = 8f;
         float Runing_WhileATK_Speed = 0.3f;
 
         public int Hitsteak;
@@ -93,9 +93,9 @@ namespace Raid.MainCharacter
             ATK_state = 0;
             ATK_ready = true;
             Hitsteak = 0;
-            Common_ATK = 8.5f + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
-            Heavy_ATK = Common_ATK * 2.8f;
-            Roll_ATK = Common_ATK * 3.4f;
+            Common_ATK = 10f + (inventory.Rune_ATK.Count * Rune_ATK.Damage_plus);
+            Heavy_ATK = Common_ATK * 2.2f;
+            Roll_ATK = Common_ATK * 2.9f;
             HP = 30 ;
             Max_Armor = (float)inventory.Rune_Armor.Count * Rune_Armor.HP_plus; 
             Armor = (float)inventory.Rune_Armor.Count * Rune_Armor.HP_plus;
@@ -114,7 +114,7 @@ namespace Raid.MainCharacter
                 base.animation.UpdateFrame((float)Global.gameTime.ElapsedGameTime.TotalSeconds);
                 if(Armor_is_regening == true && Armor<Max_Armor)
                 {
-                    Armor += 0.13f;
+                    Armor += 0.05f;
                     if (Armor > Max_Armor)
                     {
                         Armor = Max_Armor;
@@ -123,7 +123,7 @@ namespace Raid.MainCharacter
                 if(Armor_is_regening == false)
                 {
                     Armor_regen_count += Global.gameTime.ElapsedGameTime.TotalSeconds;
-                    if(Armor_regen_count >= 3)
+                    if(Armor_regen_count >= 5)
                     {
                         Armor_is_regening = true;
                         Armor_regen_count = 0;
@@ -134,7 +134,7 @@ namespace Raid.MainCharacter
             {
                 if (inventory.Rune_Lives.Count > 0)
                 {
-                    HP = 50 + (inventory.Rune_Armor.Count * Rune_Armor.HP_plus);
+                    HP = 30;
                     inventory.Rune_Lives.Remove(inventory.Rune_Lives[0]);
                 }
                 else
@@ -276,7 +276,7 @@ namespace Raid.MainCharacter
             {
                 Attack_duration += 1;
                 Moving_Speed = Dashing_Speed;
-                if(Attack_duration >= 25)
+                if(Attack_duration >= 20)
                 {
                     ATK_state = 0;
                     Attack_duration = 0;

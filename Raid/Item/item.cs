@@ -33,6 +33,10 @@ namespace Raid.Item
         {
             
         }
+        public virtual void Set_Value(float Price_Up)
+        {
+            this.Value += Price_Up;
+        }
         
     }
 }

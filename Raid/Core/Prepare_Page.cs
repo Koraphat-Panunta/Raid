@@ -83,7 +83,7 @@ namespace Raid.Core
         }
         private void Set_ALL()
         {
-            Map_Pos = new Vector2(1230, 125);
+            Map_Pos = new Vector2(1167, 101);
             Deploy_select_pos[0] = new Vector2(1398,545);
             Deploy_select_pos[1] = new Vector2(1641, 430);
             Deploy_select_pos[2] = new Vector2(1389, 398);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Raid.Enviroment;
+using System.Collections.Generic;
 
 namespace Raid.Core
 {
@@ -22,6 +23,9 @@ namespace Raid.Core
         //public Buiding[] Buidings = new Buiding[17];
 
         public Texture2D[] Landmark = new Texture2D[3];
+
+        public Texture2D[] Extend = new Texture2D[24];
+        public Vector2[] Extend_Pos = new Vector2[24];  
         public Map() 
         {
             Load();
@@ -33,6 +37,39 @@ namespace Raid.Core
             Landmark[0] = Global.Content.Load<Texture2D>("Fence_Temple_Shadow");
             Landmark[1] = Global.Content.Load<Texture2D>("Fence_Temple");
             Landmark[2] = Global.Content.Load<Texture2D>("PrasingOriginal");
+
+            //ExTend
+            for(int i = 0; i < 24; i++)
+            {
+                int x = i + 1;
+                string name = "Extend"+x;
+                Extend[i] = Global.Content.Load<Texture2D>(name);
+            }
+            Extend_Pos[0] = new Vector2 (3776, 12416);
+            Extend_Pos[1] = new Vector2(3008, 10176);
+            Extend_Pos[2] = new Vector2(5824, 14464);
+            Extend_Pos[3] = new Vector2(8448, 14464);
+            Extend_Pos[4] = new Vector2(10368, 12224);
+            Extend_Pos[5] = new Vector2(10368, 9984);
+            Extend_Pos[6] = new Vector2(6592, 10176);
+            Extend_Pos[7] = new Vector2(3002, 7040);
+            Extend_Pos[8] = new Vector2(704, 5952);
+            Extend_Pos[9] = new Vector2 (-448, 3712);
+            Extend_Pos[10] = new Vector2(-448, 1024);
+            Extend_Pos[11] = new Vector2(1600, -448);
+            Extend_Pos[12] = new Vector2(3648, -384);
+            Extend_Pos[13] = new Vector2(5440, 320);
+            Extend_Pos[14] = new Vector2(7744, 320);
+            Extend_Pos[15] = new Vector2(10372, 320);
+            Extend_Pos[16] = new Vector2(11840, 12160);
+            Extend_Pos[17] = new Vector2(11840, 3456);
+            Extend_Pos[18] = new Vector2(5249, 3423);
+            Extend_Pos[19] = new Vector2(5440, 1216);
+            Extend_Pos[20] = new Vector2(6848, 9280);
+            Extend_Pos[21] = new Vector2(8192, 9344);
+            Extend_Pos[22] = new Vector2(9536, 9344);
+            Extend_Pos[23] = new Vector2(9920, 5952);
+            
 
             //Building
             //Buidings[0] = new JapHouse_Single_Back(new Vector2(7393, 4623));
