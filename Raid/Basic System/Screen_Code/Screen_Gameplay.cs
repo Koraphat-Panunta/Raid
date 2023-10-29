@@ -1092,19 +1092,19 @@ namespace Raid.Screen_Code
             {
                 if (Main_Char.Box.Intersects(buiding.Box_Colli))
                 {
-                    if (Main_Char.Get_Box().Top < buiding.Box_Colli.Bottom && Main_Char.Get_Box().Top > buiding.Box_Colli.Bottom - 7)
+                    if (Main_Char.Get_Box().Top < buiding.Box_Colli.Bottom && Main_Char.Get_Box().Top > buiding.Box_Colli.Bottom - 20)
                     {
                         Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, buiding.Box_Colli.Bottom + Global.Tile));
                     }
-                    if (Main_Char.Get_Box().Bottom > buiding.Box_Colli.Top && Main_Char.Get_Box().Bottom < buiding.Box_Colli.Top + 7)
+                    if (Main_Char.Get_Box().Bottom > buiding.Box_Colli.Top && Main_Char.Get_Box().Bottom < buiding.Box_Colli.Top + 20)
                     {
                         Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, buiding.Box_Colli.Top - Global.Tile));
                     }
-                    if (Main_Char.Get_Box().Right > buiding.Box_Colli.Left && Main_Char.Get_Box().Right < buiding.Box_Colli.Left + 7)
+                    if (Main_Char.Get_Box().Right > buiding.Box_Colli.Left && Main_Char.Get_Box().Right < buiding.Box_Colli.Left + 20)
                     {
                         Main_Char.Set_Pos(new Vector2(buiding.Box_Colli.Left - Global.Tile / 2, Main_Char.Get_Pos().Y));
                     }
-                    if (Main_Char.Get_Box().Left < buiding.Box_Colli.Right && Main_Char.Get_Box().Left > buiding.Box_Colli.Right - 7)
+                    if (Main_Char.Get_Box().Left < buiding.Box_Colli.Right && Main_Char.Get_Box().Left > buiding.Box_Colli.Right - 20)
                     {
                         Main_Char.Set_Pos(new Vector2(buiding.Box_Colli.Right + Global.Tile / 2, Main_Char.Get_Pos().Y));
                     }
@@ -1114,19 +1114,19 @@ namespace Raid.Screen_Code
             {
                 if (Main_Char.Box.Intersects(Mapbox))
                 {
-                    if (Main_Char.Get_Box().Top < Mapbox.Bottom && Main_Char.Get_Box().Top > Mapbox.Bottom - 7)
+                    if (Main_Char.Get_Box().Top < Mapbox.Bottom && Main_Char.Get_Box().Top > Mapbox.Bottom - 20)
                     {
                         Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, Mapbox.Bottom + Global.Tile));
                     }
-                    if (Main_Char.Get_Box().Bottom > Mapbox.Top && Main_Char.Get_Box().Bottom < Mapbox.Top + 7)
+                    if (Main_Char.Get_Box().Bottom > Mapbox.Top && Main_Char.Get_Box().Bottom < Mapbox.Top + 20)
                     {
                         Main_Char.Set_Pos(new Vector2(Main_Char.Get_Pos().X, Mapbox.Top - Global.Tile));
                     }
-                    if (Main_Char.Get_Box().Right > Mapbox.Left && Main_Char.Get_Box().Right < Mapbox.Left + 7)
+                    if (Main_Char.Get_Box().Right > Mapbox.Left && Main_Char.Get_Box().Right < Mapbox.Left + 20)
                     {
                         Main_Char.Set_Pos(new Vector2(Mapbox.Left - Global.Tile / 2, Main_Char.Get_Pos().Y));
                     }
-                    if (Main_Char.Get_Box().Left < Mapbox.Right && Main_Char.Get_Box().Left > Mapbox.Right - 7)
+                    if (Main_Char.Get_Box().Left < Mapbox.Right && Main_Char.Get_Box().Left > Mapbox.Right - 20)
                     {
                         Main_Char.Set_Pos(new Vector2(Mapbox.Right + Global.Tile / 2, Main_Char.Get_Pos().Y));
                     }

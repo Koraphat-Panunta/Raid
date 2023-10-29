@@ -16,7 +16,7 @@ namespace Raid.Content
         public Screen_Menu() { }
         public override void load( Vector2 Pos)
         {
-            BG = Global.Content.Load<Texture2D>("Emty");
+            BG = Global.Content.Load<Texture2D>("Title");
             base.load(Pos);
         }
         public override void Update(GameTime gameTime)
