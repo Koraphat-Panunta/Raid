@@ -56,15 +56,15 @@ namespace Raid.Screen_Code
             {
                 inventory.add_rune_ATK();
             }
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 inventory.add_rune_Armor();
             }
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
                 inventory.add_rune_time();
             }
-            for (int i = 0; i < 250; i++)
+            for (int i = 0; i < 100; i++)
             {
                 stash.add_grace();
             }
@@ -93,21 +93,21 @@ namespace Raid.Screen_Code
             {
                 if (quest.Quest_Code == 1)
                 {
-                    for (int i = 0; i < 200; i++)
+                    for (int i = 0; i < 75; i++)
                     {
                         stash.add_grace();
                     }
                 }
                 if (quest.Quest_Code == 2)
                 {
-                    for (int i = 0; i < 200; i++)
+                    for (int i = 0; i < 75; i++)
                     {
                         stash.add_grace();
                     }
                 }
                 if (quest.Quest_Code == 3)
                 {
-                    for (int i = 0; i < 200; i++)
+                    for (int i = 0; i < 75; i++)
                     {
                         stash.add_grace();
                     }
@@ -497,15 +497,15 @@ namespace Raid.Screen_Code
             {
                 inventory.add_rune_ATK();
             }
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 inventory.add_rune_Armor();
             }
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
                 inventory.add_rune_time();
             }
-            for (int i = 0; i < 250; i++)
+            for (int i = 0; i < 100; i++)
             {
                 stash.add_grace();
             }
