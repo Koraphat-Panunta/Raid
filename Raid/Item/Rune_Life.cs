@@ -14,6 +14,7 @@ namespace Raid.Item
         {
             base.Value = 100;
             base.Weight = 25;
+            base.Value_OG = base.Value;
             Weight_static = Weight;
             Value_static = Value;
         }

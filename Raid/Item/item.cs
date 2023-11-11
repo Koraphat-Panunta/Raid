@@ -12,6 +12,7 @@ namespace Raid.Item
     {
         protected float Weight;
         protected float Value;
+        protected float Value_OG;
         
         public item(Vector2 Pos) 
         {
@@ -19,7 +20,7 @@ namespace Raid.Item
         }
         public item()
         {
-
+           
         }
          public virtual float Get_Weight()
         {
@@ -36,6 +37,10 @@ namespace Raid.Item
         public virtual void Set_Value(float Price_Up)
         {
             this.Value += Price_Up;
+        }
+        public virtual void Reset_Value()
+        {
+            this.Value = Value_OG;
         }
         
     }

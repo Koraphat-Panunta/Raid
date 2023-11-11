@@ -207,63 +207,63 @@ namespace Raid.Screen_Code
         private void Add_Enemy() 
         {
             //1
-            Add_Enemy(random.Next(2, 4), random.Next(2, 3), 7849, 7849 + 1495, 14060, 14060 + 208);
+            Add_Enemy(random.Next(1, 2), random.Next(0,1), 7849, 7849 + 1495, 14060, 14060 + 208);
             //2
-            Add_Enemy(random.Next(2, 4), random.Next(2, 3), 6773, 6773 + 184, 13168, 13168 + 1048);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 6773, 6773 + 184, 13168, 13168 + 1048);
             //3
-            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 10026, 10026 + 172, 13354, 13354 + 876);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 10026, 10026 + 172, 13354, 13354 + 876);
             //4
-            Add_Enemy(random.Next(2, 4), random.Next(2, 3), 10026, 10026 + 172, 11810, 11810 + 876);
+            Add_Enemy(random.Next(1, 2), random.Next(0,1), 10026, 10026 + 172, 11810, 11810 + 876);
             //5
-            Add_Enemy(random.Next(3, 4), random.Next(1, 2), 9192, 9192 + 272, 12524, 12524 + 916);
+            Add_Enemy(random.Next(2, 3), random.Next(0, 1), 9192, 9192 + 272, 12524, 12524 + 916);
             //6
-            Add_Enemy(random.Next(2, 3), random.Next(2, 2), 8329, 8329 + 312, 11776, 11776 + 719);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 8329, 8329 + 312, 11776, 11776 + 719);
             //7
-            Add_Enemy(random.Next(2, 3), random.Next(2, 2), 7645, 7645 + 183, 12569, 12569 + 916);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 7645, 7645 + 183, 12569, 12569 + 916);
             //8
-            Add_Enemy(random.Next(2, 2), random.Next(2, 3), 8064, 8064 + 919, 13568, 13568 + 82);
+            Add_Enemy(random.Next(2, 2), random.Next(0, 2), 8064, 8064 + 919, 13568, 13568 + 82);
             //9
-            Add_Enemy(random.Next(2, 4), random.Next(1, 2), 6749, 6749 + 239, 11781, 11781 + 748);
+            Add_Enemy(random.Next(1, 2), random.Next(1, 1), 6749, 6749 + 239, 11781, 11781 + 748);
             //10
-            Add_Enemy(random.Next(3, 5), random.Next(2, 2), 5663, 5677 + 267, 10432, 10432 + 1353);
+            Add_Enemy(random.Next(2, 3), random.Next(2, 2), 5663, 5677 + 267, 10432, 10432 + 1353);
             //11
-            Add_Enemy(random.Next(4, 6), random.Next(2, 3), 4959, 4959 + 1021, 8288, 8288 + 715);
+            Add_Enemy(random.Next(2, 3), random.Next(0, 1), 4959, 4959 + 1021, 8288, 8288 + 715);
             //12 
-            Add_Enemy(random.Next(3, 5), random.Next(1, 2), 5709, 5709 + 243, 6842, 6842 + 1350);
+            Add_Enemy(random.Next(2, 3), random.Next(1, 2), 5709, 5709 + 243, 6842, 6842 + 1350);
             //13
-            Add_Enemy(random.Next(6, 8), random.Next(1, 5), 6464, 6464 + 2460, 7954, 7954 + 283);
+            Add_Enemy(random.Next(3, 5), random.Next(0, 1), 6464, 6464 + 2460, 7954, 7954 + 283);
             //14
-            Add_Enemy(random.Next(4, 6), random.Next(2, 3), 9127, 9127 + 258, 7645, 7645 + 1291);
+            Add_Enemy(random.Next(2, 3), random.Next(0, 2), 9127, 9127 + 258, 7645, 7645 + 1291);
             //15
-            Add_Enemy(random.Next(4, 6), random.Next(2, 3), 6976, 6976 + 712, 6470, 6470 + 506);
+            Add_Enemy(random.Next(3, 4), random.Next(0, 2), 6976, 6976 + 712, 6470, 6470 + 506);
             //16
-            Add_Enemy(random.Next(3, 5), random.Next(1, 2), 5696, 5696 + 260, 5836, 5836 + 896);
+            Add_Enemy(random.Next(2, 4), random.Next(0, 1), 5696, 5696 + 260, 5836, 5836 + 896);
             //17
-            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 4608, 4608 + 1280, 5440, 5440 + 273);
+            Add_Enemy(random.Next(1, 2), random.Next(2, 2), 4608, 4608 + 1280, 5440, 5440 + 273);
             //18
-            Add_Enemy(random.Next(9, 11), random.Next(3, 4), 2624, 2624 + 1945, 4262, 4262 + 922);
+            Add_Enemy(random.Next(6, 8), random.Next(1, 2), 2624, 2624 + 1945, 4262, 4262 + 922);
             //19
-            Add_Enemy(random.Next(2, 4), random.Next(1, 2), 2496, 2496 + 380, 2801, 2801 + 1299);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 2496, 2496 + 380, 2801, 2801 + 1299);
             //20
-            Add_Enemy(random.Next(2, 3), random.Next(2, 2), 2501, 2501 + 1355, 2414, 2414 + 263);
+            Add_Enemy(random.Next(2, 3), random.Next(0, 1), 2501, 2501 + 1355, 2414, 2414 + 263);
             //21
-            Add_Enemy(random.Next(3, 5), random.Next(3, 3), 4352, 4352 + 532, 2112, 2112 + 864);
+            Add_Enemy(random.Next(2, 3), random.Next(0, 1), 4352, 4352 + 532, 2112, 2112 + 864);
             //22
-            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 8992, 8992 + 264, 4826, 4826 + 999);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 8992, 8992 + 264, 4826, 4826 + 999);
             //23
-            Add_Enemy(random.Next(3, 5), random.Next(2, 2), 7257, 7257 + 1304, 4418, 4418 + 254);
+            Add_Enemy(random.Next(2, 4), random.Next(0, 1), 7257, 7257 + 1304, 4418, 4418 + 254);
             //24
-            Add_Enemy(random.Next(2, 4), random.Next(2, 2), 8527, 8527 + 1058, 3928, 3928 + 223);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 8527, 8527 + 1058, 3928, 3928 + 223);
             //25 
-            Add_Enemy(random.Next(5, 7), random.Next(2, 3), 7199, 7199 + 97, 2222, 2222 + 2066);
+            Add_Enemy(random.Next(3, 3), random.Next(0, 1), 7199, 7199 + 97, 2222, 2222 + 2066);
             //26
-            Add_Enemy(random.Next(4, 6), random.Next(1, 2), 7360, 7360 + 1950, 2234, 2234 + 243);
+            Add_Enemy(random.Next(2, 3), random.Next(0, 1), 7360, 7360 + 1950, 2234, 2234 + 243);
             //27
-            Add_Enemy(random.Next(2, 4), random.Next(2, 4), 9639, 9639 + 937, 4186, 4186 + 223);
+            Add_Enemy(random.Next(1, 2), random.Next(0, 1), 9639, 9639 + 937, 4186, 4186 + 223);
             //28
-            Add_Enemy(random.Next(4, 6), random.Next(1, 2), 10642, 10642 + 494, 3072, 3072 + 1139);
+            Add_Enemy(random.Next(2, 3), random.Next(1, 1), 10642, 10642 + 494, 3072, 3072 + 1139);
             //29
-            Add_Enemy(random.Next(3, 5), random.Next(1, 3), 10434, 10434 + 850, 1792, 1792 + 663);
+            Add_Enemy(random.Next(2, 3), random.Next(0, 1), 10434, 10434 + 850, 1792, 1792 + 663);
 
             //Boss1
             enemyBosses.Add(new EnemyBoss(new Vector2(10840, 2085)));

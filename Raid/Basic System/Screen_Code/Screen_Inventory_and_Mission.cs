@@ -20,7 +20,7 @@ namespace Raid.Screen_Code
         private Texture2D grace_texture;
         private SpriteFont font;
         public Prepare_Page map;
-        public Inventory inventory = new Inventory(50f);
+        public Inventory inventory = new Inventory(80f);
         private Inventory stash = new Inventory(8000f);
         private Texture2D Face_Icon;
         private Texture2D ATK_icon_menu;
@@ -52,9 +52,19 @@ namespace Raid.Screen_Code
             Armor_icon_menu = Global.Content.Load<Texture2D>("Armor icon menu");
             Time_icon_menu =  Global.Content.Load<Texture2D>("Time icon menu");
             Life_icon_menu = Global.Content.Load<Texture2D>("Life icon menu");
-            stash.add_rune_time();
-            stash.add_rune_ATK();
-            for (int i = 0; i < 150; i++)
+            for(int i = 0; i < 3; i++)
+            {
+                inventory.add_rune_ATK();
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                inventory.add_rune_Armor();
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                inventory.add_rune_time();
+            }
+            for (int i = 0; i < 250; i++)
             {
                 stash.add_grace();
             }
@@ -106,13 +116,19 @@ namespace Raid.Screen_Code
             }
             this.quest = new Quest();
         }
+        KeyboardState Oldkey;
         public override void Update(GameTime gameTime)
         {
             mouse = new Rectangle((int)Mouse.GetState().Position.X, (int)Mouse.GetState().Position.Y, 3, 3);
             Item_management();
             Deploy_check();
             Mission_Select();
+            if (Keyboard.GetState().IsKeyDown(Keys.F1) && Oldkey.IsKeyUp(Keys.F1))
+            {
+                Restart();
+            }
             base.Update(gameTime);
+            Oldkey = Keyboard.GetState();
         }
         public override void Draw(GameTime gameTime)
         {
@@ -471,6 +487,35 @@ namespace Raid.Screen_Code
         public void Reset()
         {
 
+        }
+        private void Restart()
+        {
+            inventory.Clear_All();
+            stash.Clear_All();
+            quest_selection.Clear();
+            for (int i = 0; i < 3; i++)
+            {
+                inventory.add_rune_ATK();
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                inventory.add_rune_Armor();
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                inventory.add_rune_time();
+            }
+            for (int i = 0; i < 250; i++)
+            {
+                stash.add_grace();
+            }
+            inventory.weight_Rune_Armor.Reset_Value();
+            inventory.weight_Rune_ATK.Reset_Value();
+            inventory.weight_Rune_Life.Reset_Value();
+            inventory.weight_Rune_Time.Reset_Value();
+            quest_selection.Add(new Quest_I());
+            quest_selection.Add(new Quest_II());
+            quest_selection.Add(new Quest_III());
         }
     }
 }

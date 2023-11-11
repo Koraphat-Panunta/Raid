@@ -15,7 +15,8 @@ namespace Raid.Item
         public Rune_ATK() 
         {
             base.Weight = 3;
-            base.Value = 5;           
+            base.Value = 5;   
+            base.Value_OG = base.Value;
             Weight_static = Weight;
             Value_static = Value;   
         }
